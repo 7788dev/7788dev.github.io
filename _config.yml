@@ -21,6 +21,11 @@ pretty_urls:
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
 
+# Site settings
+# 网站综合内容设置：
+SEOTitle: Aoguxin Blog
+description: "傲骨心的博客"
+keyword: "hexo,傲骨心,傲骨心的博客,技术开发,编程开发"
 
 # Build settings
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
