@@ -199,3 +199,6 @@ filter_optimize:
   image:
     enable: true
     
+    
+post_style:
+    indent: 0
