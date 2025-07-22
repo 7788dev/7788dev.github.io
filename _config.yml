@@ -155,3 +155,46 @@ friends: [
         href: "https://www.bing.com/search?q=%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2"
     }
 ]
+
+# hexo-neat 压缩配置
+neat_enable: true
+
+neat_html:
+  enable: true
+  exclude:
+
+neat_css:
+  enable: true
+  exclude:
+    - '*.min.css'
+
+neat_js:
+  enable: true
+  mangle: true
+  output:
+  compress:
+  exclude:
+    - '*.min.js'
+
+# hexo-filter-optimize 优化配置
+filter_optimize:
+  enable: true
+  # 移除不必要的标签
+  remove_comments: true
+  # CSS优化
+  css:
+    enable: true
+    # 内联小CSS文件
+    inlines:
+      enable: true
+      threshold: 10
+  # JS优化
+  js:
+    enable: true
+    # 内联小JS文件
+    inlines:
+      enable: true
+      threshold: 10
+  # 图片优化
+  image:
+    enable: true

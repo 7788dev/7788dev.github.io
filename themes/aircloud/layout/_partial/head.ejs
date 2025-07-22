@@ -6,6 +6,14 @@
     <meta property="og:type" content="website">
     <meta name="description" content="<%= config.description %>">
     <meta name="keyword"  content="<%= config.keyword %>">
+
+    <!-- 资源预加载和缓存控制 -->
+    <meta http-equiv="Cache-Control" content="max-age=31536000">
+    <link rel="dns-prefetch" href="//cdn.bootcss.com">
+    <link rel="dns-prefetch" href="//at.alicdn.com">
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+    <link rel="dns-prefetch" href="//giscus.app">
+
     <link rel="shortcut icon" href="<%= config.root %>img/favicon.ico">
 
     <title>
@@ -16,11 +24,14 @@
         <% } %>
     </title>
 
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="<%= config.root %>css/aircloud.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="<%= config.root %>css/aircloud.css"></noscript>
+
     <!-- Custom CSS -->
-    <%- css('css/aircloud.css') %>
     <%- css('css/gitment.css') %>
     <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"
     <!-- ga & ba script hoook -->
     <script></script>
 
