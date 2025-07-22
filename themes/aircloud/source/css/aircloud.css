@@ -332,6 +332,7 @@ body {
     position: relative;
     top: 0;
     width: 100%;
+    min-height: auto;
   }
   .nav .avatar-name {
     border-bottom: none;
@@ -921,10 +922,13 @@ body {
   }
   .index-container .index-left {
     width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
   .index-container .index-middle {
     max-width: 100%;
     flex: 1;
+    margin-left: 0;
   }
   .index-about {
     display: none;
