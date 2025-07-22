@@ -24,9 +24,11 @@
         <% } %>
     </title>
 
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="<%= config.root %>css/aircloud.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<%= config.root %>css/aircloud.css"></noscript>
+    <!-- 直接加载关键CSS，避免闪现 -->
+    <link rel="stylesheet" href="<%= config.root %>css/aircloud.css">
+
+    <!-- 预加载头像图片，避免闪现 -->
+    <link rel="preload" href="<%= config.root %><%= config['sidebar-avatar'] %>" as="image">
 
     <!-- Custom CSS -->
     <%- css('css/gitment.css') %>

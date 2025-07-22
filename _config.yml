@@ -198,3 +198,4 @@ filter_optimize:
   # 图片优化
   image:
     enable: true
+    

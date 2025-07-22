@@ -13,8 +13,12 @@
   width: 100%;
   margin-top: 45px;
   margin-bottom: 40px;
-  opacity: 0;
-  animation: showBlock @transitionTime * 4 forwards;
+  opacity: 1; // 直接显示，避免闪现
+  // 只在首页显示动画效果
+  &.home-page {
+    opacity: 0;
+    animation: showBlock @transitionTime * 2 forwards; // 缩短动画时间
+  }
 }
 
 .index-about-mobile{
@@ -33,10 +37,13 @@
   //min-height: calc(100vh - 190px);
   .index-left{
     width: 240px;
+    margin-left: -30px; // 向左偏移30px
+    margin-right: 20px;  // 增加与右侧内容的间距
   }
   .index-middle{
     max-width: 784px;
     flex: 1;
+    margin-left: 10px;   // 增加左边距，优化间距
   }
 }
 
@@ -46,16 +53,19 @@
     width: 100%;
     box-sizing: border-box;
     margin: auto;
-    padding: 0 40px 0 10px;
+    padding: 0 40px 0 0; // 调整左右内边距
     display: flex;
     flex-direction: row;
     //min-height: calc(100vh - 190px);
     .index-left {
       width: 180px;
+      margin-left: -20px; // 向左偏移20px
+      margin-right: 15px;  // 增加与右侧内容的间距
     }
     .index-middle {
       flex: 1;
-      max-width: calc(100% - 180px);
+      max-width: calc(100% - 175px); // 调整最大宽度以适应新的间距
+      margin-left: 5px;   // 增加左边距
     }
   }
 }
