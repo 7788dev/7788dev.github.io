@@ -174,6 +174,24 @@
   text-indent: 0;
 }
 
+.giscus {
+  text-indent: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .post-content li p {
   display: inline;
+}
+
+// 移动端giscus样式修复
+@media screen and (max-width: 680px) {
+  .giscus {
+    margin-left: -25px;
+    margin-right: -25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: calc(100% + 50px);
+    box-sizing: border-box;
+  }
 }
