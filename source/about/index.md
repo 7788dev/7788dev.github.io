@@ -2,7 +2,13 @@
 layout: "about"
 title: "About"
 date: 2016-04-21 04:48:33
-comments: true
+comments: false
 ---
 
-测试一下
+
+
+### 关于我
+
+网名: Aoguxin
+
+介绍完毕

@@ -11,7 +11,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://blog.778801.xyz
+url: https://aogx.top
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -104,7 +104,7 @@ theme: aircloud
 hexo_indexnow:
   count: latest
   txt_name: indexnow.txt
-  apikey: 1bad275806484ad1902edb912e2d3e99
+  apikey: 37af313c40a245aeac822a14e755dfd1
   server: bing # indexnow 服务器，可选值有:bing、yandex、indexnow
 
 # Deployment
@@ -152,7 +152,7 @@ friends: [
         href: "https://778801.xyz"
     },{
         title: "搜一搜:技术博客",
-        href: "https://www.bing.com/search?q=%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2"
+        href: "https://www.bing.com/search?q=技术博客"
     }
 ]
 

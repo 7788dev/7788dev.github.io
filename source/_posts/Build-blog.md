@@ -18,8 +18,6 @@ tags:
 
 https://juejin.cn/post/6844903830568583176
 
-操作第一步
-
 ### 更换模版
 
 根据https://github.com/aircloud/hexo-theme-aircloud 文档教程来
