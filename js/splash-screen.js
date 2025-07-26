@@ -1,10 +1,11 @@
 /**
- * 开屏动画控制脚本
+ * 开屏动画控制脚本 (优化版)
  * 功能：
  * 1. 只在首页显示
  * 2. 使用sessionStorage确保同一会话中只显示一次
- * 3. 性能优化，避免影响博客加载速度
- * 4. 错误处理，确保动画失败时不影响正常浏览
+ * 3. 优化渲染时序，防止主内容闪烁
+ * 4. 优化性能检测，兼容移动设备
+ * 5. 健壮的错误处理
  */
 
 (function() {
@@ -14,6 +15,7 @@
     function isLowPerformanceDevice() {
         // 检查设备内存（如果可用）
         if (navigator.deviceMemory && navigator.deviceMemory < 2) {
+            console.log('跳过开屏动画：检测到低性能设备');
             return true;
         }
 
@@ -21,22 +23,19 @@
         if (navigator.connection && navigator.connection.effectiveType) {
             const slowConnections = ['slow-2g', '2g'];
             if (slowConnections.includes(navigator.connection.effectiveType)) {
+                console.log('跳过开屏动画：检测到慢速网络');
                 return true;
             }
         }
-
-        // 检查是否为移动设备且屏幕较小
-        if (window.innerWidth < 768 && /Mobi|Android/i.test(navigator.userAgent)) {
-            return true;
-        }
-
+        
+        // [已修复] 不再将所有移动设备都视为低性能设备
         return false;
     }
     
     // 检查是否为首页
     function isHomePage() {
-        // 检查当前路径是否为根路径或首页
         const path = window.location.pathname;
+        // 兼容 Hexo 等博客框架的根路径配置
         const root = window.hexo_root || '/';
         return path === root || path === root + 'index.html' || path === root + '';
     }
@@ -81,47 +80,35 @@
     // 初始化开屏动画
     function initSplashScreen() {
         try {
-            // 检查条件：必须是首页且未显示过
-            if (!isHomePage() || hasShownSplash()) {
-                return;
-            }
-
-            // 性能优化：低性能设备跳过动画
-            if (isLowPerformanceDevice()) {
-                console.log('跳过开屏动画：检测到低性能设备或慢速网络');
-                markSplashShown(); // 标记已显示，避免重复检查
+            // 如果不满足条件，直接返回，此时 body 没有 splash-active 类，内容正常显示
+            if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
+                if (isLowPerformanceDevice() || hasShownSplash()) {
+                     markSplashShown(); // 标记已显示，避免重复检查
+                }
                 return;
             }
         
-        // 标记已显示
-        markSplashShown();
-        
-        // 添加body类防止滚动
-        document.body.classList.add('splash-active');
-        
-        // 创建并插入开屏动画
-        const splashHTML = createSplashHTML();
-        document.body.insertAdjacentHTML('afterbegin', splashHTML);
-        
-        // 为主内容添加淡入动画类
-        const indexContainer = document.querySelector('.index-container');
-        if (indexContainer) {
-            indexContainer.classList.add('main-content-fade-in');
-        }
-        
+            // 标记已显示
+            markSplashShown();
+            
+            // 添加 body 类，CSS 会据此隐藏主内容并防止滚动，从根源解决内容闪烁问题
+            document.body.classList.add('splash-active');
+            
+            // 创建并插入开屏动画
+            const splashHTML = createSplashHTML();
+            document.body.insertAdjacentHTML('afterbegin', splashHTML);
+            
             // 开始动画时间线
             startAnimationTimeline();
         } catch (error) {
-            // 错误处理：如果动画初始化失败，确保不影响正常浏览
+            // 错误处理：如果初始化失败，确保移除控制类，让页面恢复正常
             console.error('开屏动画初始化失败:', error);
-            // 移除可能已添加的元素和类
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
                 splashScreen.remove();
             }
             document.body.classList.remove('splash-active');
-            // 标记已显示，避免重复尝试
-            markSplashShown();
+            markSplashShown(); // 标记已显示，避免无限重试
         }
     }
     
@@ -132,42 +119,41 @@
             const logoText = document.getElementById('logoText');
 
             if (!splashScreen || !logoText) {
-                console.warn('开屏动画元素未找到');
+                console.warn('开屏动画元素未找到，提前结束。');
+                document.body.classList.remove('splash-active'); // 确保恢复页面
                 return;
             }
         
-        // 时间线配置
-        const inversionStartTime = 2800; // 动画呈现后，开始颜色反转
-        const logoFadeOutTime = inversionStartTime + 1500; // 颜色反转结束后，Logo开始退场
-        const finalCleanupTime = logoFadeOutTime + 1000; // Logo退场后，清理DOM
+            // 时间线配置
+            const inversionStartTime = 2800; // 动画呈现后，开始颜色反转
+            const logoFadeOutTime = inversionStartTime + 1500; // 颜色反转结束后，Logo开始退场
+            const finalCleanupTime = logoFadeOutTime + 1000; // Logo退场后，清理DOM
+            
+            // 步骤1: 触发颜色反转
+            setTimeout(() => {
+                splashScreen.classList.add('invert-colors');
+            }, inversionStartTime);
+            
+            // 步骤2: 触发Logo退场
+            setTimeout(() => {
+                logoText.classList.add('hidden');
+            }, logoFadeOutTime);
         
-        // 步骤1: 触发颜色反转
-        setTimeout(() => {
-            splashScreen.classList.add('invert-colors');
-        }, inversionStartTime);
-        
-        // 步骤2: 触发Logo退场
-        setTimeout(() => {
-            logoText.classList.add('hidden');
-        }, logoFadeOutTime);
-        
-            // 步骤3: 彻底移除开屏页并恢复页面滚动
+            // 步骤3: 彻底移除开屏页，并移除 body 的控制类，让主内容平滑显示
             setTimeout(() => {
                 if (splashScreen) {
                     splashScreen.remove();
                 }
-                // 移除防滚动类
                 document.body.classList.remove('splash-active');
             }, finalCleanupTime);
         } catch (error) {
             // 动画执行过程中的错误处理
             console.error('开屏动画执行失败:', error);
-            // 立即清理并恢复正常状态
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
                 splashScreen.remove();
             }
-            document.body.classList.remove('splash-active');
+            document.body.classList.remove('splash-active'); // 确保恢复页面
         }
     }
     
