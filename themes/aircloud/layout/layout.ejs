@@ -42,6 +42,11 @@
 </script>
 <script defer src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script defer src="<%= config.root %>js/index.js"></script>
+
+<!-- 开屏动画JS - 只在首页加载，异步加载避免阻塞 -->
+<% if (is_home()) { %>
+<script async src="<%= config.root %>js/splash-screen.js"></script>
+<% } %>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <%if( (page.comments) && config.comment && config.comment.type === 'gitment'){%>
 <%- js('js/gitment.js') %>

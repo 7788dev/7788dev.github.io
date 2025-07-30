@@ -4,7 +4,7 @@
 
 # Site
 title: Aoguxin Blog
-subtitle: "sometimes code, sometimes live"
+subtitle: "Form is emptiness, emptiness is form"
 author: Aoguxin
 language: zh
 timezone: ''
@@ -111,7 +111,7 @@ hexo_indexnow:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   - type: git
-    repository: git@github.com:7788dev/blog.git
+    repository: git@github.com:7788dev/7788dev.github.io.git
     branch: run-page #部署分支
   - type: indexnow_url_submitter
 

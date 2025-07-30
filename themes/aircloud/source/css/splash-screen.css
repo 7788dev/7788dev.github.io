@@ -1,0 +1,136 @@
+/* 开屏动画样式 - 只在首页显示 */
+
+/* 防止开屏动画期间页面滚动和主内容闪烁 */
+body.splash-active {
+    overflow: hidden;
+}
+
+/* 
+ * [关键修复] 默认隐藏主内容区，防止在开屏动画期间闪烁。
+ * 当 JS 移除 body.splash-active 类后，主内容区会平滑淡入。
+ * 请确保 '.index-container' 是您首页主内容区域的正确选择器。
+*/
+body.splash-active .index-container {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* 开屏动画容器 */
+.splash-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: #121212;
+    transition: background-color 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+    /* 性能优化 */
+    will-change: background-color;
+    transform: translateZ(0); /* 启用硬件加速 */
+    backface-visibility: hidden;
+}
+
+/* 颜色反转时的状态 */
+.splash-screen.invert-colors {
+    background-color: #ffffff;
+}
+
+.logo-text {
+    /* 优化字体栈：优先使用系统字体，确保快速加载和国内可访问性 */
+    font-family: "Times New Roman", "Songti SC", "SimSun", "serif", "STSong", "华文宋体", "宋体", serif;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    font-size: clamp(40px, 12vw, 110px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    /* 添加字体渲染优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Logo 退场状态 */
+.logo-text.hidden {
+    opacity: 0;
+    transform: translateY(-60px);
+}
+
+.logo-word {
+    display: flex;
+}
+
+.logo-word + .logo-word {
+    margin-left: clamp(15px, 4vw, 40px);
+}
+
+.char-container {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.logo-text span {
+    display: block;
+    transform: translateY(110%);
+    animation: reveal 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    color: #f0f0f0;
+    transition: color 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+    /* 性能优化 */
+    will-change: transform, color;
+    transform: translateY(110%) translateZ(0); /* 硬件加速 */
+}
+
+/* 颜色反转时，字体颜色同步变化 */
+.splash-screen.invert-colors .logo-text span {
+    color: #1a1a1a;
+}
+
+@keyframes reveal {
+    to { transform: translateY(0); }
+}
+
+/* 为 "Aoguxin Blog" 11个字母编排延迟 */
+.logo-text .char1  { animation-delay: 0.2s; }
+.logo-text .char2  { animation-delay: 0.3s; }
+.logo-text .char3  { animation-delay: 0.4s; }
+.logo-text .char4  { animation-delay: 0.5s; }
+.logo-text .char5  { animation-delay: 0.6s; }
+.logo-text .char6  { animation-delay: 0.7s; }
+.logo-text .char7  { animation-delay: 0.8s; }
+.logo-text .char8  { animation-delay: 0.9s; }
+.logo-text .char9  { animation-delay: 1.0s; }
+.logo-text .char10 { animation-delay: 1.1s; }
+.logo-text .char11 { animation-delay: 1.2s; }
+
+
+/* 移动设备优化 - 简化动画以提升性能 */
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: clamp(32px, 10vw, 80px);
+    }
+
+    /* 在小屏幕设备上减少动画复杂度 */
+    .logo-text span {
+        animation-duration: 1.0s;
+    }
+}
+
+/* 低性能设备优化 - 减少动画效果 */
+@media (prefers-reduced-motion: reduce) {
+    .logo-text span {
+        animation: none;
+        transform: translateY(0);
+    }
+
+    .splash-screen {
+        transition: none;
+    }
+
+    .logo-text {
+        transition: none;
+    }
+}
