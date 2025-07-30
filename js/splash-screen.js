@@ -1,12 +1,30 @@
 /**
- * 开屏动画
+ * 开屏动画 (增强版)
  *
- * By.Looks
+ * - 跨标签页只显示一次
+ * - 浏览器重启后重置
+ *
+ * By.Looks & Gemini
  *
  */
 
 (function() {
-    'use.strict';
+    'use strict';
+
+    // === 新增：在页面加载时，处理会话和存储状态 ===
+    // 这个函数用于模拟 "会话级别" 的 localStorage
+    function manageSessionAndStorage() {
+        const sessionFlag = 'splash_session_active';
+        const localFlag = 'splash_shown_globally';
+
+        // 如果 sessionStorage 中没有标记，说明这是一个新的浏览器会话
+        if (sessionStorage.getItem(sessionFlag) === null) {
+            // 因此，我们清除上一个会话在 localStorage 中留下的标记
+            localStorage.removeItem(localFlag);
+            // 然后在 sessionStorage 中设置标记，表示当前会话已经激活
+            sessionStorage.setItem(sessionFlag, 'true');
+        }
+    }
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
@@ -23,24 +41,24 @@
         }
         return false;
     }
-    
+
     // 检查是否为首页
     function isHomePage() {
         const path = window.location.pathname;
         const root = window.hexo_root || '/';
         return path === root || path === root + 'index.html' || path === root + '';
     }
-    
-    // 检查是否已经显示过开屏动画
-    function hasShownSplash() {
-        return sessionStorage.getItem('splash_shown') === 'true';
+
+    // 检查是否已经在任何标签页显示过开屏动画 (使用 localStorage)
+    function hasSplashBeenShownGlobally() {
+        return localStorage.getItem('splash_shown_globally') === 'true';
     }
-    
-    // 标记开屏动画已显示
-    function markSplashShown() {
-        sessionStorage.setItem('splash_shown', 'true');
+
+    // 标记开屏动画已显示 (使用 localStorage)
+    function markSplashAsShownGlobally() {
+        localStorage.setItem('splash_shown_globally', 'true');
     }
-    
+
     // 创建开屏动画HTML结构
     function createSplashHTML() {
         return `
@@ -76,15 +94,13 @@
                 existingSplash.remove();
             }
 
-            if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
-                if (hasShownSplash() || isLowPerformanceDevice()) {
-                    markSplashShown();
-                }
+            // 检查是否满足跳过动画的条件
+            if (!isHomePage() || hasSplashBeenShownGlobally() || isLowPerformanceDevice()) {
                 body.classList.remove('splash-active');
                 return;
             }
-            
-            markSplashShown();
+
+            markSplashAsShownGlobally();
             body.classList.add('splash-active');
             const splashHTML = createSplashHTML();
             body.insertAdjacentHTML('afterbegin', splashHTML);
@@ -94,10 +110,9 @@
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) splashScreen.remove();
             document.body.classList.remove('splash-active');
-            markSplashShown();
+            markSplashAsShownGlobally(); // 即使失败也标记，防止无限循环
         }
     }
-
 
     function startAnimationTimeline() {
         try {
@@ -109,19 +124,19 @@
                 document.body.classList.remove('splash-active');
                 return;
             }
-        
+
             const inversionStartTime = 2800;
             const logoFadeOutTime = inversionStartTime + 1500;
             const finalCleanupTime = logoFadeOutTime + 1000;
-            
+
             setTimeout(() => {
                 if (splashScreen) splashScreen.classList.add('invert-colors');
             }, inversionStartTime);
-            
+
             setTimeout(() => {
                 if (logoText) logoText.classList.add('hidden');
             }, logoFadeOutTime);
-        
+
             setTimeout(() => {
                 if (splashScreen) splashScreen.remove();
                 document.body.classList.remove('splash-active');
@@ -134,36 +149,24 @@
         }
     }
 
+    // === 程序入口 ===
+    manageSessionAndStorage(); // 首先管理会话状态
+    initSplashScreen(); // 然后根据状态初始化动画
 
-     initSplashScreen();
-
-    // 仅在单页应用或类似场景下，你才需要 MutationObserver。
-    // 如果你的网站不是单页应用（每次都重新加载页面），可以考虑完全移除下面的观察者代码。
-    // 如果确实需要，请按如下方式优化：
-
-    const observer = new MutationObserver((mutations) => {
-        // 检查开屏动画是否正在进行或已经显示过
-        // 如果 splashScreen 元素还存在，说明动画还在进行中，或者还未清理。
+    const observer = new MutationObserver(() => {
+        // 如果 splashScreen 元素还存在，说明动画还在进行中，则不做任何操作，防止中断。
         const splashInProgress = document.getElementById('splashScreen') !== null;
-        
-        // 如果动画正在进行，则不做任何操作，防止中断。
         if (splashInProgress) {
-            console.log('动画进行中，忽略DOM变化。');
             return;
         }
-
-        // 只有当动画已经完全结束后，才考虑在页面路由变化时重新显示动画
-        // 这需要一个更复杂的逻辑来重置状态，例如在路由变化时手动调用
-        // sessionStorage.removeItem('splash_shown'); 并重新初始化。
-        // 对于一个简单的博客，更常见的做法是在路由变化时不显示开屏动画。
-        
-        // 简单的场景下，我们可以断开观察者，因为它已经完成了它的使命（处理首次加载）。
-        // observer.disconnect(); 
+        // 当动画结束后，可以断开观察者，因为它已经完成了首次加载的使命。
+        // 对于需要 PJAX 或 Turbolinks 的网站，这里的逻辑可能需要调整，但对于标准博客，断开是安全的。
+        observer.disconnect();
     });
 
     observer.observe(document.body, {
-        childList: true, 
-        subtree: true 
+        childList: true,
+        subtree: true
     });
 
 })();
