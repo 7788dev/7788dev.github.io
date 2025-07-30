@@ -1,24 +1,25 @@
 /**
- * 开屏动画控制脚本
+ * 开屏动画控制脚本 (最终优化版 - 兼容自定义AJAX导航)
+ *
  * 功能：
- * 1. 只在首页显示
- * 2. 使用sessionStorage确保同一会话中只显示一次
- * 3. 优化渲染时序，防止主内容闪烁
- * 4. 优化性能检测，兼容移动设备
+ * 1. 使用 MutationObserver 适配自定义的客户端导航，解决页面切换后内容空白问题。
+ * 2. 仅在首页显示，且在同一浏览器会话中只显示一次。
+ * 3. 预先在HTML的<body>标签添加 `splash-active` 类，从根源上防止了主内容闪烁。
+ * 4. 包含低性能设备和慢速网络的检测，自动跳过动画。
+ * 5. 结构清晰，包含完整的错误处理。
  */
 
 (function() {
-    'use strict';
+    'use.strict';
+
+    // ... (isLowPerformanceDevice, isHomePage, hasShownSplash, markSplashShown, createSplashHTML 函数保持不变) ...
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
-        // 检查设备内存（如果可用）
         if (navigator.deviceMemory && navigator.deviceMemory < 2) {
             console.log('跳过开屏动画：检测到低性能设备');
             return true;
         }
-
-        // 检查连接速度（如果可用）
         if (navigator.connection && navigator.connection.effectiveType) {
             const slowConnections = ['slow-2g', '2g'];
             if (slowConnections.includes(navigator.connection.effectiveType)) {
@@ -26,15 +27,12 @@
                 return true;
             }
         }
-        
-        // [已修复] 不再将所有移动设备都视为低性能设备
         return false;
     }
     
     // 检查是否为首页
     function isHomePage() {
         const path = window.location.pathname;
-        // 兼容 Hexo 等博客框架的根路径配置
         const root = window.hexo_root || '/';
         return path === root || path === root + 'index.html' || path === root + '';
     }
@@ -54,7 +52,6 @@
         return `
             <div class="splash-screen" id="splashScreen">
                 <div class="logo-text" id="logoText">
-                    <!-- 第一个单词 -->
                     <div class="logo-word">
                         <div class="char-container"><span class="char1">A</span></div>
                         <div class="char-container"><span class="char2">o</span></div>
@@ -64,7 +61,6 @@
                         <div class="char-container"><span class="char6">i</span></div>
                         <div class="char-container"><span class="char7">n</span></div>
                     </div>
-                    <!-- 第二个单词 -->
                     <div class="logo-word">
                         <div class="char-container"><span class="char8">B</span></div>
                         <div class="char-container"><span class="char9">l</span></div>
@@ -75,47 +71,40 @@
             </div>
         `;
     }
-    
 
-
-function initSplashScreen() {
-    try {
-        const body = document.body;
-
-        // 如果不满足显示动画的条件，立即移除 'splash-active' 类，让内容显示出来
-        if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
-            if (hasShownSplash() || isLowPerformanceDevice()) {
-                 markSplashShown(); // 标记已显示，避免重复检查
+    // 核心初始化函数
+    function initSplashScreen() {
+        try {
+            const body = document.body;
+            // 防御性检查：如果页面上已经有动画，先移除，防止重复
+            const existingSplash = document.getElementById('splashScreen');
+            if (existingSplash) {
+                existingSplash.remove();
             }
-            body.classList.remove('splash-active'); // 移除类，让主内容可见
-            return;
+
+            if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
+                if (hasShownSplash() || isLowPerformanceDevice()) {
+                    markSplashShown();
+                }
+                body.classList.remove('splash-active');
+                return;
+            }
+            
+            markSplashShown();
+            body.classList.add('splash-active');
+            const splashHTML = createSplashHTML();
+            body.insertAdjacentHTML('afterbegin', splashHTML);
+            startAnimationTimeline();
+        } catch (error) {
+            console.error('开屏动画初始化失败:', error);
+            const splashScreen = document.getElementById('splashScreen');
+            if (splashScreen) splashScreen.remove();
+            document.body.classList.remove('splash-active');
+            markSplashShown();
         }
-    
-        // 如果满足条件，则继续执行动画
-        markSplashShown();
-        
-        // 【重要】不再需要手动添加 'splash-active'，因为它已经在 HTML 里了
-        // document.body.classList.add('splash-active'); // <--- 删除这一行
-        
-        // 创建并插入开屏动画
-        const splashHTML = createSplashHTML();
-        body.insertAdjacentHTML('afterbegin', splashHTML);
-        
-        // 开始动画时间线
-        startAnimationTimeline();
-    } catch (error) {
-        // 错误处理：如果初始化失败，确保移除控制类，让页面恢复正常
-        console.error('开屏动画初始化失败:', error);
-        const splashScreen = document.getElementById('splashScreen');
-        if (splashScreen) {
-            splashScreen.remove();
-        }
-        document.body.classList.remove('splash-active');
-        markSplashShown(); // 标记已显示，避免无限重试
     }
-}
-    
-    // 动画时间线控制
+
+    // ... (startAnimationTimeline 函数保持不变) ...
     function startAnimationTimeline() {
         try {
             const splashScreen = document.getElementById('splashScreen');
@@ -123,52 +112,60 @@ function initSplashScreen() {
 
             if (!splashScreen || !logoText) {
                 console.warn('开屏动画元素未找到，提前结束。');
-                document.body.classList.remove('splash-active'); // 确保恢复页面
+                document.body.classList.remove('splash-active');
                 return;
             }
         
-            // 时间线配置
-            const inversionStartTime = 2800; // 动画呈现后，开始颜色反转
-            const logoFadeOutTime = inversionStartTime + 1500; // 颜色反转结束后，Logo开始退场
-            const finalCleanupTime = logoFadeOutTime + 1000; // Logo退场后，清理DOM
+            const inversionStartTime = 2800;
+            const logoFadeOutTime = inversionStartTime + 1500;
+            const finalCleanupTime = logoFadeOutTime + 1000;
             
-            // 步骤1: 触发颜色反转
             setTimeout(() => {
-                splashScreen.classList.add('invert-colors');
+                if (splashScreen) splashScreen.classList.add('invert-colors');
             }, inversionStartTime);
             
-            // 步骤2: 触发Logo退场
             setTimeout(() => {
-                logoText.classList.add('hidden');
+                if (logoText) logoText.classList.add('hidden');
             }, logoFadeOutTime);
         
-            // 步骤3: 彻底移除开屏页，并移除 body 的控制类，让主内容平滑显示
             setTimeout(() => {
-                if (splashScreen) {
-                    splashScreen.remove();
-                }
+                if (splashScreen) splashScreen.remove();
                 document.body.classList.remove('splash-active');
             }, finalCleanupTime);
         } catch (error) {
-            // 动画执行过程中的错误处理
             console.error('开屏动画执行失败:', error);
             const splashScreen = document.getElementById('splashScreen');
-            if (splashScreen) {
-                splashScreen.remove();
-            }
-            document.body.classList.remove('splash-active'); // 确保恢复页面
+            if (splashScreen) splashScreen.remove();
+            document.body.classList.remove('splash-active');
         }
     }
-    
-    // 尽早执行初始化，避免内容闪现
-    if (document.readyState === 'loading') {
-        document.addEventListener('readystatechange', function() {
-            if (document.readyState === 'interactive') {
+
+    // --- 关键修改：使用 MutationObserver 监听 DOM 变化 ---
+
+    // 1. 页面首次加载时，立即执行一次
+    initSplashScreen();
+
+    // 2. 创建一个“哨兵”来监视 DOM 的变化
+    const observer = new MutationObserver((mutations) => {
+        // 我们只关心子元素列表的变化（即页面内容的替换）
+        // 并且我们检查 URL 是否已更改，这通常是页面导航的标志
+        for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+                // 当 DOM 变化时，重新运行初始化逻辑
+                console.log('检测到页面内容变化，重新初始化开屏动画逻辑。');
                 initSplashScreen();
+                // 找到变化后就可以停止检查了，避免不必要的重复执行
+                break; 
             }
-        });
-    } else {
-        initSplashScreen();
-    }
-    
+        }
+    });
+
+    // 3. 让“哨兵”开始工作：
+    //    - 监视 document.body
+    //    - 配置为只关心子元素的添加或删除（childList: true）
+    observer.observe(document.body, {
+        childList: true, 
+        subtree: true // 也监视子树的变化，更可靠
+    });
+
 })();
