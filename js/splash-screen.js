@@ -135,17 +135,30 @@
     }
 
 
-    initSplashScreen();
+     initSplashScreen();
+
+    // 仅在单页应用或类似场景下，你才需要 MutationObserver。
+    // 如果你的网站不是单页应用（每次都重新加载页面），可以考虑完全移除下面的观察者代码。
+    // 如果确实需要，请按如下方式优化：
 
     const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            if (mutation.type === 'childList') {
-                // 当 DOM 变化时，重新运行初始化逻辑
-                console.log('检测到页面内容变化，重新初始化开屏动画逻辑。');
-                initSplashScreen();
-                break; 
-            }
+        // 检查开屏动画是否正在进行或已经显示过
+        // 如果 splashScreen 元素还存在，说明动画还在进行中，或者还未清理。
+        const splashInProgress = document.getElementById('splashScreen') !== null;
+        
+        // 如果动画正在进行，则不做任何操作，防止中断。
+        if (splashInProgress) {
+            console.log('动画进行中，忽略DOM变化。');
+            return;
         }
+
+        // 只有当动画已经完全结束后，才考虑在页面路由变化时重新显示动画
+        // 这需要一个更复杂的逻辑来重置状态，例如在路由变化时手动调用
+        // sessionStorage.removeItem('splash_shown'); 并重新初始化。
+        // 对于一个简单的博客，更常见的做法是在路由变化时不显示开屏动画。
+        
+        // 简单的场景下，我们可以断开观察者，因为它已经完成了它的使命（处理首次加载）。
+        // observer.disconnect(); 
     });
 
     observer.observe(document.body, {
