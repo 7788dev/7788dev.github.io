@@ -1,18 +1,12 @@
 /**
- * 开屏动画控制脚本 (最终优化版 - 兼容自定义AJAX导航)
+ * 开屏动画
  *
- * 功能：
- * 1. 使用 MutationObserver 适配自定义的客户端导航，解决页面切换后内容空白问题。
- * 2. 仅在首页显示，且在同一浏览器会话中只显示一次。
- * 3. 预先在HTML的<body>标签添加 `splash-active` 类，从根源上防止了主内容闪烁。
- * 4. 包含低性能设备和慢速网络的检测，自动跳过动画。
- * 5. 结构清晰，包含完整的错误处理。
+ * By.Looks
+ *
  */
 
 (function() {
     'use.strict';
-
-    // ... (isLowPerformanceDevice, isHomePage, hasShownSplash, markSplashShown, createSplashHTML 函数保持不变) ...
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
@@ -104,7 +98,7 @@
         }
     }
 
-    // ... (startAnimationTimeline 函数保持不变) ...
+
     function startAnimationTimeline() {
         try {
             const splashScreen = document.getElementById('splashScreen');
@@ -140,32 +134,23 @@
         }
     }
 
-    // --- 关键修改：使用 MutationObserver 监听 DOM 变化 ---
 
-    // 1. 页面首次加载时，立即执行一次
     initSplashScreen();
 
-    // 2. 创建一个“哨兵”来监视 DOM 的变化
     const observer = new MutationObserver((mutations) => {
-        // 我们只关心子元素列表的变化（即页面内容的替换）
-        // 并且我们检查 URL 是否已更改，这通常是页面导航的标志
         for (const mutation of mutations) {
             if (mutation.type === 'childList') {
                 // 当 DOM 变化时，重新运行初始化逻辑
                 console.log('检测到页面内容变化，重新初始化开屏动画逻辑。');
                 initSplashScreen();
-                // 找到变化后就可以停止检查了，避免不必要的重复执行
                 break; 
             }
         }
     });
 
-    // 3. 让“哨兵”开始工作：
-    //    - 监视 document.body
-    //    - 配置为只关心子元素的添加或删除（childList: true）
     observer.observe(document.body, {
         childList: true, 
-        subtree: true // 也监视子树的变化，更可靠
+        subtree: true 
     });
 
 })();
