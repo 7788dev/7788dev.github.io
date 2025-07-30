@@ -1,13 +1,8 @@
 /**
- * 开屏动画 (最终版)
+ * 开屏动画
  *
  * By.Looks & Gemini
  *
- * 功能：
- * 1. 使用 localStorage 实现动画在浏览器中“只显示一次”的效果，直到用户清除缓存。
- * 2. 适配所有客户端导航（Turbo, PJAX, 自定义AJAX），防止页面切换后空白。
- * 3. 预先在HTML的<body>标签添加 `splash-active` 类，根治内容闪烁。
- * 4. 包含低性能设备和慢速网络的检测，自动跳过动画。
  */
 
 (function() {
@@ -36,12 +31,11 @@
         return path === root || path === root + 'index.html' || path === root + '';
     }
     
-    // 【关键修改】检查是否已经显示过开屏动画（使用 localStorage）
+
     function hasShownSplash() {
         return localStorage.getItem('splash_shown_aoguxin') === 'true';
     }
     
-    // 【关键修改】标记开屏动画已显示（使用 localStorage）
     function markSplashShown() {
         localStorage.setItem('splash_shown_aoguxin', 'true');
     }
@@ -141,7 +135,7 @@
     // 页面首次加载时，立即执行一次
     initSplashScreen();
 
-    // 创建一个“哨兵”来监视 DOM 的变化，以应对客户端导航
+	//监视 DOM 的变化，以应对客户端导航
     const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
             if (mutation.type === 'childList') {
@@ -151,7 +145,6 @@
         }
     });
 
-    // 让“哨兵”开始工作
     observer.observe(document.body, {
         childList: true, 
         subtree: true 
