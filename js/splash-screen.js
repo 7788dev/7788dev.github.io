@@ -1,12 +1,12 @@
 /**
  * 开屏动画
  *
- * By.Looks & Gemini
+ * By.Looks
  *
  */
 
 (function() {
-    'use strict';
+    'use.strict';
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
@@ -31,13 +31,14 @@
         return path === root || path === root + 'index.html' || path === root + '';
     }
     
-
+    // 检查是否已经显示过开屏动画
     function hasShownSplash() {
-        return localStorage.getItem('splash_shown_aoguxin') === 'true';
+        return sessionStorage.getItem('splash_shown') === 'true';
     }
     
+    // 标记开屏动画已显示
     function markSplashShown() {
-        localStorage.setItem('splash_shown_aoguxin', 'true');
+        sessionStorage.setItem('splash_shown', 'true');
     }
     
     // 创建开屏动画HTML结构
@@ -69,6 +70,7 @@
     function initSplashScreen() {
         try {
             const body = document.body;
+            // 防御性检查：如果页面上已经有动画，先移除，防止重复
             const existingSplash = document.getElementById('splashScreen');
             if (existingSplash) {
                 existingSplash.remove();
@@ -96,7 +98,7 @@
         }
     }
 
-    // 动画时间线控制
+
     function startAnimationTimeline() {
         try {
             const splashScreen = document.getElementById('splashScreen');
@@ -132,13 +134,14 @@
         }
     }
 
-    // 页面首次加载时，立即执行一次
+
     initSplashScreen();
 
-	//监视 DOM 的变化，以应对客户端导航
     const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
             if (mutation.type === 'childList') {
+                // 当 DOM 变化时，重新运行初始化逻辑
+                console.log('检测到页面内容变化，重新初始化开屏动画逻辑。');
                 initSplashScreen();
                 break; 
             }
