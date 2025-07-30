@@ -1,30 +1,51 @@
 /**
- * 开屏动画 (增强版)
+ * 开屏动画 (最终版)
  *
- * - 跨标签页只显示一次
- * - 浏览器重启后重置
+ * - 使用会话 Cookie 保证在整个浏览器会话中（跨所有标签页）只显示一次。
+ * - 浏览器完全关闭并重启后会自动重置。
+ * - 解决了快速打开多标签页时的竞争条件问题。
  *
  * By.Looks & Gemini
  *
  */
-
 (function() {
-    'use strict';
+    'use.strict';
 
-    // === 新增：在页面加载时，处理会话和存储状态 ===
-    // 这个函数用于模拟 "会话级别" 的 localStorage
-    function manageSessionAndStorage() {
-        const sessionFlag = 'splash_session_active';
-        const localFlag = 'splash_shown_globally';
+    // --- Cookie 辅助函数 ---
 
-        // 如果 sessionStorage 中没有标记，说明这是一个新的浏览器会话
-        if (sessionStorage.getItem(sessionFlag) === null) {
-            // 因此，我们清除上一个会话在 localStorage 中留下的标记
-            localStorage.removeItem(localFlag);
-            // 然后在 sessionStorage 中设置标记，表示当前会话已经激活
-            sessionStorage.setItem(sessionFlag, 'true');
-        }
+    /**
+     * 设置一个会话 Cookie。这种 Cookie 在浏览器关闭时会自动失效。
+     * @param {string} name - Cookie 的名称。
+     * @param {string} value - Cookie 的值。
+     */
+    function setSessionCookie(name, value) {
+        // 不设置 "expires" 或 "max-age" 就会创建一个会话 Cookie
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; path=/`;
     }
+
+    /**
+     * 读取 Cookie 的值。
+     * @param {string} name - 要读取的 Cookie 的名称。
+     * @returns {string|null} - 返回 Cookie 的值，如果找不到则返回 null。
+     */
+    function getCookie(name) {
+        const nameEQ = encodeURIComponent(name) + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+        }
+        return null;
+    }
+
+    // --- 动画核心逻辑 ---
+
+    const SPLASH_COOKIE_NAME = 'splash_shown_in_session';
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
@@ -49,14 +70,14 @@
         return path === root || path === root + 'index.html' || path === root + '';
     }
 
-    // 检查是否已经在任何标签页显示过开屏动画 (使用 localStorage)
-    function hasSplashBeenShownGlobally() {
-        return localStorage.getItem('splash_shown_globally') === 'true';
+    // 检查是否已在本会话中显示过动画 (读取 Cookie)
+    function hasSplashBeenShown() {
+        return getCookie(SPLASH_COOKIE_NAME) === 'true';
     }
 
-    // 标记开屏动画已显示 (使用 localStorage)
-    function markSplashAsShownGlobally() {
-        localStorage.setItem('splash_shown_globally', 'true');
+    // 标记动画已显示 (设置 Cookie)
+    function markSplashAsShown() {
+        setSessionCookie(SPLASH_COOKIE_NAME, 'true');
     }
 
     // 创建开屏动画HTML结构
@@ -88,29 +109,30 @@
     function initSplashScreen() {
         try {
             const body = document.body;
-            // 防御性检查：如果页面上已经有动画，先移除，防止重复
             const existingSplash = document.getElementById('splashScreen');
             if (existingSplash) {
                 existingSplash.remove();
             }
 
             // 检查是否满足跳过动画的条件
-            if (!isHomePage() || hasSplashBeenShownGlobally() || isLowPerformanceDevice()) {
+            if (!isHomePage() || hasSplashBeenShown() || isLowPerformanceDevice()) {
                 body.classList.remove('splash-active');
                 return;
             }
 
-            markSplashAsShownGlobally();
+            // 立刻标记，防止竞争
+            markSplashAsShown();
             body.classList.add('splash-active');
             const splashHTML = createSplashHTML();
             body.insertAdjacentHTML('afterbegin', splashHTML);
             startAnimationTimeline();
+
         } catch (error) {
             console.error('开屏动画初始化失败:', error);
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) splashScreen.remove();
             document.body.classList.remove('splash-active');
-            markSplashAsShownGlobally(); // 即使失败也标记，防止无限循环
+            markSplashAsShown(); // 即使失败也标记，防止无限循环
         }
     }
 
@@ -149,18 +171,16 @@
         }
     }
 
-    // === 程序入口 ===
-    manageSessionAndStorage(); // 首先管理会话状态
-    initSplashScreen(); // 然后根据状态初始化动画
+    // --- 程序入口 ---
+    initSplashScreen();
 
+    // MutationObserver 仍然保留，作为处理单页应用（SPA）或 PJAX 导航的保险措施。
+    // 对于标准网站，它会在动画结束后自行断开连接。
     const observer = new MutationObserver(() => {
-        // 如果 splashScreen 元素还存在，说明动画还在进行中，则不做任何操作，防止中断。
         const splashInProgress = document.getElementById('splashScreen') !== null;
         if (splashInProgress) {
             return;
         }
-        // 当动画结束后，可以断开观察者，因为它已经完成了首次加载的使命。
-        // 对于需要 PJAX 或 Turbolinks 的网站，这里的逻辑可能需要调整，但对于标准博客，断开是安全的。
         observer.disconnect();
     });
 
