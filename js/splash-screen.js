@@ -76,40 +76,44 @@
         `;
     }
     
-    // 初始化开屏动画
-    function initSplashScreen() {
-        try {
-            // 如果不满足条件，直接返回，此时 body 没有 splash-active 类，内容正常显示
-            if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
-                if (isLowPerformanceDevice() || hasShownSplash()) {
-                     markSplashShown(); // 标记已显示，避免重复检查
-                }
-                return;
+
+
+function initSplashScreen() {
+    try {
+        const body = document.body;
+
+        // 如果不满足显示动画的条件，立即移除 'splash-active' 类，让内容显示出来
+        if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
+            if (hasShownSplash() || isLowPerformanceDevice()) {
+                 markSplashShown(); // 标记已显示，避免重复检查
             }
-        
-            // 标记已显示
-            markSplashShown();
-            
-            // 添加 body 类，CSS 会据此隐藏主内容并防止滚动，从根源解决内容闪烁问题
-            document.body.classList.add('splash-active');
-            
-            // 创建并插入开屏动画
-            const splashHTML = createSplashHTML();
-            document.body.insertAdjacentHTML('afterbegin', splashHTML);
-            
-            // 开始动画时间线
-            startAnimationTimeline();
-        } catch (error) {
-            // 错误处理：如果初始化失败，确保移除控制类，让页面恢复正常
-            console.error('开屏动画初始化失败:', error);
-            const splashScreen = document.getElementById('splashScreen');
-            if (splashScreen) {
-                splashScreen.remove();
-            }
-            document.body.classList.remove('splash-active');
-            markSplashShown(); // 标记已显示，避免无限重试
+            body.classList.remove('splash-active'); // 移除类，让主内容可见
+            return;
         }
+    
+        // 如果满足条件，则继续执行动画
+        markSplashShown();
+        
+        // 【重要】不再需要手动添加 'splash-active'，因为它已经在 HTML 里了
+        // document.body.classList.add('splash-active'); // <--- 删除这一行
+        
+        // 创建并插入开屏动画
+        const splashHTML = createSplashHTML();
+        body.insertAdjacentHTML('afterbegin', splashHTML);
+        
+        // 开始动画时间线
+        startAnimationTimeline();
+    } catch (error) {
+        // 错误处理：如果初始化失败，确保移除控制类，让页面恢复正常
+        console.error('开屏动画初始化失败:', error);
+        const splashScreen = document.getElementById('splashScreen');
+        if (splashScreen) {
+            splashScreen.remove();
+        }
+        document.body.classList.remove('splash-active');
+        markSplashShown(); // 标记已显示，避免无限重试
     }
+}
     
     // 动画时间线控制
     function startAnimationTimeline() {
@@ -156,9 +160,13 @@
         }
     }
     
-    // 页面加载完成后初始化
+    // 尽早执行初始化，避免内容闪现
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSplashScreen);
+        document.addEventListener('readystatechange', function() {
+            if (document.readyState === 'interactive') {
+                initSplashScreen();
+            }
+        });
     } else {
         initSplashScreen();
     }
