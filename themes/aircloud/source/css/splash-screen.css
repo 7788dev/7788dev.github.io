@@ -10,9 +10,20 @@ body.splash-active {
  * 当 JS 移除 body.splash-active 类后，主内容区会平滑淡入。
  * 请确保 '.index-container' 是您首页主内容区域的正确选择器。
 */
+/* 初始隐藏主内容，防止闪现 */
+.index-container {
+    visibility: hidden;
+}
+
+/* 开屏动画结束后显示主内容 */
+body:not(.splash-active) .index-container {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.8s ease-in-out;
+}
+
 body.splash-active .index-container {
     opacity: 0;
-    transition: opacity 0.8s ease-in-out;
 }
 
 /* 开屏动画容器 */

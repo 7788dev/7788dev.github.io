@@ -153,27 +153,56 @@ body.splash-active .index-container {
 
 ```javascript
 /**
- * 开屏动画控制脚本 (优化版)
- * 功能：
- * 1. 只在首页显示
- * 2. 使用sessionStorage确保同一会话中只显示一次
- * 3. 优化渲染时序，防止主内容闪烁
- * 4. 优化性能检测，兼容移动设备
- * 5. 健壮的错误处理
+ * 开屏动画
+ *
+ * By.Looks
+ *
  */
-
 (function() {
-    'use strict';
+    'use.strict';
+
+    // --- Cookie 辅助函数 ---
+
+    /**
+     * 设置一个会话 Cookie。这种 Cookie 在浏览器关闭时会自动失效。
+     * @param {string} name - Cookie 的名称。
+     * @param {string} value - Cookie 的值。
+     */
+    function setSessionCookie(name, value) {
+        // 不设置 "expires" 或 "max-age" 就会创建一个会话 Cookie
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; path=/`;
+    }
+
+    /**
+     * 读取 Cookie 的值。
+     * @param {string} name - 要读取的 Cookie 的名称。
+     * @returns {string|null} - 返回 Cookie 的值，如果找不到则返回 null。
+     */
+    function getCookie(name) {
+        const nameEQ = encodeURIComponent(name) + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+        }
+        return null;
+    }
+
+    // --- 动画核心逻辑 ---
+
+    const SPLASH_COOKIE_NAME = 'splash_shown_in_session';
 
     // 性能优化：如果设备性能较差，跳过动画
     function isLowPerformanceDevice() {
-        // 检查设备内存（如果可用）
         if (navigator.deviceMemory && navigator.deviceMemory < 2) {
             console.log('跳过开屏动画：检测到低性能设备');
             return true;
         }
-
-        // 检查连接速度（如果可用）
         if (navigator.connection && navigator.connection.effectiveType) {
             const slowConnections = ['slow-2g', '2g'];
             if (slowConnections.includes(navigator.connection.effectiveType)) {
@@ -181,35 +210,31 @@ body.splash-active .index-container {
                 return true;
             }
         }
-        
-        // [已修复] 不再将所有移动设备都视为低性能设备
         return false;
     }
-    
+
     // 检查是否为首页
     function isHomePage() {
         const path = window.location.pathname;
-        // 兼容 Hexo 等博客框架的根路径配置
         const root = window.hexo_root || '/';
         return path === root || path === root + 'index.html' || path === root + '';
     }
-    
-    // 检查是否已经显示过开屏动画
-    function hasShownSplash() {
-        return sessionStorage.getItem('splash_shown') === 'true';
+
+    // 检查是否已在本会话中显示过动画 (读取 Cookie)
+    function hasSplashBeenShown() {
+        return getCookie(SPLASH_COOKIE_NAME) === 'true';
     }
-    
-    // 标记开屏动画已显示
-    function markSplashShown() {
-        sessionStorage.setItem('splash_shown', 'true');
+
+    // 标记动画已显示 (设置 Cookie)
+    function markSplashAsShown() {
+        setSessionCookie(SPLASH_COOKIE_NAME, 'true');
     }
-    
+
     // 创建开屏动画HTML结构
     function createSplashHTML() {
         return `
             <div class="splash-screen" id="splashScreen">
                 <div class="logo-text" id="logoText">
-                    <!-- 第一个单词 -->
                     <div class="logo-word">
                         <div class="char-container"><span class="char1">A</span></div>
                         <div class="char-container"><span class="char2">o</span></div>
@@ -219,7 +244,6 @@ body.splash-active .index-container {
                         <div class="char-container"><span class="char6">i</span></div>
                         <div class="char-container"><span class="char7">n</span></div>
                     </div>
-                    <!-- 第二个单词 -->
                     <div class="logo-word">
                         <div class="char-container"><span class="char8">B</span></div>
                         <div class="char-container"><span class="char9">l</span></div>
@@ -230,43 +254,38 @@ body.splash-active .index-container {
             </div>
         `;
     }
-    
-    // 初始化开屏动画
+
+    // 核心初始化函数
     function initSplashScreen() {
         try {
-            // 如果不满足条件，直接返回，此时 body 没有 splash-active 类，内容正常显示
-            if (!isHomePage() || hasShownSplash() || isLowPerformanceDevice()) {
-                if (isLowPerformanceDevice() || hasShownSplash()) {
-                     markSplashShown(); // 标记已显示，避免重复检查
-                }
+            const body = document.body;
+            const existingSplash = document.getElementById('splashScreen');
+            if (existingSplash) {
+                existingSplash.remove();
+            }
+
+            // 检查是否满足跳过动画的条件
+            if (!isHomePage() || hasSplashBeenShown() || isLowPerformanceDevice()) {
+                body.classList.remove('splash-active');
                 return;
             }
-        
-            // 标记已显示
-            markSplashShown();
-            
-            // 添加 body 类，CSS 会据此隐藏主内容并防止滚动，从根源解决内容闪烁问题
-            document.body.classList.add('splash-active');
-            
-            // 创建并插入开屏动画
+
+            // 立刻标记，防止竞争
+            markSplashAsShown();
+            body.classList.add('splash-active');
             const splashHTML = createSplashHTML();
-            document.body.insertAdjacentHTML('afterbegin', splashHTML);
-            
-            // 开始动画时间线
+            body.insertAdjacentHTML('afterbegin', splashHTML);
             startAnimationTimeline();
+
         } catch (error) {
-            // 错误处理：如果初始化失败，确保移除控制类，让页面恢复正常
             console.error('开屏动画初始化失败:', error);
             const splashScreen = document.getElementById('splashScreen');
-            if (splashScreen) {
-                splashScreen.remove();
-            }
+            if (splashScreen) splashScreen.remove();
             document.body.classList.remove('splash-active');
-            markSplashShown(); // 标记已显示，避免无限重试
+            markSplashAsShown(); // 即使失败也标记，防止无限循环
         }
     }
-    
-    // 动画时间线控制
+
     function startAnimationTimeline() {
         try {
             const splashScreen = document.getElementById('splashScreen');
@@ -274,50 +293,52 @@ body.splash-active .index-container {
 
             if (!splashScreen || !logoText) {
                 console.warn('开屏动画元素未找到，提前结束。');
-                document.body.classList.remove('splash-active'); // 确保恢复页面
+                document.body.classList.remove('splash-active');
                 return;
             }
-        
-            // 时间线配置
-            const inversionStartTime = 2800; // 动画呈现后，开始颜色反转
-            const logoFadeOutTime = inversionStartTime + 1500; // 颜色反转结束后，Logo开始退场
-            const finalCleanupTime = logoFadeOutTime + 1000; // Logo退场后，清理DOM
-            
-            // 步骤1: 触发颜色反转
+
+            const inversionStartTime = 2800;
+            const logoFadeOutTime = inversionStartTime + 1500;
+            const finalCleanupTime = logoFadeOutTime + 1000;
+
             setTimeout(() => {
-                splashScreen.classList.add('invert-colors');
+                if (splashScreen) splashScreen.classList.add('invert-colors');
             }, inversionStartTime);
-            
-            // 步骤2: 触发Logo退场
+
             setTimeout(() => {
-                logoText.classList.add('hidden');
+                if (logoText) logoText.classList.add('hidden');
             }, logoFadeOutTime);
-        
-            // 步骤3: 彻底移除开屏页，并移除 body 的控制类，让主内容平滑显示
+
             setTimeout(() => {
-                if (splashScreen) {
-                    splashScreen.remove();
-                }
+                if (splashScreen) splashScreen.remove();
                 document.body.classList.remove('splash-active');
             }, finalCleanupTime);
         } catch (error) {
-            // 动画执行过程中的错误处理
             console.error('开屏动画执行失败:', error);
             const splashScreen = document.getElementById('splashScreen');
-            if (splashScreen) {
-                splashScreen.remove();
-            }
-            document.body.classList.remove('splash-active'); // 确保恢复页面
+            if (splashScreen) splashScreen.remove();
+            document.body.classList.remove('splash-active');
         }
     }
-    
-    // 页面加载完成后初始化
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSplashScreen);
-    } else {
-        initSplashScreen();
-    }
-    
+
+    // --- 程序入口 ---
+    initSplashScreen();
+
+    // MutationObserver 仍然保留，作为处理单页应用（SPA）或 PJAX 导航的保险措施。
+    // 对于标准网站，它会在动画结束后自行断开连接。
+    const observer = new MutationObserver(() => {
+        const splashInProgress = document.getElementById('splashScreen') !== null;
+        if (splashInProgress) {
+            return;
+        }
+        observer.disconnect();
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
 })();
 ```
 
@@ -343,6 +364,18 @@ body.splash-active .index-container {
 
 4. **确保首页容器正确**
    确保你的首页主内容区域使用了`.index-container`类名，或者修改CSS中的选择器以匹配你的主题结构
+
+5. **在首页body 添加splash-active类名**
+
+   ```html
+   <body class="splash-active">
+   
+   // 此处为首页主内容区域
+   
+   </body>
+   ```
+
+   原本这里是根据动态js添加类名的 但是会出现**(FOUC)** 问题。
 
 #### 自定义修改
 

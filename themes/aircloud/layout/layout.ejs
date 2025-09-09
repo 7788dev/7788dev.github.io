@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang=<%= config.language === 'zh' ? 'zh-CN' : config.language %>>
 <%- partial('_partial/head') %>
-<body>
+<body class="splash-active">
 
 <div class="site-nav-toggle" id="site-nav-toggle">
     <button>
@@ -45,7 +45,7 @@
 
 <!-- 开屏动画JS - 只在首页加载，异步加载避免阻塞 -->
 <% if (is_home()) { %>
-<script async src="<%= config.root %>js/splash-screen.js"></script>
+<script async src="<%= config.root %>js/splash-screen.js?v4"></script>
 <% } %>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <%if( (page.comments) && config.comment && config.comment.type === 'gitment'){%>
