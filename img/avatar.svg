@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 极轻的顶部向下渐变，模拟 iOS 图标的光学质感 -->
+    <radialGradient id="bg" cx="50%" cy="0%" r="120%">
+      <stop offset="0%"   stop-color="#2a2a2d"/>
+      <stop offset="55%"  stop-color="#161618"/>
+      <stop offset="100%" stop-color="#0a0a0b"/>
+    </radialGradient>
+
+    <!-- 字母的微妙竖向渐变，制造轻微立体感 -->
+    <linearGradient id="letter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e6e7ea"/>
+    </linearGradient>
+
+    <!-- 顶部柔光高光 -->
+    <linearGradient id="hi" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="70%"  stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆形底 -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+
+  <!-- 顶部极淡高光 -->
+  <circle cx="256" cy="256" r="256" fill="url(#hi)"/>
+
+  <!-- 几何构造的 L：两条圆角矩形组合而成 -->
+  <!-- 竖笔 -->
+  <rect x="176" y="128" width="56" height="256" rx="28" fill="url(#letter)"/>
+  <!-- 横笔 -->
+  <rect x="176" y="328" width="180" height="56" rx="28" fill="url(#letter)"/>
+
+  <!-- 内部极细边，增加与深色底的层次 -->
+  <circle cx="256" cy="256" r="255.5" fill="none" stroke="#ffffff" stroke-opacity="0.05"/>
+</svg>
