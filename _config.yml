@@ -1,0 +1,180 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+title: Looks Blog
+subtitle: '属于我的思考'
+description: 'Looks 的个人博客，记录技术探索、编程实践与日常思考，分享学习笔记与踩坑总结。'
+keywords: Looks,Looks Blog,个人博客,技术博客,编程,前端,后端,学习笔记,思考
+author: Looks
+language: zh-CN
+timezone: 'Asia/Shanghai'
+
+# URL
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
+url: https://7788dev.github.io
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link:
+  enable: true # Open external links in new tab
+  field: site # Apply to the whole site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+
+# Home page setting
+# path: Root path for your blogs index page. (default = '')
+# per_page: Posts displayed per page. (0 = disable pagination)
+# order_by: Posts order. (Order by date descending by default)
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Metadata elements
+## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
+meta_generator: true
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+## updated_option supports 'mtime', 'date', 'empty'
+updated_option: 'mtime'
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Include / Exclude file(s)
+## include:/exclude: options only apply to the 'source/' folder
+include:
+exclude:
+ignore:
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: fluid
+
+# ------------------------------------------------------------------
+# SEO 相关
+# ------------------------------------------------------------------
+# 通用站点地图（Google/Bing 等）
+sitemap:
+  path:
+    - sitemap.xml
+    - sitemap.txt
+
+# 百度专用站点地图
+baidusitemap:
+  path: baidusitemap.xml
+
+# RSS / Atom 订阅
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+
+# 给外链自动加 nofollow，防 SEO 权重流失（白名单内的站点不会被加）
+nofollow:
+  enable: true
+  field: site
+  exclude:
+    - 'example.com'
+
+# ------------------------------------------------------------------
+# 构建产物压缩
+# 图片压缩依赖原生二进制，pnpm 默认不构建，这里先关闭。
+# 若要启用，运行 `pnpm approve-builds` 并把下方 image.enable 改为 true。
+# ------------------------------------------------------------------
+minify:
+  preview: false
+  exclude:
+    - '*.min.*'
+  js:
+    enable: true
+    sourceMap:
+      enable: false
+    options: {}
+  css:
+    enable: true
+    options: {}
+  html:
+    enable: true
+    options:
+      collapseBooleanAttributes: true
+      collapseWhitespace: true
+      removeComments: true
+      removeEmptyAttributes: true
+      removeScriptTypeAttributes: true
+      removeStyleLinkTypeAttributes: true
+      minifyJS: true
+      minifyCSS: true
+  image:
+    enable: false
+    svg:
+      enable: false
+    jpg:
+      enable: false
+    png:
+      enable: false
+    gif:
+      enable: false
+    webp:
+      enable: false
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
+deploy:
+  type: git
+  repo: https://github.com/7788dev/7788dev.github.io.git
+  branch: gh-pages
+  message: 'site updated: {{ now("YYYY-MM-DD HH:mm:ss") }}'

@@ -1,0 +1,40 @@
+{
+  "name": "hexo-site",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "hexo generate",
+    "clean": "hexo clean",
+    "deploy": "hexo deploy",
+    "server": "hexo server"
+  },
+  "hexo": {
+    "version": "8.1.2"
+  },
+  "dependencies": {
+    "@adobe/css-tools": "^4.4.4",
+    "hexo": "^8.0.0",
+    "hexo-filter-nofollow": "^2.0.2",
+    "hexo-generator-archive": "^2.0.0",
+    "hexo-generator-baidu-sitemap": "^0.1.9",
+    "hexo-generator-category": "^2.0.0",
+    "hexo-generator-feed": "^4.0.0",
+    "hexo-generator-index": "^4.0.0",
+    "hexo-generator-sitemap": "^3.0.1",
+    "hexo-generator-tag": "^2.0.0",
+    "hexo-minify": "^1.8.1",
+    "hexo-pagination": "^4.0.0",
+    "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-marked": "^7.0.0",
+    "hexo-renderer-stylus": "^3.0.1",
+    "hexo-server": "^3.0.0",
+    "hexo-theme-fluid": "^1.9.9",
+    "hexo-theme-landscape": "^1.0.0",
+    "hexo-util": "^4.0.0",
+    "moment": "^2.30.1",
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "hexo-deployer-git": "^4.0.0"
+  }
+}
