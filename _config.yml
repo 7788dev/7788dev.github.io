@@ -177,4 +177,4 @@ deploy:
   type: git
   repo: https://github.com/7788dev/7788dev.github.io.git
   branch: gh-pages
-  message: 'site updated: {{ now("YYYY-MM-DD HH:mm:ss") }}'
+  message: 'Site updated: {{ now("YYYY-MM-DD") }}'
