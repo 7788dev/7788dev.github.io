@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /js/
+Disallow: /css/
+Disallow: /xml/
+
+Sitemap: https://7788dev.github.io/sitemap.xml
+Sitemap: https://7788dev.github.io/baidusitemap.xml

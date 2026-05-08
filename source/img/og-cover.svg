@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 社交分享卡片 1200×630（Open Graph / Twitter Card 推荐尺寸） -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#161618"/>
+      <stop offset="100%" stop-color="#0a0a0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- 左侧几何构造的 L 图形 -->
+  <g transform="translate(110 175)">
+    <rect x="0" y="0" width="44" height="260" rx="14" fill="#ffffff"/>
+    <rect x="0" y="216" width="170" height="44" rx="14" fill="#ffffff"/>
+  </g>
+
+  <!-- 右侧文字区：站点名 + 副标题 -->
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" fill="#ffffff">
+    <text x="380" y="300" font-size="84" font-weight="700" letter-spacing="-2">Looks Blog</text>
+    <text x="380" y="360" font-size="32" font-weight="400" fill="#b6b6b6">属于我的思考</text>
+  </g>
+
+  <!-- 右下 URL -->
+  <text x="1090" y="590" text-anchor="end"
+        font-family="'SFMono-Regular', 'Menlo', 'Consolas', monospace"
+        font-size="22" fill="#595959">7788dev.github.io</text>
+</svg>

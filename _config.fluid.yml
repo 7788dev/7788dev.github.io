@@ -4,6 +4,52 @@
 # 完整选项参见：https://hexo.fluid-dev.com/docs/guide/
 # ---------------------------------------------------------------
 
+# ------------------------------------------------------------------
+# 站点图标 & SEO
+# ------------------------------------------------------------------
+# 浏览器标签图标（支持 SVG，现代浏览器首选）
+favicon: /favicon.svg
+apple_touch_icon: /img/apple-touch-icon.svg
+
+# 规范化 URL（避免同一文章多 URL 分散权重）
+canonical:
+  enable: true
+
+# Open Graph（Facebook / LinkedIn / 微信预览卡片）
+open_graph:
+  enable: true
+  twitter_card: summary_large_image
+  twitter_id: ''
+  twitter_site: ''
+  google_plus: ''
+  fb_admins: ''
+  fb_app_id: ''
+  image: /img/og-cover.svg
+
+# 往 <head> 里追加的自定义 HTML（Fluid 的 open_graph 已经会输出大部分 OG/Twitter 标签，
+# 这里只补它没生成的：SVG favicon 显式声明、RSS alternate、JSON-LD 站点实体）
+custom_head: '
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="Looks Blog">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Looks Blog",
+    "alternateName": "Looks",
+    "url": "https://7788dev.github.io",
+    "description": "Looks 的个人博客，记录技术探索、编程实践与日常思考。",
+    "author": {
+      "@type": "Person",
+      "name": "Looks",
+      "url": "https://7788dev.github.io/about/"
+    }
+  }
+  </script>
+'
+
 # 站点作者信息（首页 / 关于页等展示）
 author:
   name: Looks

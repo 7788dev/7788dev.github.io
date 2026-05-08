@@ -10,6 +10,7 @@ categories:
   - 逆向
 description: 在 Node 里补全 Cloudflare Managed Challenge（俗称 5s 盾）运行所需的 DOM / 事件 / 定时器环境，逆向 orchestrate、flow、cv/result 三条接口，最终卡在哪里。
 keywords: Cloudflare, 5s 盾, Managed Challenge, Turnstile, orchestrate, flow, cv/result, AST, 补环境, 逆向
+index_img: /img/og-cover.svg
 ---
 
 > 本文只记录方法论与接口形态，不提供任何可直接运行的绕过实现。具体字段的加密算法、VM 字节码映射、签名逻辑一律略过。
