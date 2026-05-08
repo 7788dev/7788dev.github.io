@@ -3,11 +3,11 @@ https://7788dev.github.io/2026/05/08/social-repression-and-tech/
 https://7788dev.github.io/about/index.html
 https://7788dev.github.io/2026/05/08/hello-world/
 https://7788dev.github.io/
-https://7788dev.github.io/tags/%E7%A4%BE%E4%BC%9A%E8%A7%82%E5%AF%9F/
-https://7788dev.github.io/tags/%E7%A7%91%E6%8A%80/
-https://7788dev.github.io/tags/%E6%80%9D%E8%80%83/
 https://7788dev.github.io/tags/%E9%80%86%E5%90%91/
 https://7788dev.github.io/tags/Cloudflare/
 https://7788dev.github.io/tags/Node-js/
-https://7788dev.github.io/categories/%E6%80%9D%E8%80%83/
+https://7788dev.github.io/tags/%E7%A4%BE%E4%BC%9A%E8%A7%82%E5%AF%9F/
+https://7788dev.github.io/tags/%E7%A7%91%E6%8A%80/
+https://7788dev.github.io/tags/%E6%80%9D%E8%80%83/
 https://7788dev.github.io/categories/%E9%80%86%E5%90%91/
+https://7788dev.github.io/categories/%E6%80%9D%E8%80%83/
