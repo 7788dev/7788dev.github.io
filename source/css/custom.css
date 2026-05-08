@@ -1,0 +1,820 @@
+/* ================================================================
+ *  Looks Blog · Custom Overrides
+ *  目标：Apple / Google 风格的简约博客——克制的排版、真实的层叠、
+ *  缓动的交互。保持和 Fluid 主题的 CSS 变量兼容（light + dark）。
+ * ================================================================ */
+
+/* -------------------------------------------
+ * 0. 设计令牌（Design Tokens）
+ * ------------------------------------------- */
+:root {
+  /* 字体栈：优先 Inter / SF / Segoe UI，中文走苹方 / 思源 */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI",
+    "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Menlo", "Monaco", Consolas,
+    "Liberation Mono", monospace;
+
+  /* 尺度 */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* 真·多层柔和阴影（Material / Apple 的感觉） */
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-2: 0 4px 10px -4px rgba(15, 23, 42, 0.08),
+    0 8px 24px -8px rgba(15, 23, 42, 0.10);
+  --shadow-3: 0 10px 20px -10px rgba(15, 23, 42, 0.12),
+    0 20px 40px -20px rgba(15, 23, 42, 0.16);
+  --shadow-ring: 0 0 0 1px rgba(15, 23, 42, 0.06);
+
+  /* 缓动 */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 语义色（基于 Nord，被更柔和化处理） */
+  --accent: #5e81ac;
+  --accent-strong: #4c7099;
+  --accent-soft: rgba(94, 129, 172, 0.12);
+  --hairline: rgba(15, 23, 42, 0.08);
+  --muted-bg: rgba(15, 23, 42, 0.04);
+}
+
+html[data-user-color-scheme="dark"] {
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 4px 10px -4px rgba(0, 0, 0, 0.45),
+    0 8px 24px -8px rgba(0, 0, 0, 0.40);
+  --shadow-3: 0 10px 20px -10px rgba(0, 0, 0, 0.5),
+    0 20px 40px -20px rgba(0, 0, 0, 0.55);
+  --shadow-ring: 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  --accent: #88c0d0;
+  --accent-strong: #a6d4e0;
+  --accent-soft: rgba(136, 192, 208, 0.15);
+  --hairline: rgba(255, 255, 255, 0.08);
+  --muted-bg: rgba(255, 255, 255, 0.04);
+}
+
+/* -------------------------------------------
+ * 1. 全局排版
+ * ------------------------------------------- */
+html,
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt";
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* -------------------------------------------
+ * 2. 顶部导航（玻璃态 + 收缩）
+ * ------------------------------------------- */
+.navbar {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  transition: background-color 0.35s var(--ease-out),
+    backdrop-filter 0.35s var(--ease-out),
+    padding 0.35s var(--ease-out);
+}
+
+.navbar .navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+}
+
+.navbar .navbar-brand strong {
+  font-weight: 600; /* 不用 700，轻一些 */
+}
+
+.navbar .nav-item .nav-link {
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.9rem !important;
+  border-radius: 999px;
+  transition: background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
+}
+
+.navbar .nav-item .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff !important;
+}
+
+/* 首屏大图时 navbar 背景透明；滚动后加 blur + 半透明 */
+.navbar.top-nav-collapse,
+.navbar .dropdown-collapse,
+.navbar-col-show {
+  background-color: rgba(46, 52, 64, 0.72) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+html[data-user-color-scheme="dark"] .navbar.top-nav-collapse,
+html[data-user-color-scheme="dark"] .navbar .dropdown-collapse,
+html[data-user-color-scheme="dark"] .navbar-col-show {
+  background-color: rgba(28, 34, 48, 0.75) !important;
+}
+
+.navbar.scrolling-navbar.top-nav-collapse {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* -------------------------------------------
+ * 3. Banner（更克制的遮罩 + 柔和渐变）
+ * ------------------------------------------- */
+.banner {
+  transition: background-image 0.6s var(--ease-out);
+}
+
+.banner .mask {
+  /* 底部向上的柔和暗角，让标题可读又不糊掉图片 */
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.15) 0%,
+    rgba(15, 23, 42, 0.35) 60%,
+    rgba(15, 23, 42, 0.55) 100%
+  ) !important;
+}
+
+.banner-text {
+  letter-spacing: 0.01em;
+}
+
+.banner-text .h2 {
+  font-weight: 600;
+  font-size: 2.25rem;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+}
+
+#subtitle,
+.typed-cursor {
+  font-weight: 500;
+}
+
+.scroll-down-bar i.iconfont {
+  opacity: 0.85;
+  font-weight: normal;
+  font-size: 1.5rem;
+}
+
+/* -------------------------------------------
+ * 4. 悬浮主板 #board（更大圆角 + 细腻阴影）
+ * ------------------------------------------- */
+#board {
+  margin-top: -3rem;
+  padding: 3.5rem 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3), var(--shadow-ring) !important;
+  -webkit-box-shadow: var(--shadow-3), var(--shadow-ring) !important;
+}
+
+@media (max-width: 767px) {
+  #board {
+    margin-top: -1.5rem;
+    padding: 2rem 0;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* -------------------------------------------
+ * 5. 首页卡片流
+ * ------------------------------------------- */
+.index-card {
+  margin-bottom: 0;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--hairline);
+  transition: background-color 0.25s var(--ease-out);
+}
+
+.index-card:last-of-type {
+  border-bottom: none;
+}
+
+.index-card:hover {
+  background-color: var(--muted-bg);
+}
+
+.index-card .index-img img {
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1), var(--shadow-ring);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.3s var(--ease-out);
+  height: 9rem;
+}
+
+.index-card:hover .index-img img {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2), var(--shadow-ring);
+}
+
+.index-header {
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.005em;
+  margin-bottom: 0.5rem !important;
+  color: var(--post-heading-color, var(--text-color));
+}
+
+.index-header a {
+  transition: color 0.2s var(--ease-out);
+}
+
+.index-card:hover .index-header a {
+  color: var(--accent) !important;
+}
+
+.index-excerpt {
+  line-height: 1.65rem !important;
+  font-size: 0.95rem;
+}
+
+.index-excerpt > div {
+  line-height: 1.65rem !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+.index-excerpt {
+  height: calc(1.65rem * 2) !important;
+}
+
+.index-btm.post-metas {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 0.75rem;
+}
+
+.index-btm.post-metas i.iconfont {
+  margin-right: 0.25rem;
+  opacity: 0.6;
+}
+
+/* -------------------------------------------
+ * 6. 文章页正文
+ * ------------------------------------------- */
+#seo-header {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0.25em;
+  line-height: 1.3;
+}
+
+.post-content {
+  padding-left: 8% !important;
+  padding-right: 8% !important;
+}
+
+@media (max-width: 991px) {
+  .post-content {
+    padding-left: 6% !important;
+    padding-right: 6% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .post-content {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+.markdown-body {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  letter-spacing: 0.005em;
+}
+
+.markdown-body > h1,
+.markdown-body > h2,
+.markdown-body > h3,
+.markdown-body > h4,
+.markdown-body > h5,
+.markdown-body > h6 {
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  margin-top: 2.25em;
+  margin-bottom: 0.75em;
+  line-height: 1.35;
+}
+
+.markdown-body > h1 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--hairline) !important;
+  padding-bottom: 0.35em;
+}
+.markdown-body > h2 {
+  font-size: 1.45rem;
+  border-bottom: 1px solid var(--hairline) !important;
+  padding-bottom: 0.3em;
+}
+.markdown-body > h3 { font-size: 1.2rem; }
+.markdown-body > h4 { font-size: 1.05rem; }
+
+.markdown-body p {
+  margin-bottom: 1.15em;
+}
+
+.markdown-body a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+  padding-bottom: 1px;
+}
+
+.markdown-body a:hover {
+  border-bottom-color: var(--accent);
+  background-color: var(--accent-soft);
+  color: var(--accent-strong) !important;
+  text-decoration: none;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 0.875em !important;
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+}
+
+.markdown-body pre {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-1), var(--shadow-ring);
+  padding: 1rem 1.25rem !important;
+}
+
+.markdown-body pre code {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0.875rem !important;
+}
+
+/* Blockquote：竖条 + 轻背景，像 Notion / Medium */
+.markdown-body blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--muted-bg);
+  padding: 0.8em 1.2em;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 1.5em 0;
+  color: var(--post-text-color);
+}
+
+.markdown-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 表格 */
+.markdown-body table {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-ring);
+  border-collapse: separate !important;
+  border-spacing: 0;
+  width: 100%;
+  margin: 1.5em 0;
+}
+
+.markdown-body table th {
+  background: var(--muted-bg);
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 0.65em 1em !important;
+  border: none !important;
+  border-bottom: 1px solid var(--hairline) !important;
+}
+
+.markdown-body table tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* hr */
+.markdown-body hr {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--hairline) 15%,
+    var(--hairline) 85%,
+    transparent
+  ) !important;
+  margin: 2.5rem 0 !important;
+}
+
+/* 文章内图片 */
+.markdown-body p > img,
+.markdown-body p > a > img,
+.markdown-body figure > img {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-2), var(--shadow-ring) !important;
+}
+
+/* -------------------------------------------
+ * 7. 文章末尾 · 上一篇/下一篇
+ * ------------------------------------------- */
+.post-prevnext {
+  gap: 0.75rem;
+  margin-top: 2rem !important;
+}
+
+.post-prev a,
+.post-next a {
+  display: flex !important;
+  align-items: center;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--board-bg-color);
+  transition: border-color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
+  width: 100%;
+}
+
+.post-prev a:hover,
+.post-next a:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  text-decoration: none;
+}
+
+.post-prev a:hover i,
+.post-next a:hover i {
+  animation: none !important; /* 关掉默认抖动，用位移更克制 */
+}
+
+/* -------------------------------------------
+ * 8. TOC（右侧侧栏）
+ * ------------------------------------------- */
+.sidebar {
+  padding: 2rem 1rem;
+  top: 5rem !important;
+}
+
+.toc-header {
+  font-size: 0.8rem !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sec-text-color);
+  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+}
+
+.toc-header > i {
+  font-size: 0.9rem !important;
+}
+
+.tocbot-link {
+  font-size: 0.88rem !important;
+  line-height: 1.5;
+  padding: 0.1rem 0 !important;
+  transition: color 0.2s var(--ease-out);
+}
+
+.tocbot-active-link {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+/* -------------------------------------------
+ * 9. 分页
+ * ------------------------------------------- */
+.pagination {
+  gap: 0.3rem;
+  margin-top: 3.5rem !important;
+}
+
+.pagination .page-number,
+.pagination .current,
+.pagination .extend {
+  border-radius: 999px !important;
+  padding: 0.4rem 0.85rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.pagination .current {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+  box-shadow: var(--shadow-1);
+}
+
+.pagination .page-number:hover {
+  background-color: var(--muted-bg) !important;
+}
+
+/* -------------------------------------------
+ * 10. 滚动到顶部按钮
+ * ------------------------------------------- */
+#scroll-top-button {
+  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px;
+  min-height: 44px;
+  right: 1.25rem;
+  box-shadow: var(--shadow-2), var(--shadow-ring) !important;
+  -webkit-box-shadow: var(--shadow-2), var(--shadow-ring) !important;
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  transition: transform 0.25s var(--ease-out),
+    background-color 0.25s var(--ease-out),
+    bottom 0.35s var(--ease-out);
+}
+
+#scroll-top-button:hover {
+  transform: translateY(-2px);
+}
+
+#scroll-top-button i {
+  font-size: 20px !important;
+  color: var(--text-color) !important;
+}
+
+#scroll-top-button:hover i,
+#scroll-top-button:active i {
+  animation: none !important;
+}
+
+/* -------------------------------------------
+ * 11. 关于页
+ * ------------------------------------------- */
+.about-avatar {
+  margin: -6rem auto 1rem !important;
+  width: 8rem !important;
+  height: 8rem !important;
+}
+
+.about-avatar img {
+  border: 4px solid var(--board-bg-color);
+  box-shadow: var(--shadow-3), var(--shadow-ring) !important;
+}
+
+.about-name {
+  font-size: 1.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem !important;
+}
+
+.about-intro {
+  color: var(--sec-text-color);
+  font-size: 1.05rem !important;
+}
+
+.about-icons {
+  margin-top: 1rem;
+}
+
+.about-icons > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--muted-bg);
+  color: var(--text-color);
+  transition: transform 0.25s var(--ease-out),
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
+}
+
+.about-icons > a:hover {
+  background: var(--accent);
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+.about-icons > a > i {
+  font-size: 1.1rem !important;
+}
+
+/* -------------------------------------------
+ * 12. 页脚
+ * ------------------------------------------- */
+.footer-inner {
+  padding: 3.5rem 0 2rem 0 !important;
+  color: var(--sec-text-color);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--hairline);
+  margin-top: 4rem;
+}
+
+.footer-inner a {
+  color: var(--sec-text-color);
+  transition: color 0.2s var(--ease-out);
+}
+
+.footer-inner a:hover {
+  color: var(--accent) !important;
+}
+
+/* -------------------------------------------
+ * 13. 搜索弹窗（Spotlight 风）
+ * ------------------------------------------- */
+#modalSearch .modal-content {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-3), var(--shadow-ring);
+}
+
+#modalSearch input.form-control {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--hairline);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+#modalSearch input.form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* -------------------------------------------
+ * 14. 全站微交互
+ * ------------------------------------------- */
+img {
+  transition: opacity 0.4s var(--ease-out);
+}
+
+/* 焦点环：键盘导航无障碍 */
+a:focus-visible,
+button:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* 减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* -------------------------------------------
+ * 15. 代码块：行号更淡、hover 显复制按钮
+ * ------------------------------------------- */
+figure.highlight,
+.highlight {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-1), var(--shadow-ring);
+  margin: 1.5em 0 !important;
+}
+
+figure.highlight .gutter,
+.highlight .gutter {
+  opacity: 0.45;
+}
+
+.highlight .copy-btn {
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out);
+  border-radius: var(--radius-xs);
+}
+
+.highlight:hover .copy-btn {
+  opacity: 1;
+}
+
+
+/* -------------------------------------------
+ * 16. 访问统计 / 阅读量（不蒜子）
+ * ------------------------------------------- */
+.footer-inner .statistics {
+  display: inline-flex !important;
+  gap: 0.75rem;
+  justify-content: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+.footer-inner .statistics > span {
+  flex: 0 0 auto !important;
+  text-align: center !important;
+}
+
+#busuanzi_value_site_pv,
+#busuanzi_value_site_uv,
+#busuanzi_value_page_pv {
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 文章顶部阅读量图标与其它 meta 对齐 */
+#busuanzi_container_page_pv {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+#busuanzi_container_page_pv i.iconfont {
+  opacity: 0.6;
+}
+
+/* -------------------------------------------
+ * 17. Giscus 评论区融入板面
+ * ------------------------------------------- */
+#comments {
+  margin-top: 3rem !important;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.giscus,
+.giscus-frame {
+  max-width: 100% !important;
+}
+
+
+/* -------------------------------------------
+ * 18. 首页 slogan（iciba 中文每日一句）
+ * ------------------------------------------- */
+.banner-text {
+  max-width: min(720px, 86vw) !important;
+  width: auto !important;
+}
+
+.banner-text .h2 {
+  font-size: 1.85rem !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+  font-family: "PingFang SC", "Hiragino Sans GB", var(--font-sans) !important;
+  letter-spacing: 0.02em;
+}
+
+.banner-text #subtitle {
+  white-space: normal;
+}
+
+.banner-text .typed-cursor {
+  opacity: 0.75;
+}
+
+@media (max-width: 767px) {
+  .banner-text .h2 {
+    font-size: 1.35rem !important;
+  }
+}
+
+@media (max-width: 424px) {
+  .banner-text .h2 {
+    font-size: 1.15rem !important;
+  }
+}
+
+
+/* -------------------------------------------
+ * 19. 网站运行时长
+ * ------------------------------------------- */
+#site-uptime {
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  color: var(--sec-text-color);
+  opacity: 0.85;
+  margin-bottom: 0.35rem;
+}
+
+#site-uptime .uptime-num {
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  padding: 0 0.1em;
+}

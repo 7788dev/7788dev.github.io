@@ -27,10 +27,19 @@ open_graph:
   image: /img/og-cover.svg
 
 # 往 <head> 里追加的自定义 HTML（Fluid 的 open_graph 已经会输出大部分 OG/Twitter 标签，
-# 这里只补它没生成的：SVG favicon 显式声明、RSS alternate、JSON-LD 站点实体）
+# 这里只补它没生成的：SVG favicon 显式声明、RSS alternate、JSON-LD 站点实体、
+# Bing 每日一图的 preconnect 预解析）
 custom_head: '
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
+  <link rel="preconnect" href="https://bing.biturl.top" crossorigin>
+  <link rel="dns-prefetch" href="https://cn.bing.com">
+  <link rel="preconnect" href="https://open.iciba.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>html.home-slogan-pending #subtitle,html.home-slogan-pending .typed-cursor{visibility:hidden}#subtitle,.typed-cursor{transition:opacity .3s ease}</style>
+  <script>(function(){var p=location.pathname.replace(/index\.html$/,"");if(p.slice(-1)!=="/")p+="/";if(!(p==="/"||/^\/page\/\d+\/?$/.test(p)))return;document.documentElement.classList.add("home-slogan-pending");var F=window.Fluid=window.Fluid||{};var _p;try{Object.defineProperty(F,"plugins",{configurable:true,get:function(){return _p;},set:function(v){if(v&&typeof v.typing==="function"&&!v.__icibaHooked){var orig=v.typing;v.typing=function(t){if(document.documentElement.classList.contains("home-slogan-pending")&&!v.__icibaAllow){v.__icibaPending=t;return;}return orig.apply(this,arguments);};v.__icibaHooked=true;}_p=v;}});}catch(e){}})();</script>
   <meta property="og:locale" content="zh_CN">
   <meta property="og:site_name" content="Looks Blog">
   <script type="application/ld+json">
@@ -50,6 +59,72 @@ custom_head: '
   </script>
 '
 
+# 挂载自定义 JS：Bing 每日一图 Banner 动态替换
+custom_js:
+  - /js/bing-banner.js
+  - /js/iciba-slogan.js
+  - /js/site-uptime.js
+  - /js/spring-festival-lanterns.js
+
+# 挂载自定义 CSS：Apple / Google 风的排版、阴影、圆角、交互覆盖
+custom_css:
+  - /css/custom.css
+
+# ------------------------------------------------------------------
+# 全站配色（Nord 极光方案）
+# 冷色蓝灰主调 + 冰蓝点缀，和每天变化的 Bing 壁纸都能和谐共存
+# ------------------------------------------------------------------
+color:
+  # body 背景：极浅的雪原白灰，阅读区域更聚焦
+  body_bg_color: "#eceff4"
+  body_bg_color_dark: "#1c2230"
+
+  # 顶部导航：Polar Night 深靛蓝，与任何 Bing 壁纸都能拉出对比
+  navbar_bg_color: "#2e3440"
+  navbar_bg_color_dark: "#242933"
+  navbar_text_color: "#eceff4"
+  navbar_text_color_dark: "#d8dee9"
+
+  # 首屏副标题
+  subtitle_color: "#eceff4"
+  subtitle_color_dark: "#d8dee9"
+
+  # 正文与次级文本
+  text_color: "#2e3440"
+  text_color_dark: "#d8dee9"
+  sec_text_color: "#4c566a"
+  sec_text_color_dark: "#9aa4b7"
+
+  # 悬浮白板
+  board_color: "#ffffff"
+  board_color_dark: "#2b3242"
+
+  # 文章正文 & 标题
+  post_text_color: "#2e3440"
+  post_text_color_dark: "#d8dee9"
+  post_heading_color: "#2e3440"
+  post_heading_color_dark: "#eceff4"
+
+  # 文章链接 & 悬浮（Frost 冰蓝，和 Bing 壁纸搭最稳）
+  post_link_color: "#5e81ac"
+  post_link_color_dark: "#88c0d0"
+  link_hover_color: "#88c0d0"
+  link_hover_color_dark: "#8fbcbb"
+  link_hover_bg_color: "#e5e9f0"
+  link_hover_bg_color_dark: "#3b4252"
+
+  # 分割线 & 按钮 & 滚动条
+  line_color: "#e5e9f0"
+  line_color_dark: "#3b4252"
+  button_bg_color: "#eceff4"
+  button_bg_color_dark: "#3b4252"
+  button_hover_bg_color: "#d8dee9"
+  button_hover_bg_color_dark: "#4c566a"
+  scrollbar_color: "#c9ccd1"
+  scrollbar_color_dark: "#4c566a"
+  scrollbar_hover_color: "#8fbcbb"
+  scrollbar_hover_color_dark: "#88c0d0"
+
 # 站点作者信息（首页 / 关于页等展示）
 author:
   name: Looks
@@ -61,8 +136,8 @@ author:
 # ------------------------------------------------------------------
 about:
   enable: true
-  banner_img_height: 60
-  banner_mask_alpha: 0.4
+  banner_img_height: 50
+  banner_mask_alpha: 0.35
   avatar: /img/avatar.svg
   name: "Looks"
   intro: "属于我的思考"
@@ -83,15 +158,47 @@ navbar:
 # 页脚
 footer:
   content: '
+    <div id="site-uptime" data-since="2026-05-08T00:00:00+08:00" aria-label="本站已运行"></div>
     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
     <i class="iconfont icon-love"></i>
     <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
   '
 
+  # 页脚访问统计（不蒜子：零配置、零服务器，全站 PV / UV）
+  statistics:
+    enable: true
+    source: "busuanzi"
+
 # ------------------------------------------------------------------
 # 文章页面优化
 # ------------------------------------------------------------------
 post:
+  # 文章头图较矮更聚焦阅读
+  banner_img_height: 45
+  banner_mask_alpha: 0.35
+
+  # 文章元信息：作者/日期/字数/时长/阅读量
+  meta:
+    author:
+      enable: false
+    date:
+      enable: true
+      format: "LL"
+    wordcount:
+      enable: true
+    min2read:
+      enable: true
+      awl: 2
+      wpm: 275
+    views:
+      enable: true
+      source: "busuanzi"
+
+  # 评论系统：Giscus（基于 GitHub Discussions）
+  comments:
+    enable: true
+    type: giscus
+
   # 文章目录
   toc:
     enable: true
@@ -119,7 +226,7 @@ post:
   progressbar:
     enable: true
     height_px: 3
-    color: "#0078E7"
+    color: "#5e81ac"
     autoHide: true
 
   # 字数 / 阅读时长
@@ -129,17 +236,47 @@ post:
     min2read: true
 
 # ------------------------------------------------------------------
+# 归档 / 分类 / 标签 / 自定义页
+# 统一 banner 高度与遮罩，视觉节奏更一致
+# ------------------------------------------------------------------
+archive:
+  banner_img_height: 40
+  banner_mask_alpha: 0.35
+
+category:
+  banner_img_height: 40
+  banner_mask_alpha: 0.35
+
+tag:
+  banner_img_height: 40
+  banner_mask_alpha: 0.35
+  tagcloud:
+    min_font: 14
+    max_font: 22
+    unit: px
+    start_color: "#5e81ac"
+    end_color: "#88c0d0"
+
+page:
+  banner_img_height: 45
+  banner_mask_alpha: 0.35
+
+# ------------------------------------------------------------------
 # 首页优化
 # ------------------------------------------------------------------
 index:
-  # 首页打字机 slogan
+  # 首屏头图高度（视口百分比）与遮罩
+  banner_img_height: 85
+  banner_mask_alpha: 0.3
+
+  # 首页打字机 slogan（默认文案作为 iciba API 的兜底）
   slogan:
     enable: true
     text: "属于我的思考"
-    loop: true
-    startDelay: 500
-    typeSpeed: 150
-    backSpeed: 80
+    loop: false
+    startDelay: 600
+    typeSpeed: 120
+    backSpeed: 60
   # 首页文章卡片的显示控制
   post_url:
     enable: true
@@ -166,3 +303,25 @@ loading:
     enable: true
   loading_progress:
     enable: true
+
+# ------------------------------------------------------------------
+# 评论：Giscus
+# 基于 GitHub Discussions，零服务器成本
+# 配置面板：https://giscus.app
+# 下方 key 会被 Fluid 自动映射为 data-* 属性注入到 giscus/client.js
+# ------------------------------------------------------------------
+giscus:
+  repo: "7788dev/7788dev.github.io"
+  repo-id: "R_kgDOSW0JcQ"
+  category: "Announcements"
+  category-id: "DIC_kwDOSW0Jcc4C8mHQ"
+  mapping: "pathname"
+  strict: "0"
+  reactions-enabled: "1"
+  emit-metadata: "0"
+  input-position: "top"
+  lang: "zh-CN"
+  loading: "lazy"
+  # 跟随全站明/暗主题切换
+  theme-light: "light"
+  theme-dark: "dark"
