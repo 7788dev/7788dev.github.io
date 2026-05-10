@@ -10,8 +10,18 @@
 
   var PRIMARY_API = 'https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN';
   var FALLBACK_IMG = 'https://bing.img.run/1920x1080.php';
-  var STORAGE_KEY = 'bing-banner-cache-v1';
-  var ONE_DAY = 24 * 60 * 60 * 1000;
+  var STORAGE_KEY = 'bing-banner-cache-v2';
+  // 每天切换图片的本地时刻（0-23）。早于这个时刻视为“上一天”的图。
+  var ROLLOVER_HOUR = 7;
+
+  // 返回当前所处“Bing 日”的键；在 ROLLOVER_HOUR 之前算作前一天。
+  function currentDayKey() {
+    var now = new Date();
+    if (now.getHours() < ROLLOVER_HOUR) {
+      now.setDate(now.getDate() - 1);
+    }
+    return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+  }
 
   function setBanner(url) {
     var banner = document.getElementById('banner');
@@ -31,8 +41,7 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
       var obj = JSON.parse(raw);
-      if (!obj || !obj.url || !obj.ts) return null;
-      if (Date.now() - obj.ts > ONE_DAY) return null;
+      if (!obj || !obj.url || obj.day !== currentDayKey()) return null;
       return obj.url;
     } catch (e) {
       return null;
@@ -41,7 +50,7 @@
 
   function writeCache(url) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ url: url, ts: Date.now() }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ url: url, day: currentDayKey() }));
     } catch (e) { /* ignore */ }
   }
 
@@ -50,7 +59,7 @@
       setBanner(FALLBACK_IMG);
       return;
     }
-    fetch(PRIMARY_API, { cache: 'default' })
+    fetch(PRIMARY_API, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         if (data && data.url) {

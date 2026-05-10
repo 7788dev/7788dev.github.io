@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OG 封面 1200×630 · 本站是怎么魔改出来的 · 奶油底 + 鼠尾草绿 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg-c" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#f7f4ec"/>
+      <stop offset="100%" stop-color="#ede8d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-c)"/>
+
+  <!-- Lucide · palette -->
+  <g transform="translate(170 195) scale(10)"
+     fill="none" stroke="#8a9a7b" stroke-width="0.22"
+     stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="13.5" cy="6.5" r=".5" fill="#8a9a7b" stroke="none"/>
+    <circle cx="17.5" cy="10.5" r=".5" fill="#c57b3d" stroke="none"/>
+    <circle cx="8.5"  cy="7.5"  r=".5" fill="#4a3f35" stroke="none"/>
+    <circle cx="6.5"  cy="12.5" r=".5" fill="#8a9a7b" stroke="none"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+  </g>
+
+  <!-- 右侧文字 -->
+  <g fill="#2a2620"
+     font-family="'PingFang SC','Microsoft YaHei UI','Helvetica Neue','Segoe UI',Arial,sans-serif">
+    <text x="530" y="200"
+          font-family="'SFMono-Regular','Menlo','Consolas',monospace"
+          font-size="16" fill="#8a9a7b" letter-spacing="4">CUSTOMIZE · 魔改</text>
+
+    <text x="530" y="310" font-size="62" font-weight="600" letter-spacing="-1">本站是怎么</text>
+    <text x="530" y="386" font-size="62" font-weight="600" letter-spacing="-1">魔改出来的</text>
+
+    <text x="530" y="452" font-family="'SFMono-Regular','Menlo','Consolas',monospace"
+          font-size="18" fill="#7a7063">
+      _config.fluid.yml · scripts/ · source/js
+    </text>
+  </g>
+
+  <line x1="110" y1="555" x2="1090" y2="555" stroke="#d0c8b3" stroke-width="1"/>
+  <text x="110" y="590" font-size="18" fill="#2a2620" font-weight="500"
+        font-family="'PingFang SC','Segoe UI',sans-serif">Looks Blog</text>
+  <text x="1090" y="590" text-anchor="end" font-size="16" fill="#948a73"
+        font-family="'SFMono-Regular','Menlo','Consolas',monospace">7788dev.github.io</text>
+</svg>

@@ -5,4 +5,13 @@ db.json
 node_modules/
 public/
 .deploy*/
+
+# Local tooling / editor
+.claude/
+.vscode/
+
+# Local screenshots / temp captures
+.tmp-*.png
+_screens/
+
 _multiconfig.yml
