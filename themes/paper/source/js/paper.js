@@ -173,6 +173,131 @@
   }
 
   // ============================================================
+  // 5. Search
+  // ============================================================
+  function initSearch() {
+    var modal = document.getElementById('search-modal');
+    var input = document.getElementById('search-input');
+    var results = document.getElementById('search-results');
+    var toggleBtn = document.querySelector('.search-toggle');
+    var backdrop = modal && modal.querySelector('.search-backdrop');
+    if (!modal || !input || !results) return;
+
+    var searchData = null;
+    var loading = false;
+
+    function loadData(cb) {
+      if (searchData) { cb(searchData); return; }
+      if (loading) return;
+      loading = true;
+      fetch('/search.json', { cache: 'default' })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (data) {
+          searchData = Array.isArray(data) ? data : (data.posts || data);
+          loading = false;
+          cb(searchData);
+        })
+        .catch(function () { loading = false; });
+    }
+
+    function openModal() {
+      modal.removeAttribute('hidden');
+      input.value = '';
+      results.innerHTML = '';
+      results.classList.remove('has-query');
+      setTimeout(function () { input.focus(); }, 50);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+    }
+
+    function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    function highlight(text, keywords) {
+      if (!text || !keywords.length) return text || '';
+      var re = new RegExp('(' + keywords.map(escapeRe).join('|') + ')', 'gi');
+      return text.replace(re, '<mark>$1</mark>');
+    }
+
+    function stripHtml(html) {
+      return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    function search(query) {
+      results.classList.toggle('has-query', query.length > 0);
+      if (!query || query.length < 2) { results.innerHTML = ''; return; }
+
+      loadData(function (data) {
+        var keywords = query.toLowerCase().split(/\s+/).filter(Boolean);
+        var matches = [];
+
+        data.forEach(function (post) {
+          var title = (post.title || '').toLowerCase();
+          var content = stripHtml(post.content || '').toLowerCase();
+          var score = 0;
+          keywords.forEach(function (kw) {
+            if (title.indexOf(kw) !== -1) score += 10;
+            if (content.indexOf(kw) !== -1) score += 1;
+          });
+          if (score > 0) matches.push({ post: post, score: score, content: stripHtml(post.content || '') });
+        });
+
+        matches.sort(function (a, b) { return b.score - a.score; });
+
+        if (!matches.length) { results.innerHTML = ''; return; }
+
+        var html = matches.slice(0, 10).map(function (m) {
+          var p = m.post;
+          // 找到关键词附近的片段
+          var snippet = '';
+          var lowerContent = m.content.toLowerCase();
+          for (var i = 0; i < keywords.length; i++) {
+            var idx = lowerContent.indexOf(keywords[i]);
+            if (idx !== -1) {
+              var start = Math.max(0, idx - 30);
+              var end = Math.min(m.content.length, idx + 80);
+              snippet = (start > 0 ? '…' : '') + m.content.slice(start, end) + (end < m.content.length ? '…' : '');
+              break;
+            }
+          }
+          if (!snippet) snippet = m.content.slice(0, 100) + '…';
+
+          return '<a class="search-item" href="' + (p.url || p.path || '/') + '">' +
+            '<div class="search-item-title">' + highlight(p.title || '', keywords) + '</div>' +
+            '<div class="search-item-snippet">' + highlight(snippet, keywords) + '</div>' +
+          '</a>';
+        }).join('');
+
+        results.innerHTML = html;
+      });
+    }
+
+    // 事件绑定
+    if (toggleBtn) toggleBtn.addEventListener('click', openModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    modal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeModal(); e.preventDefault(); }
+    });
+
+    input.addEventListener('input', function () {
+      search(input.value.trim());
+    });
+
+    // 全局快捷键：Ctrl+K 或 Cmd+K 打开搜索
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (modal.hasAttribute('hidden')) openModal();
+        else closeModal();
+      }
+    });
+  }
+
+  // ============================================================
   // Boot
   // ============================================================
   function boot() {
@@ -180,6 +305,7 @@
     initMobileNav();
     initToc();
     initCopyButtons();
+    initSearch();
   }
 
   if (document.readyState === 'loading') {
