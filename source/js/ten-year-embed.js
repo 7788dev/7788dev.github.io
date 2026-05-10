@@ -62,6 +62,10 @@
   // 移动端不显示（屏幕宽度 < 768px）
   if (window.innerWidth < 768) return;
 
+  // 只在首页显示
+  var pathname = location.pathname.replace(/index\.html$/, '');
+  if (pathname !== '/' && !/^\/page\/\d+\/?$/.test(pathname)) return;
+
   // 位置 → CSS 偏移
   var POS_MAP = {
     'bottom-right': { bottom: CFG.offsetY, right: CFG.offsetX },
