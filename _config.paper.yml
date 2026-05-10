@@ -1,0 +1,106 @@
+# ---------------------------------------------------------------
+# Paper 主题 · 站点级覆盖
+# ---------------------------------------------------------------
+
+author:
+  name: Looks
+  bio: 属于我的思考
+  avatar: /img/avatar.svg
+
+# 主色
+accent_light: "#343f60"
+accent_dark:  "#a0c4ff"
+
+# 导航
+menu:
+  - { name: "文章",    link: "/archives/" }
+  - { name: "分类",    link: "/categories/" }
+  - { name: "标签",    link: "/tags/" }
+  - { name: "音乐",    link: "/music/" }
+  - { name: "健身",    link: "/fitness/" }
+  - { name: "关于",    link: "/about/" }
+
+# 社交链接
+social:
+  - { name: "GitHub", icon: "github", link: "https://github.com/7788dev" }
+  - { name: "RSS",    icon: "rss",    link: "/atom.xml" }
+
+# 首页 Hero
+hero:
+  title: "Looks Blog"
+  description: |
+    属于我的思考空间。
+    写代码，也写代码背后的权衡与取舍；读书、读源码，遇到值得记下的细节就整理成文。
+
+home:
+  recent_count: 5
+  featured_tag: featured
+
+post:
+  toc: true
+  comments: true
+  prev_next: true
+  date_format: "LL"
+
+giscus:
+  enable: true
+  repo: "7788dev/7788dev.github.io"
+  repo_id: "R_kgDOSW0JcQ"
+  category: "Announcements"
+  category_id: "DIC_kwDOSW0Jcc4C8mHQ"
+  mapping: "pathname"
+  strict: "0"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: "top"
+  lang: "zh-CN"
+  loading: "lazy"
+  theme_light: "light"
+  theme_dark:  "dark_dimmed"
+
+footer:
+  copyright_start: 2026
+  uptime_since: "2026-05-08T00:00:00+08:00"
+  statistics: true
+
+# SEO 兜底图（文章可以在 front-matter 里用 og_img 覆盖，og-image-fix.js 会处理）
+og_image: /img/og-cover.svg
+canonical: true
+
+# 额外脚本（保留原站自有功能）
+# - site-uptime.js         页脚运行时长
+# - spring-festival-lanterns.js  春节窗口期灯笼
+# - ten-year-embed.js      十年留言墙小组件
+custom_js:
+  - /js/site-uptime.js
+  - /js/spring-festival-lanterns.js
+  - /js/ten-year-embed.js
+
+# 额外 CSS：若需追加任何站点级自定义样式，放这里
+custom_css: []
+
+# 直接往 <head> 末尾注入 HTML（preconnect、fonts 等）
+custom_head: |
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        crossorigin>
+  <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Looks Blog",
+    "alternateName": "Looks",
+    "url": "https://7788dev.github.io",
+    "description": "Looks 的个人博客，记录技术探索、编程实践与日常思考。",
+    "author": {
+      "@type": "Person",
+      "name": "Looks",
+      "url": "https://7788dev.github.io/about/"
+    }
+  }
+  </script>

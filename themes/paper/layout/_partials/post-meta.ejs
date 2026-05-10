@@ -1,0 +1,24 @@
+<%
+  const p = locals.post || page;
+  const dateFormat = (theme.post && theme.post.date_format) || 'LL';
+  function wc(str) { return (str || '').replace(/<[^>]+>/g, '').replace(/\s+/g, '').length; }
+  const wordCount = wc(p.content || '');
+  const minutes = Math.max(1, Math.round(wordCount / 275));
+%>
+<div class="post-meta">
+  <time datetime="<%= date_xml(p.date) %>"><%= date(p.date, dateFormat) %></time>
+  <% if (wordCount > 0) { %>
+    <span class="dot">·</span>
+    <span><%= wordCount %> 字</span>
+    <span class="dot">·</span>
+    <span><%= minutes %> 分钟</span>
+  <% } %>
+  <% if (p.categories && p.categories.length) { %>
+    <span class="dot">·</span>
+    <span class="post-cats">
+      <% p.categories.each(function(cat) { %>
+        <a href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+      <% }); %>
+    </span>
+  <% } %>
+</div>

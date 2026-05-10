@@ -59,6 +59,9 @@
     if (until && Date.now() < until) return;
   } catch (e) { /* ignore */ }
 
+  // 移动端不显示（屏幕宽度 < 768px）
+  if (window.innerWidth < 768) return;
+
   // 位置 → CSS 偏移
   var POS_MAP = {
     'bottom-right': { bottom: CFG.offsetY, right: CFG.offsetX },

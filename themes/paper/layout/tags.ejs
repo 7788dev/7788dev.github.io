@@ -1,0 +1,20 @@
+<%
+  const tags = site.tags.sort('name').toArray();
+%>
+<section class="container taxonomy">
+  <h1 class="section-title">Tags</h1>
+  <% if (!tags.length) { %>
+    <p class="muted">暂无标签</p>
+  <% } else { %>
+    <ul class="taxonomy-list tags">
+      <% tags.forEach(function(t) { %>
+        <li>
+          <a href="<%- url_for(t.path) %>">
+            <span class="tx-name">#<%= t.name %></span>
+            <span class="tx-count"><%= t.length %></span>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>

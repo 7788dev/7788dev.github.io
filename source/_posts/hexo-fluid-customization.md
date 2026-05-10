@@ -15,6 +15,10 @@ og_img: /img/og/hexo-fluid-customization.svg
 index_img: /img/og/hexo-fluid-customization.svg
 ---
 
+> **⚠️ 更新提示（2026-05-11）**
+>
+> 本站已从 Fluid 主题迁移到自制的 **Paper** 主题（灵感来自 Astro Paper，极简风格）。下面的内容记录的是 Fluid 时期的魔改过程，部分功能（Bing 壁纸 Banner、金山词霸打字机、3D 磁性倾斜特效）已随主题切换而退役。音乐墙、健身打卡、春节灯笼、十年留言墙等功能仍然保留。如果你用的是 Fluid 主题，本文依然适用。
+
 > 如果你刚看完上一篇[《用 Hexo 搭建属于自己的 Blog》](/2026/05/10/build-blog-with-hexo/)，那你现在有一个能跑起来的博客。
 >
 > 这篇继续往下，讲我这个站后来加的那些东西——**美化、Bing 壁纸、音乐墙、春节灯笼、健身打卡**。每一块都尽量做到"复制三个文件就能用"。

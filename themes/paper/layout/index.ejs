@@ -1,0 +1,72 @@
+<%
+  const hero = theme.hero || {};
+  const recentCount = (theme.home && theme.home.recent_count) || 5;
+  const featuredTag = (theme.home && theme.home.featured_tag) || 'featured';
+
+  const allPosts = site.posts.sort('-date').toArray();
+  const featured = allPosts.filter(function(p) {
+    return p.tags && p.tags.toArray().some(function(t) { return t.name === featuredTag; });
+  });
+  const recent = allPosts.slice(0, recentCount);
+
+  const isFirstPage = (page.current || 1) === 1;
+  const posts = page.posts.toArray();
+%>
+
+<% if (isFirstPage) { %>
+  <section class="hero container">
+    <h1 class="hero-title"><%= hero.title || config.title %></h1>
+    <div class="hero-desc">
+      <% if (hero.description) { %>
+        <p><%- hero.description.replace(/\n/g, '<br>') %></p>
+      <% } else if (config.description) { %>
+        <p><%= config.description %></p>
+      <% } %>
+    </div>
+
+    <% if (theme.social && theme.social.length) { %>
+      <div class="hero-social">
+        <span class="label">Social Links:</span>
+        <% theme.social.forEach(function(s) { %>
+          <a class="social-link" href="<%- s.link %>" title="<%= s.name %>" aria-label="<%= s.name %>"
+             <% if (!/^mailto:/.test(s.link)) { %>target="_blank" rel="noopener noreferrer"<% } %>>
+            <%- partial('_partials/icon', { name: s.icon }) %>
+          </a>
+        <% }); %>
+      </div>
+    <% } %>
+  </section>
+
+  <% if (featured.length) { %>
+    <section class="section container">
+      <h2 class="section-title">Featured</h2>
+      <ul class="post-list">
+        <% featured.slice(0, 3).forEach(function(p) { %>
+          <%- partial('_partials/post-card', { post: p }) %>
+        <% }); %>
+      </ul>
+    </section>
+  <% } %>
+
+  <section class="section container">
+    <div class="section-head">
+      <h2 class="section-title">Recent Posts</h2>
+      <a class="section-more" href="<%- url_for('/archives/') %>">All Posts →</a>
+    </div>
+    <ul class="post-list">
+      <% recent.forEach(function(p) { %>
+        <%- partial('_partials/post-card', { post: p }) %>
+      <% }); %>
+    </ul>
+  </section>
+<% } else { %>
+  <section class="section container">
+    <h1 class="section-title">Page <%= page.current %></h1>
+    <ul class="post-list">
+      <% posts.forEach(function(p) { %>
+        <%- partial('_partials/post-card', { post: p }) %>
+      <% }); %>
+    </ul>
+    <%- partial('_partials/paginator') %>
+  </section>
+<% } %>

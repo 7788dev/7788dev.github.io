@@ -1,0 +1,20 @@
+<%
+  const cats = site.categories.sort('name').toArray();
+%>
+<section class="container taxonomy">
+  <h1 class="section-title">Categories</h1>
+  <% if (!cats.length) { %>
+    <p class="muted">暂无分类</p>
+  <% } else { %>
+    <ul class="taxonomy-list">
+      <% cats.forEach(function(c) { %>
+        <li>
+          <a href="<%- url_for(c.path) %>">
+            <span class="tx-name"><%= c.name %></span>
+            <span class="tx-count"><%= c.length %></span>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>

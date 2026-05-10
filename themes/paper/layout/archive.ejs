@@ -1,0 +1,39 @@
+<%
+  const posts = page.posts.toArray();
+  // 按年分组
+  const byYear = {};
+  const yearOrder = [];
+  posts.forEach(function(p) {
+    const y = p.date.format('YYYY');
+    if (!byYear[y]) { byYear[y] = []; yearOrder.push(y); }
+    byYear[y].push(p);
+  });
+
+  let pageTitle = 'Archive';
+  if (page.category) pageTitle = 'Category: ' + page.category;
+  else if (page.tag) pageTitle = 'Tag: ' + page.tag;
+  else if (page.year) pageTitle = 'Archive: ' + page.year + (page.month ? ('-' + page.month) : '');
+%>
+
+<section class="container archive">
+  <header class="archive-head">
+    <h1 class="section-title"><%= pageTitle %></h1>
+    <p class="muted"><%= posts.length %> post<%= posts.length === 1 ? '' : 's' %></p>
+  </header>
+
+  <% yearOrder.forEach(function(year) { %>
+    <section class="archive-year">
+      <h2 class="archive-year-title"><%= year %></h2>
+      <ul class="archive-list">
+        <% byYear[year].forEach(function(p) { %>
+          <li class="archive-item">
+            <time class="archive-date" datetime="<%= date_xml(p.date) %>"><%= date(p.date, 'MM-DD') %></time>
+            <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
+          </li>
+        <% }); %>
+      </ul>
+    </section>
+  <% }); %>
+
+  <%- partial('_partials/paginator') %>
+</section>

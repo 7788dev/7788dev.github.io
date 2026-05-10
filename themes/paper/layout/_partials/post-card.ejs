@@ -1,0 +1,18 @@
+<%
+  const p = locals.post;
+  const dateFormat = (theme.post && theme.post.date_format) || 'LL';
+  const summary = (p.description || p.excerpt || strip_html(p.content || '').slice(0, 140)).trim();
+%>
+<li class="post-card">
+  <a class="post-card-link" href="<%- url_for(p.path) %>">
+    <h3 class="post-card-title"><%= p.title %></h3>
+    <div class="post-card-meta">
+      <time datetime="<%= date_xml(p.date) %>"><%= date(p.date, dateFormat) %></time>
+      <% if (p.categories && p.categories.length) { p.categories.each(function(c) { %>
+        <span class="dot">·</span>
+        <span><%= c.name %></span>
+      <% }); } %>
+    </div>
+    <p class="post-card-desc"><%= summary %></p>
+  </a>
+</li>

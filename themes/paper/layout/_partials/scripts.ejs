@@ -1,0 +1,12 @@
+<%
+  const footer = theme.footer || {};
+%>
+<script src="<%- url_for('/js/paper.js') %>" defer></script>
+
+<% if (footer.statistics) { %>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<% } %>
+
+<% (theme.custom_js || []).forEach(function(src) { %>
+  <script src="<%- url_for(src) %>" defer></script>
+<% }); %>

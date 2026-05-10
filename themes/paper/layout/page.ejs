@@ -1,0 +1,27 @@
+<article class="post container page">
+  <header class="post-header">
+    <h1 class="post-title"><%= page.title %></h1>
+    <% if (page.description) { %><p class="post-desc"><%= page.description %></p><% } %>
+  </header>
+  <div class="post-body markdown-body">
+    <%- page.content %>
+  </div>
+</article>
+
+<% if (page.comments !== false && theme.post && theme.post.comments && theme.giscus && theme.giscus.enable) { %>
+  <section class="container comments">
+    <h2 class="section-title">Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="<%= theme.giscus.repo %>"
+      data-repo-id="<%= theme.giscus.repo_id %>"
+      data-category="<%= theme.giscus.category %>"
+      data-category-id="<%= theme.giscus.category_id %>"
+      data-mapping="<%= theme.giscus.mapping || 'pathname' %>"
+      data-theme="preferred_color_scheme"
+      data-lang="<%= theme.giscus.lang || 'zh-CN' %>"
+      data-loading="<%= theme.giscus.loading || 'lazy' %>"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </section>
+<% } %>

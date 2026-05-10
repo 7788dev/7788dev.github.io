@@ -1,0 +1,17 @@
+<%
+  const author = theme.author || {};
+%>
+<article class="post container page about">
+  <header class="about-header">
+    <% if (author.avatar) { %>
+      <img class="about-avatar" src="<%- url_for(author.avatar) %>" alt="<%= author.name %>">
+    <% } %>
+    <div class="about-heading">
+      <h1 class="post-title"><%= page.title || 'About' %></h1>
+      <% if (author.bio) { %><p class="about-bio"><%= author.bio %></p><% } %>
+    </div>
+  </header>
+  <div class="post-body markdown-body">
+    <%- page.content %>
+  </div>
+</article>

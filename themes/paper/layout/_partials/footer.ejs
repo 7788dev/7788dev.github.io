@@ -1,0 +1,44 @@
+<%
+  const footer = theme.footer || {};
+  const year   = new Date().getFullYear();
+  const startYear = footer.copyright_start || year;
+  const author = (theme.author && theme.author.name) || config.author || 'Author';
+  const social = theme.social || [];
+%>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <span>
+        © <%= startYear === year ? year : (startYear + '–' + year) %> <%= author %>.
+      </span>
+      <% if (footer.uptime_since) { %>
+        <span class="uptime"
+              id="site-uptime"
+              data-since="<%= footer.uptime_since %>"
+              aria-label="本站已运行">—</span>
+      <% } %>
+      <% if (footer.statistics) { %>
+        <span class="site-stats">
+          <span id="busuanzi_container_site_pv" hidden>
+            PV <span id="busuanzi_value_site_pv"></span>
+          </span>
+          <span id="busuanzi_container_site_uv" hidden>
+            · UV <span id="busuanzi_value_site_uv"></span>
+          </span>
+        </span>
+      <% } %>
+    </div>
+
+    <div class="footer-right">
+      <% social.forEach(function(s) { %>
+        <a class="social-link"
+           href="<%- s.link %>"
+           title="<%= s.name %>"
+           aria-label="<%= s.name %>"
+           <% if (!/^mailto:/.test(s.link)) { %>target="_blank" rel="noopener noreferrer"<% } %>>
+          <%- partial('icon', { name: s.icon }) %>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</footer>

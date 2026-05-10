@@ -1,0 +1,92 @@
+# ==============================================================
+# Paper · a minimal Hexo theme inspired by Astro Paper
+# ==============================================================
+# 所有字段都可以被站点根目录的 _config.paper.yml 覆盖
+# ==============================================================
+
+# 作者信息
+author:
+  name: Looks
+  bio: 属于我的思考
+  avatar: /img/avatar.svg
+
+# 主题色（accent）
+# Paper 主题整体是单色 + 一个重点色。建议用深靛或墨绿这类沉稳色。
+accent_light: "#343f60"
+accent_dark:  "#a0c4ff"
+
+# 导航栏
+menu:
+  - { name: "Posts",      link: "/archives/" }
+  - { name: "Tags",       link: "/tags/" }
+  - { name: "Archive",    link: "/archives/" }
+  - { name: "Music",      link: "/music/" }
+  - { name: "Fitness",    link: "/fitness/" }
+  - { name: "About",      link: "/about/" }
+
+# 社交链接（显示在首页 + 页脚）
+social:
+  - { name: "GitHub",  icon: "github",  link: "https://github.com/7788dev" }
+  - { name: "RSS",     icon: "rss",     link: "/atom.xml" }
+
+# 首页副标题（Astro Paper 的 hero description）
+hero:
+  title: "Looks Blog"
+  description: |
+    一个属于我的思考空间。写代码，也写代码背后的权衡与取舍；
+    读书、读源码，遇到值得记下的细节就整理成文。
+
+# 首页文章列表
+home:
+  recent_count: 5        # 首页 Recent Posts 显示数量
+  featured_tag: featured # 带这个 tag 的文章会进入 Featured 区
+
+# 文章页
+post:
+  toc: true              # 右侧文章目录
+  comments: true         # 是否启用评论
+  prev_next: true        # 上一篇/下一篇
+  date_format: "LL"      # moment.js 格式
+  share: false
+
+# 归档 / 列表分页
+archive:
+  per_page: 20
+
+# 搜索（基于 hexo-generator-search 或主题自带 JSON）
+search:
+  enable: false
+
+# 评论（giscus）
+giscus:
+  enable: true
+  repo: "7788dev/7788dev.github.io"
+  repo_id: "R_kgDOSW0JcQ"
+  category: "Announcements"
+  category_id: "DIC_kwDOSW0Jcc4C8mHQ"
+  mapping: "pathname"
+  strict: "0"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: "top"
+  lang: "zh-CN"
+  loading: "lazy"
+  theme_light: "light"
+  theme_dark:  "dark_dimmed"
+
+# 页脚
+footer:
+  copyright_start: 2026
+  uptime_since: "2026-05-08T00:00:00+08:00"  # 站点上线时间
+  statistics: true                            # 不蒜子 PV/UV
+
+# 注入自定义 <head> 内容（原样输出）
+custom_head: ""
+
+# 额外的 CSS/JS（以 /开头的站内绝对路径，或完整 URL）
+custom_css: []
+custom_js: []
+
+# SEO
+canonical: true
+og_image: /img/og-cover.svg

@@ -1,0 +1,85 @@
+<%
+  const postCfg  = theme.post || {};
+  const enableTOC   = postCfg.toc !== false;
+  const enableCmts  = postCfg.comments !== false && page.comments !== false;
+  const enablePrevNext = postCfg.prev_next !== false;
+  const tocHtml = enableTOC ? toc(page.content, { list_number: false, max_depth: 3 }) : '';
+%>
+
+<article class="post container">
+  <header class="post-header">
+    <% if (page.categories && page.categories.length) { %>
+      <div class="post-breadcrumb">
+        <% page.categories.each(function(c) { %>
+          <a href="<%- url_for(c.path) %>"><%= c.name %></a>
+        <% }); %>
+      </div>
+    <% } %>
+    <h1 class="post-title"><%= page.title %></h1>
+    <% if (page.description) { %>
+      <p class="post-desc"><%= page.description %></p>
+    <% } %>
+    <%- partial('_partials/post-meta', { post: page }) %>
+  </header>
+
+  <div class="post-body-wrap">
+    <% if (enableTOC && tocHtml) { %>
+      <aside class="post-toc">
+        <div class="toc-title">目录</div>
+        <%- tocHtml %>
+      </aside>
+    <% } %>
+
+    <div class="post-body markdown-body">
+      <%- page.content %>
+    </div>
+  </div>
+
+  <% if (page.tags && page.tags.length) { %>
+    <div class="post-tags">
+      <% page.tags.each(function(t) { %>
+        <a href="<%- url_for(t.path) %>" class="tag">#<%= t.name %></a>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <% if (enablePrevNext && (page.prev || page.next)) { %>
+    <nav class="post-nav" aria-label="上下篇">
+      <% if (page.prev) { %>
+        <a class="post-nav-link post-nav-prev" href="<%- url_for(page.prev.path) %>">
+          <span class="label">← 上一篇</span>
+          <span class="title"><%= page.prev.title %></span>
+        </a>
+      <% } else { %><span></span><% } %>
+
+      <% if (page.next) { %>
+        <a class="post-nav-link post-nav-next" href="<%- url_for(page.next.path) %>">
+          <span class="label">下一篇 →</span>
+          <span class="title"><%= page.next.title %></span>
+        </a>
+      <% } else { %><span></span><% } %>
+    </nav>
+  <% } %>
+</article>
+
+<% if (enableCmts && theme.giscus && theme.giscus.enable) { %>
+  <section class="container comments">
+    <h2 class="section-title">Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="<%= theme.giscus.repo %>"
+      data-repo-id="<%= theme.giscus.repo_id %>"
+      data-category="<%= theme.giscus.category %>"
+      data-category-id="<%= theme.giscus.category_id %>"
+      data-mapping="<%= theme.giscus.mapping || 'pathname' %>"
+      data-strict="<%= theme.giscus.strict || '0' %>"
+      data-reactions-enabled="<%= theme.giscus.reactions_enabled || '1' %>"
+      data-emit-metadata="<%= theme.giscus.emit_metadata || '0' %>"
+      data-input-position="<%= theme.giscus.input_position || 'top' %>"
+      data-theme="preferred_color_scheme"
+      data-lang="<%= theme.giscus.lang || 'zh-CN' %>"
+      data-loading="<%= theme.giscus.loading || 'lazy' %>"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </section>
+<% } %>

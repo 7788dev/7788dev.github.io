@@ -1,0 +1,17 @@
+<% if (page.total > 1) { %>
+<nav class="paginator" aria-label="分页">
+  <% if (page.prev) { %>
+    <a class="pg-btn" rel="prev" href="<%- url_for(page.prev_link) %>">← Prev</a>
+  <% } else { %>
+    <span class="pg-btn is-disabled">← Prev</span>
+  <% } %>
+
+  <span class="pg-info"><%= page.current %> / <%= page.total %></span>
+
+  <% if (page.next) { %>
+    <a class="pg-btn" rel="next" href="<%- url_for(page.next_link) %>">Next →</a>
+  <% } else { %>
+    <span class="pg-btn is-disabled">Next →</span>
+  <% } %>
+</nav>
+<% } %>

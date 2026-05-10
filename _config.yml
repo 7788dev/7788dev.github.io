@@ -91,12 +91,16 @@ pagination_dir: page
 ## include:/exclude: options only apply to the 'source/' folder
 include:
 exclude:
+  - "js/bing-banner.js"
+  - "js/iciba-slogan.js"
+  - "js/premium-effects.js"
+  - "css/custom.css"
 ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid
+theme: paper
 
 # ------------------------------------------------------------------
 # SEO 相关

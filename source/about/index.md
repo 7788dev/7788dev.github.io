@@ -31,10 +31,10 @@ date: 2026-05-08 20:13:33
 
 | | |
 | --- | --- |
-| 主题 | [Fluid](https://github.com/fluid-dev/hexo-theme-fluid) |
+| 主题 | Paper（自制，灵感来自 [Astro Paper](https://github.com/satnaing/astro-paper)） |
 | 框架 | [Hexo](https://hexo.io/) |
 | 托管 | GitHub Pages |
-| 字体 | 系统默认无衬线 |
+| 字体 | Inter / IBM Plex Serif / JetBrains Mono |
 | 更新频率 | 随缘，但尽量保持 |
 
 ---
