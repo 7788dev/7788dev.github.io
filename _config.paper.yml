@@ -83,11 +83,11 @@ custom_css: []
 custom_head: |
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
   <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"
-        crossorigin>
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"
+        media="print" onload="this.media='all'" crossorigin>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"></noscript>
   <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
   <script type="application/ld+json">
   {

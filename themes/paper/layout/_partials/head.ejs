@@ -71,9 +71,17 @@
     <link rel="alternate" type="application/atom+xml" title="<%= siteCfg.title %>" href="/<%= siteCfg.feed.path %>">
   <% } %>
 
-  <!-- 主题 CSS -->
+  <!-- 主题 CSS（关键路径，preload 加速） -->
+  <link rel="preload" href="<%- url_for('/css/paper.css') %>" as="style">
   <link rel="stylesheet" href="<%- url_for('/css/paper.css') %>">
-  <link rel="stylesheet" href="<%- url_for('/css/paper-widgets.css') %>">
+
+  <!-- 组件 CSS：仅在音乐/健身页加载 -->
+  <%
+    const needWidgets = /^\/?(?:music|fitness)\//.test(page.path || '');
+  %>
+  <% if (needWidgets) { %>
+    <link rel="stylesheet" href="<%- url_for('/css/paper-widgets.css') %>">
+  <% } %>
 
   <!-- 额外 CSS（主题 config） -->
   <% (themeCfg.custom_css || []).forEach(function(href) { %>

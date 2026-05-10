@@ -20,8 +20,7 @@
                "Segoe UI", "PingFang SC", "Hiragino Sans GB",
                "Microsoft YaHei UI", "Microsoft YaHei",
                "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-serif: "IBM Plex Serif", "Noto Serif SC", Georgia,
-                "Times New Roman", serif;
+  --font-serif: Georgia, "Noto Serif SC", "Times New Roman", serif;
   --font-mono: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas,
                "Liberation Mono", monospace;
 
@@ -246,7 +245,7 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
 .section-more:hover { color: var(--accent); text-decoration: none; }
 
 .post-list { list-style: none; margin: 0; padding: 0; }
-.post-card { padding: 1.25rem 0; border-bottom: 1px dashed var(--border); }
+.post-card { padding: 1.25rem 0; border-bottom: 1px dashed var(--border); content-visibility: auto; contain-intrinsic-size: auto 140px; }
 .post-card:last-child { border-bottom: 0; }
 .post-card-link { display: block; color: inherit; }
 .post-card-link:hover { text-decoration: none; }
@@ -529,6 +528,8 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   display: flex; align-items: baseline; gap: 1rem;
   padding: .65rem 0;
   border-bottom: 1px dashed var(--border);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 44px;
 }
 .archive-item:last-child { border-bottom: 0; }
 .archive-date {
