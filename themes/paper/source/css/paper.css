@@ -61,7 +61,12 @@ html[data-theme="dark"] {
 
 /* ---------- 1. Reset & base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -74,6 +79,7 @@ body {
   font-feature-settings: "kern", "liga", "calt";
   transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
   overflow-x: hidden;
+  width: 100%;
   min-width: 0;
 }
 img, svg, video { max-width: 100%; height: auto; display: block; }
@@ -189,6 +195,13 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   }
   .mobile-nav a:hover { background: var(--bg-alt); text-decoration: none; }
   .mobile-nav li:last-child a { border-bottom: 0; }
+
+  .container { padding: 0 1rem; }
+  .hero { padding: 2.5rem 1rem 2rem; }
+  .post { padding: 1.5rem 1rem 2rem; }
+  .section { padding: 1rem 1rem 2rem; }
+  .post-title { font-size: 1.5rem; }
+  .post-nav { grid-template-columns: 1fr; }
 }
 
 /* ---------- 3. Hero ---------- */
@@ -330,7 +343,7 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
 .post-meta .post-cats a { color: var(--fg-muted); }
 .post-meta .post-cats a:hover { color: var(--accent); }
 
-.post-body-wrap { position: relative; min-width: 0; }
+.post-body-wrap { position: relative; min-width: 0; width: 100%; }
 
 .post-tags {
   margin: 2rem 0 0;
@@ -407,7 +420,14 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
 }
 
 /* ---------- 7. Markdown body ---------- */
-.markdown-body { font-size: 1rem; line-height: 1.8; min-width: 0; overflow-wrap: break-word; word-wrap: break-word; }
+.markdown-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
 .markdown-body h1, .markdown-body h2, .markdown-body h3,
 .markdown-body h4, .markdown-body h5, .markdown-body h6 {
   font-weight: 700; letter-spacing: -0.01em;
@@ -448,6 +468,7 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   padding: .15em .4em;
   border-radius: 4px;
   border: 1px solid var(--border);
+  word-break: break-all;
 }
 .markdown-body pre {
   margin: 1em 0;
@@ -477,23 +498,36 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   background: var(--bg-alt);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   font-size: .875rem;
   max-width: 100%;
 }
-.markdown-body figure.highlight table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.markdown-body figure.highlight td { padding: 1em 1.1em; vertical-align: top; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.markdown-body figure.highlight table {
+  width: auto;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+.markdown-body figure.highlight td {
+  padding: 1em 1.1em;
+  vertical-align: top;
+}
 .markdown-body figure.highlight td.gutter {
-  width: 40px; white-space: nowrap;
+  width: 40px;
+  white-space: nowrap;
   color: var(--fg-subtle);
   border-right: 1px solid var(--border);
-  padding-right: .75em; padding-left: 1em;
+  padding-right: .75em;
+  padding-left: 1em;
   user-select: none;
-  overflow: hidden;
+  position: sticky;
+  left: 0;
+  background: var(--bg-alt);
 }
 .markdown-body figure.highlight td.code {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
 }
 .markdown-body figure.highlight pre { margin: 0; padding: 0; border: 0; background: transparent; }
 .markdown-body figure.highlight figcaption {

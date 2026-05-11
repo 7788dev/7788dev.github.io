@@ -10,13 +10,19 @@
 /* -------------------------------------------
  * 音乐墙 (music-wall.js)
  * ------------------------------------------- */
-.music-wall { margin: 1rem 0 2rem; }
+.music-wall { margin: 1rem 0 2rem; max-width: 100%; }
 .music-intro { color: var(--fg-muted); font-size: .95rem; margin-bottom: 1.5rem; }
 
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
+}
+@media (max-width: 480px) {
+  .music-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: .6rem;
+  }
 }
 .music-card {
   cursor: pointer;
@@ -88,18 +94,19 @@
   border-radius: var(--radius-lg);
   background: var(--bg-alt);
   display: flex; flex-direction: column; gap: .75rem;
+  max-width: 100%;
 }
 .music-player[hidden] { display: none; }
-.mp-top { display: flex; align-items: center; gap: 1rem; }
+.mp-top { display: flex; align-items: center; gap: .75rem; min-width: 0; }
 .mp-cover {
-  width: 56px; height: 56px;
+  width: 48px; height: 48px;
   border-radius: var(--radius);
   object-fit: cover;
   border: 1px solid var(--border);
-  flex: 0 0 auto;
+  flex: 0 0 48px;
   background: var(--bg);
 }
-.mp-info { flex: 1 1 auto; min-width: 0; }
+.mp-info { flex: 1 1 auto; min-width: 0; overflow: hidden; }
 .mp-title {
   font-weight: 600;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -164,6 +171,16 @@
 }
 .mp-progress:hover .mp-progress-thumb,
 .mp-progress:focus-visible .mp-progress-thumb { opacity: 1; }
+
+@media (max-width: 480px) {
+  .mp-top { gap: .5rem; }
+  .mp-cover { width: 40px; height: 40px; flex: 0 0 40px; }
+  .mp-controls { gap: 0; }
+  .mp-btn { width: 32px; height: 32px; }
+  .mp-btn svg { width: 16px; height: 16px; }
+  .music-player { padding: .75rem; }
+  .mp-bottom { gap: .4rem; font-size: .75rem; }
+}
 
 /* -------------------------------------------
  * 健身打卡归档
