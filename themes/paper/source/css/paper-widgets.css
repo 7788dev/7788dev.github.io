@@ -15,13 +15,19 @@
 
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .music-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
 }
 @media (max-width: 480px) {
   .music-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: .6rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .75rem;
   }
 }
 .music-card {
@@ -41,6 +47,8 @@
   border: 1px solid var(--border);
 }
 .music-cover {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform 300ms var(--ease), filter 300ms var(--ease);
