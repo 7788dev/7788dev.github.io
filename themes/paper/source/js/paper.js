@@ -10,6 +10,58 @@
 (function () {
   'use strict';
 
+  function getPreferredTheme() {
+    var cur = document.documentElement.getAttribute('data-theme');
+    if (cur) return cur;
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  }
+
+  function syncGiscusTheme() {
+    var gframe = document.querySelector('iframe.giscus-frame');
+    if (!gframe || !gframe.contentWindow) return false;
+    gframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: getPreferredTheme() === 'dark' ? 'dark_dimmed' : 'light' } } },
+      'https://giscus.app'
+    );
+    return true;
+  }
+
+  function initGiscusThemeSync() {
+    var started = false;
+    function startSyncWindow() {
+      if (started) return;
+      started = true;
+      syncGiscusTheme();
+      var count = 0;
+      var timer = window.setInterval(function () {
+        count++;
+        syncGiscusTheme();
+        if (count >= 10) window.clearInterval(timer);
+      }, 500);
+    }
+
+    if (document.querySelector('iframe.giscus-frame')) {
+      startSyncWindow();
+      return;
+    }
+    if (!('MutationObserver' in window)) {
+      window.setTimeout(startSyncWindow, 1000);
+      return;
+    }
+    var observer = new MutationObserver(function () {
+      if (document.querySelector('iframe.giscus-frame')) {
+        startSyncWindow();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(function () {
+      startSyncWindow();
+      observer.disconnect();
+    }, 5000);
+  }
+
   // ============================================================
   // 1. Theme toggle
   // ============================================================
@@ -19,22 +71,11 @@
 
     // 同步当前状态（head 的内联脚本已经处理过，这里只处理点击）
     btn.addEventListener('click', function () {
-      var cur = document.documentElement.getAttribute('data-theme');
-      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (!cur) cur = prefersDark ? 'dark' : 'light';
-
+      var cur = getPreferredTheme();
       var next = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('paper-theme', next); } catch (e) {}
-
-      // 切换 giscus iframe 主题（如果页面里有）
-      var gframe = document.querySelector('iframe.giscus-frame');
-      if (gframe && gframe.contentWindow) {
-        gframe.contentWindow.postMessage(
-          { giscus: { setConfig: { theme: next === 'dark' ? 'dark_dimmed' : 'light' } } },
-          'https://giscus.app'
-        );
-      }
+      syncGiscusTheme();
     });
   }
 
@@ -188,26 +229,30 @@
     if (!modal || !input || !results) return;
 
     var searchData = null;
-    var loading = false;
+    var searchPromise = null;
 
     function loadData(cb) {
       if (searchData) { cb(searchData); return; }
-      if (loading) return;
-      loading = true;
-      fetch('/search.json', { cache: 'default' })
+      if (!searchPromise) {
+        searchPromise = fetch('/search.json', { cache: 'default' })
         .then(function (r) { return r.ok ? r.json() : []; })
         .then(function (data) {
-          searchData = Array.isArray(data) ? data : (data.posts || data);
-          loading = false;
-          cb(searchData);
+          var list = Array.isArray(data) ? data : (data && (data.posts || data));
+          searchData = Array.isArray(list) ? list : [];
+          return searchData;
         })
-        .catch(function () { loading = false; });
+        .catch(function () {
+          searchData = [];
+          return searchData;
+        });
+      }
+      searchPromise.then(cb);
     }
 
     function openModal() {
       modal.removeAttribute('hidden');
       input.value = '';
-      results.innerHTML = '';
+      results.textContent = '';
       results.classList.remove('has-query');
       setTimeout(function () { input.focus(); }, 50);
       document.body.style.overflow = 'hidden';
@@ -220,21 +265,66 @@
 
     function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
-    function highlight(text, keywords) {
-      if (!text || !keywords.length) return text || '';
+    function appendHighlighted(parent, text, keywords) {
+      text = text || '';
+      if (!text || !keywords.length) {
+        parent.appendChild(document.createTextNode(text));
+        return;
+      }
       var re = new RegExp('(' + keywords.map(escapeRe).join('|') + ')', 'gi');
-      return text.replace(re, '<mark>$1</mark>');
+      var lastIndex = 0;
+      text.replace(re, function (match, _hit, offset) {
+        if (offset > lastIndex) {
+          parent.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
+        }
+        var mark = document.createElement('mark');
+        mark.textContent = match;
+        parent.appendChild(mark);
+        lastIndex = offset + match.length;
+        return match;
+      });
+      if (lastIndex < text.length) {
+        parent.appendChild(document.createTextNode(text.slice(lastIndex)));
+      }
     }
 
     function stripHtml(html) {
       return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     }
 
+    function safeHref(href) {
+      href = String(href || '/');
+      return /^[a-z][a-z0-9+.-]*:/i.test(href) && !/^https?:/i.test(href) ? '/' : href;
+    }
+
+    function renderMatches(matches, keywords) {
+      results.textContent = '';
+      matches.slice(0, 10).forEach(function (m) {
+        var p = m.post;
+        var item = document.createElement('a');
+        item.className = 'search-item';
+        item.href = safeHref(p.url || p.path || '/');
+
+        var title = document.createElement('div');
+        title.className = 'search-item-title';
+        appendHighlighted(title, p.title || '', keywords);
+
+        var snippet = document.createElement('div');
+        snippet.className = 'search-item-snippet';
+        appendHighlighted(snippet, m.snippet || '', keywords);
+
+        item.appendChild(title);
+        item.appendChild(snippet);
+        results.appendChild(item);
+      });
+    }
+
     function search(query) {
       results.classList.toggle('has-query', query.length > 0);
-      if (!query || query.length < 2) { results.innerHTML = ''; return; }
+      if (!query || query.length < 2) { results.textContent = ''; return; }
 
       loadData(function (data) {
+        if (input.value.trim() !== query) return;
         var keywords = query.toLowerCase().split(/\s+/).filter(Boolean);
         var matches = [];
 
@@ -251,10 +341,9 @@
 
         matches.sort(function (a, b) { return b.score - a.score; });
 
-        if (!matches.length) { results.innerHTML = ''; return; }
+        if (!matches.length) { results.textContent = ''; return; }
 
-        var html = matches.slice(0, 10).map(function (m) {
-          var p = m.post;
+        matches.slice(0, 10).forEach(function (m) {
           // 找到关键词附近的片段
           var snippet = '';
           var lowerContent = m.content.toLowerCase();
@@ -268,14 +357,10 @@
             }
           }
           if (!snippet) snippet = m.content.slice(0, 100) + '…';
+          m.snippet = snippet;
+        });
 
-          return '<a class="search-item" href="' + (p.url || p.path || '/') + '">' +
-            '<div class="search-item-title">' + highlight(p.title || '', keywords) + '</div>' +
-            '<div class="search-item-snippet">' + highlight(snippet, keywords) + '</div>' +
-          '</a>';
-        }).join('');
-
-        results.innerHTML = html;
+        renderMatches(matches, keywords);
       });
     }
 
@@ -340,6 +425,7 @@
     initToc();
     initCopyButtons();
     initSearch();
+    initGiscusThemeSync();
     initBackToTop();
   }
 

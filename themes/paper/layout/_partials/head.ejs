@@ -57,12 +57,12 @@
   <meta property="og:type" content="<%= is_post() ? 'article' : 'website' %>">
   <meta property="og:site_name" content="<%= siteCfg.title %>">
   <meta property="og:locale" content="zh_CN">
-  <meta property="og:title" content="<%= page.title || siteCfg.title %>">
+  <meta property="og:title" content="<%= seoTitle %>">
   <meta property="og:description" content="<%= desc %>">
   <meta property="og:url" content="<%= absUrl %>">
   <meta property="og:image" content="<%= ogImgAbs %>">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= page.title || siteCfg.title %>">
+  <meta name="twitter:title" content="<%= seoTitle %>">
   <meta name="twitter:description" content="<%= desc %>">
   <meta name="twitter:image" content="<%= ogImgAbs %>">
 
