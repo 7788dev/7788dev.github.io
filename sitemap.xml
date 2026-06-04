@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://7788dev.github.io/2026/05/10/build-blog-with-hexo/</loc>
+    
+    <lastmod>2026-06-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://7788dev.github.io/about/index.html</loc>
     
     <lastmod>2026-05-10</lastmod>
@@ -84,15 +93,6 @@
   
   <url>
     <loc>https://7788dev.github.io/2026/05/10/why-cant-sleep-early/</loc>
-    
-    <lastmod>2026-05-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://7788dev.github.io/2026/05/10/build-blog-with-hexo/</loc>
     
     <lastmod>2026-05-10</lastmod>
     
