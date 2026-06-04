@@ -109,7 +109,11 @@
   // 4. Code block copy button
   // ============================================================
   function initCopyButtons() {
-    var blocks = document.querySelectorAll('.markdown-body pre, .markdown-body figure.highlight');
+    var blocks = Array.prototype.slice.call(
+      document.querySelectorAll('.markdown-body figure.highlight, .markdown-body pre')
+    ).filter(function (block) {
+      return block.matches('figure.highlight') || !block.closest('figure.highlight');
+    });
     if (!blocks.length) return;
 
     blocks.forEach(function (block) {
@@ -298,6 +302,36 @@
   }
 
   // ============================================================
+  // 6. Back-to-top button
+  // ============================================================
+  function initBackToTop() {
+    var btn = document.querySelector('.back-to-top');
+    if (!btn) return;
+    btn.removeAttribute('hidden');
+
+    var threshold = 320;
+    var ticking = false;
+    function update() {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      btn.classList.toggle('is-visible', y > threshold);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+
+    update();
+  }
+
+  // ============================================================
   // Boot
   // ============================================================
   function boot() {
@@ -306,6 +340,7 @@
     initToc();
     initCopyButtons();
     initSearch();
+    initBackToTop();
   }
 
   if (document.readyState === 'loading') {

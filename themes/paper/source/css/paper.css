@@ -385,6 +385,54 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
 .post-nav-link .label { color: var(--fg-subtle); font-size: .8rem; }
 .post-nav-link .title { color: var(--fg); font-weight: 600; }
 
+/* 回到顶部按钮 */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg-muted);
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease),
+              transform var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              background-color var(--dur) var(--ease);
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.12);
+  z-index: 40;
+}
+.back-to-top[hidden] { display: none; }
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--bg-alt);
+}
+.back-to-top:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+html[data-theme="dark"] .back-to-top {
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.55);
+}
+@media (max-width: 720px) {
+  .back-to-top {
+    right: .85rem;
+    bottom: .85rem;
+  }
+}
+
 /* TOC 右侧悬浮 */
 .post-toc {
   display: none;
@@ -507,10 +555,17 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   width: auto;
   min-width: 100%;
   border-collapse: collapse;
+  display: table;
+  overflow: visible;
+  margin: 0;
 }
+.markdown-body figure.highlight tbody,
+.markdown-body figure.highlight tr { display: table-row-group; }
+.markdown-body figure.highlight tr { display: table-row; }
 .markdown-body figure.highlight td {
   padding: 1em 1.1em;
   vertical-align: top;
+  display: table-cell;
 }
 .markdown-body figure.highlight td.gutter {
   width: 40px;
@@ -528,8 +583,17 @@ html[data-theme="dark"] .theme-toggle .i-moon { display: block; }
   white-space: pre;
   word-wrap: normal;
   overflow-wrap: normal;
+  width: 100%;
+  min-width: 0;
 }
-.markdown-body figure.highlight pre { margin: 0; padding: 0; border: 0; background: transparent; }
+.markdown-body figure.highlight pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  max-width: none;
+}
 .markdown-body figure.highlight figcaption {
   padding: .5em 1em; font-size: .8rem;
   color: var(--fg-subtle);
