@@ -114,9 +114,14 @@
     if (!links.length) return;
 
     var map = {};
+    function decodeHashId(id) {
+      try { return decodeURIComponent(id); }
+      catch (e) { return id; }
+    }
+
     links.forEach(function (a) {
       var id = (a.getAttribute('href') || '').replace(/^#/, '');
-      if (id) map[decodeURIComponent(id)] = a;
+      if (id) map[decodeHashId(id)] = a;
     });
 
     var headings = [];
@@ -230,6 +235,8 @@
 
     var searchData = null;
     var searchPromise = null;
+    var inputTimer = null;
+    var previousBodyOverflow = null;
 
     function loadData(cb) {
       if (searchData) { cb(searchData); return; }
@@ -250,17 +257,27 @@
     }
 
     function openModal() {
+      var wasHidden = modal.hasAttribute('hidden');
       modal.removeAttribute('hidden');
       input.value = '';
       results.textContent = '';
       results.classList.remove('has-query');
       setTimeout(function () { input.focus(); }, 50);
-      document.body.style.overflow = 'hidden';
+      if (wasHidden) {
+        previousBodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     function closeModal() {
+      if (modal.hasAttribute('hidden')) return;
+      if (inputTimer) {
+        clearTimeout(inputTimer);
+        inputTimer = null;
+      }
       modal.setAttribute('hidden', '');
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousBodyOverflow || '';
+      previousBodyOverflow = null;
     }
 
     function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
@@ -320,7 +337,7 @@
     }
 
     function search(query) {
-      results.classList.toggle('has-query', query.length > 0);
+      results.classList.toggle('has-query', query.length >= 2);
       if (!query || query.length < 2) { results.textContent = ''; return; }
 
       loadData(function (data) {
@@ -373,7 +390,11 @@
     });
 
     input.addEventListener('input', function () {
-      search(input.value.trim());
+      if (inputTimer) clearTimeout(inputTimer);
+      inputTimer = setTimeout(function () {
+        inputTimer = null;
+        search(input.value.trim());
+      }, 120);
     });
 
     // 全局快捷键：Ctrl+K 或 Cmd+K 打开搜索

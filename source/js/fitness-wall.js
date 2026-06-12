@@ -25,6 +25,7 @@
   var $summary = ROOT.querySelector('[data-fit-summary]');
   var $tabs = ROOT.querySelector('[data-fit-tabs]');
   var $list = ROOT.querySelector('[data-fit-list]');
+  if (!$summary || !$tabs || !$list) return;
 
   var STATE = {
     byYear: {},   // { '2026': [...], '2025': [...] }
@@ -146,7 +147,10 @@
     renderYear(year);
     // 滚动到列表顶部，避免切年后用户困惑
     var top = ROOT.getBoundingClientRect().top + window.pageYOffset - 80;
-    if (window.pageYOffset > top + 10) window.scrollTo({ top: top, behavior: 'smooth' });
+    if (window.pageYOffset > top + 10) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+    }
   }
 
   function bind() {
@@ -159,8 +163,7 @@
   }
 
   function load() {
-    var url = API + (API.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
-    fetch(url, { credentials: 'omit' })
+    fetch(API, { credentials: 'omit', cache: 'default' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
@@ -170,6 +173,9 @@
         renderSummary(items);
 
         // 按年分桶
+        STATE.byYear = {};
+        STATE.years = [];
+        STATE.active = null;
         items.forEach(function (it) {
           var y = it.date.slice(0, 4);
           if (!STATE.byYear[y]) STATE.byYear[y] = [];

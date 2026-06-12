@@ -30,6 +30,14 @@ function absolutize(siteUrl, p) {
   }
 }
 
+function escapeAttr(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 // 匹配任意属性值：带双/单引号或无引号，返回捕获组
 const ATTR_VALUE = '(?:"([^"]*)"|\'([^\']*)\'|([^\\s>]+))';
 
@@ -53,7 +61,7 @@ function replaceMetaContent(html, propAttr, propValue, newContent) {
     'gi'
   );
 
-  const replaced = '<meta ' + propAttr + '="' + propValue + '" content="' + newContent + '">';
+  const replaced = '<meta ' + propAttr + '="' + propValue + '" content="' + escapeAttr(newContent) + '">';
   return html.replace(reForward, replaced).replace(reBackward, replaced);
 }
 

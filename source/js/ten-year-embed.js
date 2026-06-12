@@ -41,14 +41,32 @@
     return (v === null || v === '') ? fallback : v;
   }
 
+  function intAttr(name, fallback, min) {
+    var n = parseInt(attr(name, String(fallback)), 10);
+    if (isNaN(n)) n = fallback;
+    if (typeof min === 'number' && n < min) n = min;
+    return n;
+  }
+
+  function safeUrl(url, fallback) {
+    url = String(url || '');
+    if (!url) return fallback;
+    try {
+      var parsed = new URL(url, window.location.href);
+      return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? parsed.href : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
   var CFG = {
     dataUrl: attr('data', 'https://7788dev.github.io/api/ten-year-messages.json'),
-    targetLink: attr('link', 'https://778801.xyz/'),
+    targetLink: safeUrl(attr('link', 'https://778801.xyz/'), 'https://778801.xyz/'),
     position: (attr('position', 'bottom-right') || 'bottom-right').toLowerCase(),
     offsetX: attr('offset-x', '20px'),
     offsetY: attr('offset-y', '80px'),
-    rotateMs: Math.max(2000, parseInt(attr('rotate', '8000'), 10) || 8000),
-    hideDays: Math.max(0, parseInt(attr('hide-days', '7'), 10) || 7),
+    rotateMs: intAttr('rotate', 8000, 2000),
+    hideDays: intAttr('hide-days', 7, 0),
     title: attr('title', '写给十年后的自己'),
     storageKey: 'ty-embed-hide-until',
   };
@@ -150,8 +168,13 @@
     return d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
   }
 
-  function escapeAttr(v) {
-    return String(v == null ? '' : v).replace(/"/g, '&quot;');
+  function escapeHtml(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   // ---- 构建 DOM ----
@@ -167,7 +190,7 @@
     el.innerHTML =
       '<div class="ty-embed-head">' +
         '<span class="ty-embed-badge">十年留言</span>' +
-        '<div class="ty-embed-title">' + escapeAttr(CFG.title) + '</div>' +
+        '<div class="ty-embed-title">' + escapeHtml(CFG.title) + '</div>' +
         '<button type="button" class="ty-embed-close" aria-label="关闭">' +
           '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z" fill="currentColor"/></svg>' +
         '</button>' +
@@ -181,7 +204,7 @@
         '</div>' +
       '</div>' +
       '<div class="ty-embed-foot">' +
-        '<a class="ty-embed-cta" data-role="cta" href="' + escapeAttr(CFG.targetLink) + '" target="_blank" rel="noopener noreferrer">去留下你的十年 →</a>' +
+        '<a class="ty-embed-cta" data-role="cta" href="' + escapeHtml(CFG.targetLink) + '" target="_blank" rel="noopener noreferrer">去留下你的十年 →</a>' +
         '<span class="ty-embed-dots" data-role="dots" aria-hidden="true"></span>' +
       '</div>';
     return el;
@@ -248,11 +271,20 @@
   function start() {
     var widget = buildWidget();
     (document.body || document.documentElement).appendChild(widget);
+    var destroyed = false;
+    var rotateTimer = null;
+    var abortController = (typeof AbortController === 'function') ? new AbortController() : null;
 
     // 入场动画（下一帧）
     requestAnimationFrame(function () { widget.classList.add('is-in'); });
 
     widget.querySelector('.ty-embed-close').addEventListener('click', function () {
+      destroyed = true;
+      if (rotateTimer) {
+        clearInterval(rotateTimer);
+        rotateTimer = null;
+      }
+      if (abortController) abortController.abort();
       widget.classList.remove('is-in');
       setTimeout(function () {
         widget.parentNode && widget.parentNode.removeChild(widget);
@@ -260,14 +292,17 @@
       hideForDays(CFG.hideDays);
     });
 
-    var rotateTimer = null;
     var paused = false;
     widget.addEventListener('mouseenter', function () { paused = true; });
     widget.addEventListener('mouseleave', function () { paused = false; });
 
-    fetch(CFG.dataUrl, { cache: 'default' })
+    fetch(CFG.dataUrl, {
+      cache: 'default',
+      signal: abortController ? abortController.signal : undefined
+    })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
+        if (destroyed) return;
         var list = (data && Array.isArray(data.messages)) ? data.messages : [];
         if (!list.length) {
           renderMessage(widget, null);
@@ -286,15 +321,18 @@
         };
         advance();
         rotateTimer = setInterval(function () {
+          if (destroyed) return;
           if (paused || document.hidden) return;
           widget.classList.add('is-switching');
           setTimeout(function () {
+            if (destroyed) return;
             advance();
             widget.classList.remove('is-switching');
           }, 200);
         }, CFG.rotateMs);
       })
       .catch(function () {
+        if (destroyed) return;
         renderMessage(widget, null);
       });
   }

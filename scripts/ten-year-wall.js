@@ -56,19 +56,41 @@ async function fetchWithTimeout(url) {
 }
 
 /** 粗糙但够用的 HTML → 纯文本：保留换行，去除标签与多余空白。 */
+function decodeEntity(entity) {
+  const named = {
+    '&nbsp;': ' ',
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&apos;': "'",
+  };
+  if (named[entity]) return named[entity];
+  const dec = entity.match(/^&#(\d+);$/);
+  if (dec) {
+    const cp = Number(dec[1]);
+    return Number.isFinite(cp) && cp >= 0 && cp <= 0x10ffff
+      ? String.fromCodePoint(cp)
+      : '';
+  }
+  const hex = entity.match(/^&#x([0-9a-f]+);$/i);
+  if (hex) {
+    const cp = parseInt(hex[1], 16);
+    return Number.isFinite(cp) && cp >= 0 && cp <= 0x10ffff
+      ? String.fromCodePoint(cp)
+      : '';
+  }
+  return entity;
+}
+
 function htmlToText(html) {
   if (!html || typeof html !== 'string') return '';
   return html
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/p>\s*<p[^>]*>/gi, '\n\n')
     .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&(?:nbsp|amp|lt|gt|quot|apos|#39);|&#\d+;|&#x[0-9a-f]+;/gi, decodeEntity)
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }

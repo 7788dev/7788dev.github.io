@@ -24,11 +24,14 @@
   // 首页、归档 index 这类使用 "index.html" 结尾的 path 清理掉
   canonicalPath = canonicalPath.replace(/index\.html$/, '');
   if (canonicalPath.charAt(0) !== '/') canonicalPath = '/' + canonicalPath;
-  const absUrl = (siteCfg.url || '').replace(/\/$/, '') + canonicalPath;
+  const siteUrl = (siteCfg.url || '').replace(/\/$/, '');
+  const absUrl = siteUrl + canonicalPath;
 
   // ---- OG Image ----
   const ogImg = page.og_img || page.index_img || themeCfg.og_image || '/img/og-cover.svg';
-  const ogImgAbs = /^https?:/i.test(ogImg) ? ogImg : (siteCfg.url || '').replace(/\/$/, '') + ogImg;
+  const ogImgAbs = /^https?:/i.test(ogImg)
+    ? ogImg
+    : siteUrl + (String(ogImg).charAt(0) === '/' ? ogImg : '/' + ogImg);
 
   // ---- Accent 颜色 ----
   const accentLight = themeCfg.accent_light || '#343f60';

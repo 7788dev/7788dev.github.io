@@ -31,6 +31,13 @@
     return m + ':' + (s < 10 ? '0' + s : s);
   }
 
+  function safePlay(audio) {
+    try {
+      var p = audio.play();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    } catch (e) {}
+  }
+
   function buildCards(list) {
     var grid = $('music-grid');
     if (!grid) return;
@@ -75,6 +82,12 @@
     var timeCurEl    = q('.mp-time-current', playerEl);
     var timeTotEl    = q('.mp-time-total', playerEl);
     var cards        = qa('.music-card');
+    if (!audio || !playerEl || !coverEl || !titleEl || !artistEl ||
+        !btnPlay || !btnPrev || !btnNext || !progressEl ||
+        !fillEl || !bufferEl || !thumbEl || !timeCurEl || !timeTotEl ||
+        !cards.length) {
+      return;
+    }
 
     var state = {
       index: -1,
@@ -113,14 +126,13 @@
 
       renderActive();
       if (autoplay) {
-        var p = audio.play();
-        if (p && typeof p.catch === 'function') p.catch(function () {});
+        safePlay(audio);
       }
     }
 
     function togglePlayByIndex(i) {
       if (i === state.index) {
-        if (audio.paused) audio.play().catch(function () {});
+        if (audio.paused) safePlay(audio);
         else audio.pause();
       } else {
         loadSong(i, true);
@@ -153,7 +165,7 @@
     // ---- 播放器按钮 ----
     btnPlay.addEventListener('click', function () {
       if (state.index < 0) { loadSong(0, true); return; }
-      if (audio.paused) audio.play().catch(function () {});
+      if (audio.paused) safePlay(audio);
       else audio.pause();
     });
     btnPrev.addEventListener('click', prev);

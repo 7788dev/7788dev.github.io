@@ -32,9 +32,26 @@
     var since = raw ? new Date(raw).getTime() : NaN;
     if (!since || isNaN(since)) return;
 
-    render(el, since);
-    // 用 setInterval 即可，页脚很轻量，不需要 rAF
-    setInterval(function () { render(el, since); }, 1000);
+    var timer = null;
+    function startTimer() {
+      if (timer) return;
+      render(el, since);
+      timer = setInterval(function () { render(el, since); }, 1000);
+    }
+    function stopTimer() {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopTimer();
+      else startTimer();
+    });
+
+    // 页面隐藏时暂停秒级刷新，恢复可见后立即补一次。
+    if (document.hidden) render(el, since);
+    else startTimer();
   }
 
   if (document.readyState === 'loading') {
