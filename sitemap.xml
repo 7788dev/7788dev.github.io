@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://7788dev.github.io/2026/06/13/yidun-click-solver/</loc>
+    
+    <lastmod>2026-06-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://7788dev.github.io/2026/06/05/wuwei/</loc>
     
     <lastmod>2026-06-04</lastmod>
@@ -139,7 +148,7 @@
 
   <url>
     <loc>https://7788dev.github.io/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,147 +156,168 @@
   
   <url>
     <loc>https://7788dev.github.io/tags/Hexo/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/GitHub-Pages/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/Fluid/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/CSS/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E5%89%8D%E7%AB%AF/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E5%8D%9A%E5%AE%A2%E9%AD%94%E6%94%B9/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E7%A4%BE%E4%BC%9A%E8%A7%82%E5%AF%9F/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E7%A7%91%E6%8A%80/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E6%80%9D%E8%80%83/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E5%B0%8F%E7%BB%84%E4%BB%B6/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E9%80%86%E5%90%91/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E7%8C%AB%E7%9C%BC/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E5%AD%97%E4%BD%93%E5%8F%8D%E7%88%AC/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/Python/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/Cloudflare/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/Node-js/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/tags/%E8%87%AA%E6%88%91%E8%A7%82%E5%AF%9F/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://7788dev.github.io/tags/%E6%98%93%E7%9B%BE/</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://7788dev.github.io/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://7788dev.github.io/tags/OpenCV/</loc>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -296,21 +326,21 @@
   
   <url>
     <loc>https://7788dev.github.io/categories/%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/categories/%E6%80%9D%E8%80%83/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://7788dev.github.io/categories/%E9%80%86%E5%90%91/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

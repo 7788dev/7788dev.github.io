@@ -1,3 +1,4 @@
+https://7788dev.github.io/2026/06/13/yidun-click-solver/
 https://7788dev.github.io/2026/06/05/wuwei/
 https://7788dev.github.io/2026/05/10/build-blog-with-hexo/
 https://7788dev.github.io/about/index.html
@@ -35,6 +36,9 @@ https://7788dev.github.io/tags/Cloudflare/
 https://7788dev.github.io/tags/Node-js/
 https://7788dev.github.io/tags/%E7%94%9F%E6%B4%BB/
 https://7788dev.github.io/tags/%E8%87%AA%E6%88%91%E8%A7%82%E5%AF%9F/
+https://7788dev.github.io/tags/%E6%98%93%E7%9B%BE/
+https://7788dev.github.io/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/
+https://7788dev.github.io/tags/OpenCV/
 https://7788dev.github.io/categories/%E6%95%99%E7%A8%8B/
 https://7788dev.github.io/categories/%E6%80%9D%E8%80%83/
 https://7788dev.github.io/categories/%E9%80%86%E5%90%91/
