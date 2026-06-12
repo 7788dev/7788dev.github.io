@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 520" width="1180" height="520">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c101b"/>
+      <stop offset="100%" stop-color="#17121f"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1180" height="520" rx="26" fill="url(#bg)"/>
+  <g font-family="'SFMono-Regular','Menlo','Consolas','Microsoft YaHei',monospace">
+    <text x="54" y="58" fill="#f4f7ff" font-size="30" font-weight="700">core-optimi crypto surface</text>
+    <text x="55" y="90" fill="#9ba9c8" font-size="16">只复现协议必要面：cb / click data / validate wrapper</text>
+
+    <g transform="translate(58 132)" filter="url(#shadow)">
+      <rect width="320" height="280" rx="20" fill="#111827" stroke="#394b66"/>
+      <text x="24" y="44" fill="#72f7ff" font-size="23" font-weight="700">01 · cb</text>
+      <text x="24" y="82" fill="#dbe7ff" font-size="17">seed = uuid(32)</text>
+      <text x="24" y="116" fill="#dbe7ff" font-size="17">patch(seed, "vfnv46")</text>
+      <text x="24" y="150" fill="#dbe7ff" font-size="17">cb = aes(seed)</text>
+      <line x1="24" y1="183" x2="296" y2="183" stroke="#29384d"/>
+      <text x="24" y="220" fill="#8fa2c8" font-size="15">used by /api/v3/get</text>
+      <text x="24" y="248" fill="#8fa2c8" font-size="15">and /api/v3/check</text>
+    </g>
+
+    <g transform="translate(430 132)" filter="url(#shadow)">
+      <rect width="320" height="280" rx="20" fill="#111827" stroke="#394b66"/>
+      <text x="24" y="44" fill="#72f7ff" font-size="23" font-weight="700">02 · data</text>
+      <text x="24" y="82" fill="#dbe7ff" font-size="17">point = x,y,dt</text>
+      <text x="24" y="116" fill="#dbe7ff" font-size="17">p = aes(xor(token, point))</text>
+      <text x="24" y="150" fill="#dbe7ff" font-size="17">m = aes(sample(trace))</text>
+      <text x="24" y="184" fill="#dbe7ff" font-size="17">ext = aes(click_count)</text>
+      <line x1="24" y1="214" x2="296" y2="214" stroke="#29384d"/>
+      <text x="24" y="250" fill="#8fa2c8" font-size="15">payload for type=7 click captcha</text>
+    </g>
+
+    <g transform="translate(802 132)" filter="url(#shadow)">
+      <rect width="320" height="280" rx="20" fill="#111827" stroke="#394b66"/>
+      <text x="24" y="44" fill="#72f7ff" font-size="23" font-weight="700">03 · validate</text>
+      <text x="24" y="82" fill="#dbe7ff" font-size="17">raw = check.data.validate</text>
+      <text x="24" y="116" fill="#dbe7ff" font-size="17">h = safe(aes(raw::fp))</text>
+      <text x="24" y="150" fill="#dbe7ff" font-size="17">out = zoneId_h_v_i_1</text>
+      <line x1="24" y1="183" x2="296" y2="183" stroke="#29384d"/>
+      <text x="24" y="220" fill="#8fa2c8" font-size="15">page-side consumable token</text>
+      <text x="24" y="248" fill="#8fa2c8" font-size="15">bound to fp + zone</text>
+    </g>
+
+    <text x="60" y="470" fill="#ffcc66" font-size="17">aes here is SDK custom cipher: private base64 + CRC32 + SBOX rounds + feedback, not standard AES.</text>
+  </g>
+</svg>
