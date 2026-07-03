@@ -1,7 +1,8 @@
 <%
   const p = locals.post;
   const dateFormat = (theme.post && theme.post.date_format) || 'LL';
-  const summary = (p.description || p.excerpt || strip_html(p.content || '').slice(0, 140)).trim();
+  const rawSummary = p.description || p.excerpt || p.content || '';
+  const summary = strip_html(rawSummary).replace(/\s+/g, ' ').trim().slice(0, 140);
 %>
 <li class="post-card">
   <a class="post-card-link" href="<%- url_for(p.path) %>">

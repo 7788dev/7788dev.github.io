@@ -9,16 +9,16 @@
     byYear[y].push(p);
   });
 
-  let pageTitle = 'Archive';
-  if (page.category) pageTitle = 'Category: ' + page.category;
-  else if (page.tag) pageTitle = 'Tag: ' + page.tag;
-  else if (page.year) pageTitle = 'Archive: ' + page.year + (page.month ? ('-' + page.month) : '');
+  let pageTitle = '归档';
+  if (page.category) pageTitle = '分类：' + page.category;
+  else if (page.tag) pageTitle = '标签：' + page.tag;
+  else if (page.year) pageTitle = '归档：' + page.year + (page.month ? ('-' + page.month) : '');
 %>
 
 <section class="container archive">
   <header class="archive-head">
     <h1 class="section-title"><%= pageTitle %></h1>
-    <p class="muted"><%= posts.length %> post<%= posts.length === 1 ? '' : 's' %></p>
+    <p class="muted">共 <%= posts.length %> 篇文章</p>
   </header>
 
   <% yearOrder.forEach(function(year) { %>

@@ -7,9 +7,11 @@ author:
   bio: 属于我的思考
   avatar: /img/avatar.svg
 
-# 主色
-accent_light: "#343f60"
-accent_dark:  "#a0c4ff"
+# 主色 / 浏览器主题色
+accent_light: "#111827"
+accent_dark:  "#f8fafc"
+theme_color_light: "#ffffff"
+theme_color_dark: "#0f172a"
 
 # 导航
 menu:
@@ -67,39 +69,15 @@ footer:
 og_image: /img/og-cover.svg
 canonical: true
 
-# 额外脚本（保留原站自有功能）
+# 额外脚本（仅保留全站必要功能）
 # - site-uptime.js         页脚运行时长
-# - spring-festival-lanterns.js  春节窗口期灯笼
-# - ten-year-embed.js      十年留言墙小组件
 custom_js:
   - /js/site-uptime.js
-  - /js/spring-festival-lanterns.js
-  - /js/ten-year-embed.js
 
 # 额外 CSS：若需追加任何站点级自定义样式，放这里
 custom_css: []
 
-# 直接往 <head> 末尾注入 HTML（preconnect、fonts 等）
+# 直接往 <head> 末尾注入 HTML（轻量资源提示等）
 custom_head: |
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"
-        media="print" onload="this.media='all'" crossorigin>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap"></noscript>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Looks Blog",
-    "alternateName": "Looks",
-    "url": "https://7788dev.github.io",
-    "description": "Looks 的个人博客，记录技术探索、编程实践与日常思考。",
-    "author": {
-      "@type": "Person",
-      "name": "Looks",
-      "url": "https://7788dev.github.io/about/"
-    }
-  }
-  </script>
+  <link rel="preconnect" href="https://giscus.app" crossorigin>

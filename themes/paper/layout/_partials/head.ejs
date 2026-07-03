@@ -2,6 +2,43 @@
   // 统一合并：站点 config + 主题 config
   const themeCfg = theme;
   const siteCfg  = config;
+  const authorName = (themeCfg.author && themeCfg.author.name) || siteCfg.author || 'Author';
+  const siteUrl = (siteCfg.url || '').replace(/\/$/, '');
+
+  function normalizeText(input) {
+    return String(input || '')
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function truncateText(input, max) {
+    const text = normalizeText(input);
+    if (text.length <= max) return text;
+    return text.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+  }
+
+  function absFor(path) {
+    const value = String(path || '/');
+    if (/^https?:\/\//i.test(value)) return value;
+    return siteUrl + '/' + value.replace(/^\//, '');
+  }
+
+  function collectionNames(collection) {
+    const names = [];
+    if (collection && collection.each) {
+      collection.each(function(item) {
+        if (item && item.name) names.push(item.name);
+      });
+    }
+    return names;
+  }
+
+  function jsonLd(data) {
+    return JSON.stringify(data).replace(/</g, '\\u003c');
+  }
 
   // ---- 标题 ----
   let seoTitle = siteCfg.title;
@@ -17,25 +54,57 @@
   }
 
   // ---- 描述 ----
-  const desc = (page.description || page.excerpt || siteCfg.description || '').toString().replace(/<[^>]+>/g, '').trim();
+  const desc = truncateText(page.description || page.excerpt || page.content || siteCfg.description || '', 160);
+  const pageKeywords = Array.isArray(page.keywords) ? page.keywords.join(',') : page.keywords;
+  const keywords = pageKeywords || siteCfg.keywords;
 
   // ---- URL / Canonical ----
   let canonicalPath = page.path || '/';
   // 首页、归档 index 这类使用 "index.html" 结尾的 path 清理掉
   canonicalPath = canonicalPath.replace(/index\.html$/, '');
+  if (!canonicalPath) canonicalPath = '/';
   if (canonicalPath.charAt(0) !== '/') canonicalPath = '/' + canonicalPath;
-  const siteUrl = (siteCfg.url || '').replace(/\/$/, '');
   const absUrl = siteUrl + canonicalPath;
 
   // ---- OG Image ----
   const ogImg = page.og_img || page.index_img || themeCfg.og_image || '/img/og-cover.svg';
-  const ogImgAbs = /^https?:/i.test(ogImg)
-    ? ogImg
-    : siteUrl + (String(ogImg).charAt(0) === '/' ? ogImg : '/' + ogImg);
+  const ogImgAbs = absFor(ogImg);
 
-  // ---- Accent 颜色 ----
-  const accentLight = themeCfg.accent_light || '#343f60';
-  const accentDark  = themeCfg.accent_dark  || '#a0c4ff';
+  // ---- 浏览器主题色 ----
+  const themeColorLight = themeCfg.theme_color_light || '#ffffff';
+  const themeColorDark = themeCfg.theme_color_dark || '#111827';
+
+  const isArticle = is_post();
+  const isNoindex = page.noindex || page.layout === '404';
+  const tagNames = collectionNames(page.tags);
+  const categoryNames = collectionNames(page.categories);
+  const publishedAt = page.date ? date_xml(page.date) : null;
+  const modifiedAt = (page.updated || page.date) ? date_xml(page.updated || page.date) : publishedAt;
+  const schema = isArticle
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: page.title || siteCfg.title,
+        description: desc,
+        url: absUrl,
+        mainEntityOfPage: absUrl,
+        image: [ogImgAbs],
+        datePublished: publishedAt,
+        dateModified: modifiedAt,
+        author: { '@type': 'Person', name: authorName, url: absFor('/about/') },
+        publisher: { '@type': 'Person', name: authorName },
+        articleSection: categoryNames,
+        keywords: tagNames.length ? tagNames.join(',') : keywords
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': canonicalPath === '/' ? 'WebSite' : 'WebPage',
+        name: canonicalPath === '/' ? siteCfg.title : seoTitle,
+        url: absUrl,
+        description: desc,
+        inLanguage: siteCfg.language || 'zh-CN',
+        author: { '@type': 'Person', name: authorName, url: absFor('/about/') }
+      };
 %>
 <!DOCTYPE html>
 <html lang="<%= siteCfg.language || 'zh-CN' %>" data-theme="light">
@@ -43,13 +112,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="<%= accentLight %>" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="<%= accentDark %>" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="<%= themeColorLight %>" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="<%= themeColorDark %>" media="(prefers-color-scheme: dark)">
 
   <title><%= seoTitle %></title>
   <meta name="description" content="<%= desc %>">
-  <% if (siteCfg.keywords) { %><meta name="keywords" content="<%= siteCfg.keywords %>"><% } %>
-  <meta name="author" content="<%= (themeCfg.author && themeCfg.author.name) || siteCfg.author || 'Author' %>">
+  <% if (keywords) { %><meta name="keywords" content="<%= keywords %>"><% } %>
+  <meta name="author" content="<%= authorName %>">
+  <meta name="robots" content="<%= isNoindex ? 'noindex,follow' : 'index,follow,max-image-preview:large' %>">
   <meta name="generator" content="Hexo">
 
   <% if (themeCfg.canonical) { %><link rel="canonical" href="<%= absUrl %>"><% } %>
@@ -64,10 +134,19 @@
   <meta property="og:description" content="<%= desc %>">
   <meta property="og:url" content="<%= absUrl %>">
   <meta property="og:image" content="<%= ogImgAbs %>">
+  <meta property="og:image:alt" content="<%= seoTitle %>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <% if (isArticle && publishedAt) { %><meta property="article:published_time" content="<%= publishedAt %>"><% } %>
+  <% if (isArticle && modifiedAt) { %><meta property="article:modified_time" content="<%= modifiedAt %>"><% } %>
+  <% if (isArticle) { tagNames.forEach(function(tag) { %>
+    <meta property="article:tag" content="<%= tag %>">
+  <% }); } %>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= seoTitle %>">
   <meta name="twitter:description" content="<%= desc %>">
   <meta name="twitter:image" content="<%= ogImgAbs %>">
+  <meta name="twitter:image:alt" content="<%= seoTitle %>">
 
   <!-- Feed -->
   <% if (siteCfg.feed && siteCfg.feed.path) { %>
@@ -96,12 +175,13 @@
     (function () {
       try {
         var stored = localStorage.getItem('paper-theme');
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var theme = stored || (prefersDark ? 'dark' : 'light');
+        var theme = stored || 'light';
         document.documentElement.setAttribute('data-theme', theme);
       } catch (e) {}
     })();
   </script>
+
+  <script type="application/ld+json"><%- jsonLd(schema) %></script>
 
   <%- themeCfg.custom_head %>
 </head>
