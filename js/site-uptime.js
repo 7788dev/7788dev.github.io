@@ -1,1 +1,62 @@
-!function(){"use strict";function n(n){return n<10?"0"+n:""+n}function t(t,e){var a=Date.now(),i=Math.max(0,a-e),u=Math.floor(i/1e3),o=Math.floor(u/86400);u-=86400*o;var s=Math.floor(u/3600);u-=3600*s;var c=Math.floor(u/60);u-=60*c,t.innerHTML='本站已稳定运行 <span class="uptime-num">'+o+'</span> 天 <span class="uptime-num">'+n(s)+'</span> 时 <span class="uptime-num">'+n(c)+'</span> 分 <span class="uptime-num">'+n(u)+"</span> 秒"}function e(){var n=document.getElementById("site-uptime");if(n){var e=n.getAttribute("data-since"),a=e?new Date(e).getTime():NaN;if(a&&!isNaN(a)){var i=null;document.addEventListener("visibilitychange",function(){document.hidden?i&&(clearInterval(i),i=null):u()}),document.hidden?t(n,a):u()}}function u(){i||(t(n,a),i=setInterval(function(){t(n,a)},1e3))}}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()}();
+/**
+ * 页脚 · 网站运行时长
+ * DOM: <div id="site-uptime" data-since="2026-05-08T00:00:00+08:00"></div>
+ * 每秒刷新，展示「已稳定运行 X 天 Y 时 Z 分 W 秒」
+ */
+(function () {
+  'use strict';
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function render(el, since) {
+    var now = Date.now();
+    var diff = Math.max(0, now - since);
+
+    var sec = Math.floor(diff / 1000);
+    var days = Math.floor(sec / 86400);  sec -= days * 86400;
+    var hours = Math.floor(sec / 3600);  sec -= hours * 3600;
+    var mins = Math.floor(sec / 60);     sec -= mins * 60;
+
+    el.innerHTML =
+      '本站已稳定运行 ' +
+      '<span class="uptime-num">' + days + '</span> 天 ' +
+      '<span class="uptime-num">' + pad(hours) + '</span> 时 ' +
+      '<span class="uptime-num">' + pad(mins) + '</span> 分 ' +
+      '<span class="uptime-num">' + pad(sec) + '</span> 秒';
+  }
+
+  function init() {
+    var el = document.getElementById('site-uptime');
+    if (!el) return;
+    var raw = el.getAttribute('data-since');
+    var since = raw ? new Date(raw).getTime() : NaN;
+    if (!since || isNaN(since)) return;
+
+    var timer = null;
+    function startTimer() {
+      if (timer) return;
+      render(el, since);
+      timer = setInterval(function () { render(el, since); }, 1000);
+    }
+    function stopTimer() {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopTimer();
+      else startTimer();
+    });
+
+    // 页面隐藏时暂停秒级刷新，恢复可见后立即补一次。
+    if (document.hidden) render(el, since);
+    else startTimer();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

@@ -1,1 +1,458 @@
-!function(){"use strict";function e(){var e=document.documentElement.getAttribute("data-theme");return e||(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}function t(){var t=document.querySelector("iframe.giscus-frame");return!(!t||!t.contentWindow)&&(t.contentWindow.postMessage({giscus:{setConfig:{theme:"dark"===e()?"dark_dimmed":"light"}}},"https://giscus.app"),!0)}function n(){var e=document.querySelector(".post-toc");if(e&&"IntersectionObserver"in window){var t=e.querySelectorAll(".toc-link");if(t.length){var n={};t.forEach(function(e){var t=(e.getAttribute("href")||"").replace(/^#/,"");t&&(n[function(e){try{return decodeURIComponent(e)}catch(t){return e}}(t)]=e)});var o=[];if(Object.keys(n).forEach(function(e){var t=document.getElementById(e);t&&o.push(t)}),o.length){var r=null,i=new IntersectionObserver(function(e){var o,i=e.filter(function(e){return e.isIntersecting});i.length&&(i.sort(function(e,t){return e.boundingClientRect.top-t.boundingClientRect.top}),o=i[0].target,r!==o&&(r=o,t.forEach(function(e){e.classList.remove("is-active")}),o&&n[o.id]&&n[o.id].classList.add("is-active")))},{rootMargin:"-80px 0px -70% 0px",threshold:0});o.forEach(function(e){i.observe(e)})}}}}function o(){var e=document.getElementById("search-modal"),t=document.getElementById("search-input"),n=document.getElementById("search-results"),o=document.querySelector(".search-toggle"),r=e&&e.querySelector(".search-backdrop");if(e&&t&&n){var i=null,c=null,a=null,d=null;o&&o.addEventListener("click",u),r&&r.addEventListener("click",s),e.addEventListener("keydown",function(e){"Escape"===e.key&&(s(),e.preventDefault())}),t.addEventListener("input",function(){a&&clearTimeout(a),a=setTimeout(function(){a=null,p(t.value.trim())},120)}),document.addEventListener("keydown",function(t){(t.ctrlKey||t.metaKey)&&"k"===t.key&&(t.preventDefault(),e.hasAttribute("hidden")?u():s())})}function u(){var o=e.hasAttribute("hidden");e.removeAttribute("hidden"),t.value="",n.textContent="",n.classList.remove("has-query"),setTimeout(function(){t.focus()},50),o&&(d=document.body.style.overflow,document.body.style.overflow="hidden")}function s(){e.hasAttribute("hidden")||(a&&(clearTimeout(a),a=null),e.setAttribute("hidden",""),document.body.style.overflow=d||"",d=null)}function l(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}function m(e,t,n){if((t=t||"")&&n.length){var o=new RegExp("("+n.map(l).join("|")+")","gi"),r=0;t.replace(o,function(n,o,i){i>r&&e.appendChild(document.createTextNode(t.slice(r,i)));var c=document.createElement("mark");return c.textContent=n,e.appendChild(c),r=i+n.length,n}),r<t.length&&e.appendChild(document.createTextNode(t.slice(r)))}else e.appendChild(document.createTextNode(t))}function f(e){return(e||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim()}function h(e,t){n.textContent="",e.slice(0,10).forEach(function(e){var o,r=e.post,i=document.createElement("a");i.className="search-item",i.href=(o=r.url||r.path||"/",o=String(o||"/"),/^[a-z][a-z0-9+.-]*:/i.test(o)&&!/^https?:/i.test(o)?"/":o);var c=document.createElement("div");c.className="search-item-title",m(c,r.title||"",t);var a=document.createElement("div");a.className="search-item-snippet",m(a,e.snippet||"",t),i.appendChild(c),i.appendChild(a),n.appendChild(i)})}function p(e){var o;(n.classList.toggle("has-query",e.length>=2),!e||e.length<2)?n.textContent="":(o=function(o){if(t.value.trim()===e){var r=e.toLowerCase().split(/\s+/).filter(Boolean),i=[];o.forEach(function(e){var t=(e.title||"").toLowerCase(),n=f(e.content||"").toLowerCase(),o=0;r.forEach(function(e){-1!==t.indexOf(e)&&(o+=10),-1!==n.indexOf(e)&&(o+=1)}),o>0&&i.push({post:e,score:o,content:f(e.content||"")})}),i.sort(function(e,t){return t.score-e.score}),i.length?(i.slice(0,10).forEach(function(e){for(var t="",n=e.content.toLowerCase(),o=0;o<r.length;o++){var i=n.indexOf(r[o]);if(-1!==i){var c=Math.max(0,i-30),a=Math.min(e.content.length,i+80);t=(c>0?"…":"")+e.content.slice(c,a)+(a<e.content.length?"…":"");break}}t||(t=e.content.slice(0,100)+"…"),e.snippet=t}),h(i,r)):n.textContent=""}},i?o(i):(c||(c=fetch("/search.json",{cache:"default"}).then(function(e){return e.ok?e.json():[]}).then(function(e){var t=Array.isArray(e)?e:e&&(e.posts||e);return i=Array.isArray(t)?t:[]}).catch(function(){return i=[]})),c.then(o)))}}function r(){var r,i,c;(r=document.querySelector(".theme-toggle"))&&r.addEventListener("click",function(){var n="dark"===e()?"light":"dark";document.documentElement.setAttribute("data-theme",n);try{localStorage.setItem("paper-theme",n)}catch(e){}t()}),i=document.querySelector(".nav-toggle"),c=document.getElementById("mobile-nav"),i&&c&&(i.addEventListener("click",function(){var e="true"===i.getAttribute("aria-expanded");i.setAttribute("aria-expanded",String(!e)),e?c.setAttribute("hidden",""):c.removeAttribute("hidden")}),window.addEventListener("resize",function(){window.innerWidth>720&&(c.setAttribute("hidden",""),i.setAttribute("aria-expanded","false"))})),n(),function(){var e=Array.prototype.slice.call(document.querySelectorAll(".markdown-body figure.highlight, .markdown-body pre")).filter(function(e){return e.matches("figure.highlight")||!e.closest("figure.highlight")});function t(e){var t=document.createElement("textarea");t.value=e,t.style.cssText="position:fixed;left:-9999px;top:0;",document.body.appendChild(t),t.select();try{document.execCommand("copy")}catch(e){}document.body.removeChild(t)}e.length&&e.forEach(function(e){if(!e.querySelector(".copy-btn")){var n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="Copy",n.setAttribute("aria-label","复制代码"),"static"===getComputedStyle(e).position&&(e.style.position="relative"),n.style.cssText="position:absolute;top:.5em;right:.5em;border:1px solid var(--border);background:var(--bg);color:var(--fg-muted);font-size:.75rem;padding:.15em .5em;border-radius:6px;cursor:pointer;opacity:0;transition:opacity 200ms, color 200ms;z-index:1;font-family:var(--font-sans);",e.addEventListener("mouseenter",function(){n.style.opacity="1"}),e.addEventListener("mouseleave",function(){n.style.opacity="0"}),n.addEventListener("focus",function(){n.style.opacity="1"}),n.addEventListener("blur",function(){n.style.opacity="0"}),n.addEventListener("click",function(o){o.preventDefault();var r=e.matches("figure.highlight")?e.querySelector("td.code, td:not(.gutter)"):e.querySelector("code")||e,i=r?r.innerText:e.innerText,c=function(){var e=n.textContent;n.textContent="Copied",n.style.color="var(--accent)",setTimeout(function(){n.textContent=e,n.style.color=""},1500)};navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(i).then(c).catch(function(){t(i),c()}):(t(i),c())}),e.appendChild(n)}})}(),o(),function(){var e=!1;function n(){if(!e){e=!0,t();var n=0,o=window.setInterval(function(){n++,t(),n>=10&&window.clearInterval(o)},500)}}if(document.querySelector("iframe.giscus-frame"))n();else if("MutationObserver"in window){var o=new MutationObserver(function(){document.querySelector("iframe.giscus-frame")&&(n(),o.disconnect())});o.observe(document.documentElement,{childList:!0,subtree:!0}),window.setTimeout(function(){n(),o.disconnect()},5e3)}else window.setTimeout(n,1e3)}(),function(){var e=document.querySelector(".back-to-top");if(e){e.removeAttribute("hidden");var t=!1;window.addEventListener("scroll",function(){t||(window.requestAnimationFrame(n),t=!0)},{passive:!0}),e.addEventListener("click",function(){var e=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:0,behavior:e?"auto":"smooth"})}),n()}function n(){var n=window.pageYOffset||document.documentElement.scrollTop;e.classList.toggle("is-visible",n>320),t=!1}}()}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",r):r()}();
+/**
+ * Paper theme · 前端脚本
+ * -----------------------------------------------------------------
+ *   1. 主题切换（light / dark，持久化到 localStorage）
+ *   2. 移动端菜单开合
+ *   3. 文章 TOC 高亮（桌面端）
+ *   4. 代码块一键复制按钮
+ * -----------------------------------------------------------------
+ */
+(function () {
+  'use strict';
+
+  function getPreferredTheme() {
+    var cur = document.documentElement.getAttribute('data-theme');
+    if (cur) return cur;
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  }
+
+  function syncGiscusTheme() {
+    var gframe = document.querySelector('iframe.giscus-frame');
+    if (!gframe || !gframe.contentWindow) return false;
+    gframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: getPreferredTheme() === 'dark' ? 'dark_dimmed' : 'light' } } },
+      'https://giscus.app'
+    );
+    return true;
+  }
+
+  function initGiscusThemeSync() {
+    var started = false;
+    function startSyncWindow() {
+      if (started) return;
+      started = true;
+      syncGiscusTheme();
+      var count = 0;
+      var timer = window.setInterval(function () {
+        count++;
+        syncGiscusTheme();
+        if (count >= 10) window.clearInterval(timer);
+      }, 500);
+    }
+
+    if (document.querySelector('iframe.giscus-frame')) {
+      startSyncWindow();
+      return;
+    }
+    if (!('MutationObserver' in window)) {
+      window.setTimeout(startSyncWindow, 1000);
+      return;
+    }
+    var observer = new MutationObserver(function () {
+      if (document.querySelector('iframe.giscus-frame')) {
+        startSyncWindow();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(function () {
+      startSyncWindow();
+      observer.disconnect();
+    }, 5000);
+  }
+
+  // ============================================================
+  // 1. Theme toggle
+  // ============================================================
+  function initThemeToggle() {
+    var btn = document.querySelector('.theme-toggle');
+    if (!btn) return;
+
+    // 同步当前状态（head 的内联脚本已经处理过，这里只处理点击）
+    btn.addEventListener('click', function () {
+      var cur = getPreferredTheme();
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('paper-theme', next); } catch (e) {}
+      syncGiscusTheme();
+    });
+  }
+
+  // ============================================================
+  // 2. Mobile nav
+  // ============================================================
+  function initMobileNav() {
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.getElementById('mobile-nav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', function () {
+      var open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      if (open) nav.setAttribute('hidden', '');
+      else nav.removeAttribute('hidden');
+    });
+
+    // 窗口放大时自动关闭移动端菜单
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 720) {
+        nav.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // ============================================================
+  // 3. TOC active link（IntersectionObserver 跟随滚动）
+  // ============================================================
+  function initToc() {
+    var toc = document.querySelector('.post-toc');
+    if (!toc || !('IntersectionObserver' in window)) return;
+
+    var links = toc.querySelectorAll('.toc-link');
+    if (!links.length) return;
+
+    var map = {};
+    function decodeHashId(id) {
+      try { return decodeURIComponent(id); }
+      catch (e) { return id; }
+    }
+
+    links.forEach(function (a) {
+      var id = (a.getAttribute('href') || '').replace(/^#/, '');
+      if (id) map[decodeHashId(id)] = a;
+    });
+
+    var headings = [];
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) headings.push(el);
+    });
+    if (!headings.length) return;
+
+    var current = null;
+    function setActive(el) {
+      if (current === el) return;
+      current = el;
+      links.forEach(function (a) { a.classList.remove('is-active'); });
+      if (el && map[el.id]) map[el.id].classList.add('is-active');
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      // 选择最靠近视口顶部、仍在视口里的 heading
+      var visible = entries.filter(function (e) { return e.isIntersecting; });
+      if (visible.length) {
+        visible.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        setActive(visible[0].target);
+      }
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+    headings.forEach(function (h) { observer.observe(h); });
+  }
+
+  // ============================================================
+  // 4. Code block copy button
+  // ============================================================
+  function initCopyButtons() {
+    var blocks = Array.prototype.slice.call(
+      document.querySelectorAll('.markdown-body figure.highlight, .markdown-body pre')
+    ).filter(function (block) {
+      return block.matches('figure.highlight') || !block.closest('figure.highlight');
+    });
+    if (!blocks.length) return;
+
+    blocks.forEach(function (block) {
+      // 避免重复
+      if (block.querySelector('.copy-btn')) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', '复制代码');
+
+      var hostStyle = getComputedStyle(block);
+      if (hostStyle.position === 'static') block.style.position = 'relative';
+      // 简单行内样式，避免往主 CSS 里再加一坨
+      btn.style.cssText =
+        'position:absolute;top:.5em;right:.5em;border:1px solid var(--border);' +
+        'background:var(--bg);color:var(--fg-muted);font-size:.75rem;' +
+        'padding:.15em .5em;border-radius:6px;cursor:pointer;opacity:0;' +
+        'transition:opacity 200ms, color 200ms;z-index:1;font-family:var(--font-sans);';
+
+      block.addEventListener('mouseenter', function () { btn.style.opacity = '1'; });
+      block.addEventListener('mouseleave', function () { btn.style.opacity = '0'; });
+      btn.addEventListener('focus', function () { btn.style.opacity = '1'; });
+      btn.addEventListener('blur', function () { btn.style.opacity = '0'; });
+
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var codeEl = block.matches('figure.highlight')
+          ? block.querySelector('td.code, td:not(.gutter)')
+          : block.querySelector('code') || block;
+        var text = codeEl ? codeEl.innerText : block.innerText;
+        var done = function () {
+          var prev = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.style.color = 'var(--accent)';
+          setTimeout(function () {
+            btn.textContent = prev;
+            btn.style.color = '';
+          }, 1500);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () { fallback(text); done(); });
+        } else {
+          fallback(text); done();
+        }
+      });
+
+      block.appendChild(btn);
+    });
+
+    function fallback(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  }
+
+  // ============================================================
+  // 5. Search
+  // ============================================================
+  function initSearch() {
+    var modal = document.getElementById('search-modal');
+    var input = document.getElementById('search-input');
+    var results = document.getElementById('search-results');
+    var toggleBtn = document.querySelector('.search-toggle');
+    var backdrop = modal && modal.querySelector('.search-backdrop');
+    if (!modal || !input || !results) return;
+
+    var searchData = null;
+    var searchPromise = null;
+    var inputTimer = null;
+    var previousBodyOverflow = null;
+
+    function loadData(cb) {
+      if (searchData) { cb(searchData); return; }
+      if (!searchPromise) {
+        searchPromise = fetch('/search.json', { cache: 'default' })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (data) {
+          var list = Array.isArray(data) ? data : (data && (data.posts || data));
+          searchData = Array.isArray(list) ? list : [];
+          return searchData;
+        })
+        .catch(function () {
+          searchData = [];
+          return searchData;
+        });
+      }
+      searchPromise.then(cb);
+    }
+
+    function openModal() {
+      var wasHidden = modal.hasAttribute('hidden');
+      modal.removeAttribute('hidden');
+      input.value = '';
+      results.textContent = '';
+      results.classList.remove('has-query');
+      setTimeout(function () { input.focus(); }, 50);
+      if (wasHidden) {
+        previousBodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      if (modal.hasAttribute('hidden')) return;
+      if (inputTimer) {
+        clearTimeout(inputTimer);
+        inputTimer = null;
+      }
+      modal.setAttribute('hidden', '');
+      document.body.style.overflow = previousBodyOverflow || '';
+      previousBodyOverflow = null;
+    }
+
+    function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    function appendHighlighted(parent, text, keywords) {
+      text = text || '';
+      if (!text || !keywords.length) {
+        parent.appendChild(document.createTextNode(text));
+        return;
+      }
+      var re = new RegExp('(' + keywords.map(escapeRe).join('|') + ')', 'gi');
+      var lastIndex = 0;
+      text.replace(re, function (match, _hit, offset) {
+        if (offset > lastIndex) {
+          parent.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
+        }
+        var mark = document.createElement('mark');
+        mark.textContent = match;
+        parent.appendChild(mark);
+        lastIndex = offset + match.length;
+        return match;
+      });
+      if (lastIndex < text.length) {
+        parent.appendChild(document.createTextNode(text.slice(lastIndex)));
+      }
+    }
+
+    function stripHtml(html) {
+      return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    function safeHref(href) {
+      href = String(href || '/');
+      return /^[a-z][a-z0-9+.-]*:/i.test(href) && !/^https?:/i.test(href) ? '/' : href;
+    }
+
+    function renderMatches(matches, keywords) {
+      results.textContent = '';
+      matches.slice(0, 10).forEach(function (m) {
+        var p = m.post;
+        var item = document.createElement('a');
+        item.className = 'search-item';
+        item.href = safeHref(p.url || p.path || '/');
+
+        var title = document.createElement('div');
+        title.className = 'search-item-title';
+        appendHighlighted(title, p.title || '', keywords);
+
+        var snippet = document.createElement('div');
+        snippet.className = 'search-item-snippet';
+        appendHighlighted(snippet, m.snippet || '', keywords);
+
+        item.appendChild(title);
+        item.appendChild(snippet);
+        results.appendChild(item);
+      });
+    }
+
+    function search(query) {
+      results.classList.toggle('has-query', query.length >= 2);
+      if (!query || query.length < 2) { results.textContent = ''; return; }
+
+      loadData(function (data) {
+        if (input.value.trim() !== query) return;
+        var keywords = query.toLowerCase().split(/\s+/).filter(Boolean);
+        var matches = [];
+
+        data.forEach(function (post) {
+          var title = (post.title || '').toLowerCase();
+          var content = stripHtml(post.content || '').toLowerCase();
+          var score = 0;
+          keywords.forEach(function (kw) {
+            if (title.indexOf(kw) !== -1) score += 10;
+            if (content.indexOf(kw) !== -1) score += 1;
+          });
+          if (score > 0) matches.push({ post: post, score: score, content: stripHtml(post.content || '') });
+        });
+
+        matches.sort(function (a, b) { return b.score - a.score; });
+
+        if (!matches.length) { results.textContent = ''; return; }
+
+        matches.slice(0, 10).forEach(function (m) {
+          // 找到关键词附近的片段
+          var snippet = '';
+          var lowerContent = m.content.toLowerCase();
+          for (var i = 0; i < keywords.length; i++) {
+            var idx = lowerContent.indexOf(keywords[i]);
+            if (idx !== -1) {
+              var start = Math.max(0, idx - 30);
+              var end = Math.min(m.content.length, idx + 80);
+              snippet = (start > 0 ? '…' : '') + m.content.slice(start, end) + (end < m.content.length ? '…' : '');
+              break;
+            }
+          }
+          if (!snippet) snippet = m.content.slice(0, 100) + '…';
+          m.snippet = snippet;
+        });
+
+        renderMatches(matches, keywords);
+      });
+    }
+
+    // 事件绑定
+    if (toggleBtn) toggleBtn.addEventListener('click', openModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    modal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeModal(); e.preventDefault(); }
+    });
+
+    input.addEventListener('input', function () {
+      if (inputTimer) clearTimeout(inputTimer);
+      inputTimer = setTimeout(function () {
+        inputTimer = null;
+        search(input.value.trim());
+      }, 120);
+    });
+
+    // 全局快捷键：Ctrl+K 或 Cmd+K 打开搜索
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (modal.hasAttribute('hidden')) openModal();
+        else closeModal();
+      }
+    });
+  }
+
+  // ============================================================
+  // 6. Back-to-top button
+  // ============================================================
+  function initBackToTop() {
+    var btn = document.querySelector('.back-to-top');
+    if (!btn) return;
+    btn.removeAttribute('hidden');
+
+    var threshold = 320;
+    var ticking = false;
+    function update() {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      btn.classList.toggle('is-visible', y > threshold);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+
+    update();
+  }
+
+  // ============================================================
+  // Boot
+  // ============================================================
+  function boot() {
+    initThemeToggle();
+    initMobileNav();
+    initToc();
+    initCopyButtons();
+    initSearch();
+    initGiscusThemeSync();
+    initBackToTop();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
