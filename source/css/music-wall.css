@@ -162,156 +162,16 @@
 
 .music-card.is-active .music-title { color: #30a9de; }
 
-/* ---------------- 行内进度条（歌手右侧，同一行内） ---------------- */
-.music-inline {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-left: auto;   /* 推到行右侧 */
-  min-width: 0;
-}
-.music-inline[hidden] { display: none; }
-
-.mp-time {
-  flex: 0 0 auto;
-  font-size: 0.72rem;
-  opacity: 0.55;
-  min-width: 3em;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-
-.mp-progress {
-  width: 150px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  touch-action: none;
-  outline: none;
-}
-
-.mp-progress-track {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 4px;
-  background: rgba(16, 24, 40, 0.12);
-  border-radius: 999px;
-  transition: height 0.15s ease;
-}
-.mp-progress:hover .mp-progress-track { height: 7px; }
-
-.mp-progress-buffer,
-.mp-progress-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  pointer-events: none;
-}
-.mp-progress-buffer { background: rgba(16, 24, 40, 0.10); width: 0%; }
-.mp-progress-fill {
-  background: linear-gradient(90deg, #3fb6e6, #30a9de);
-  width: 0%;
-  transition: width 0.08s linear;
-}
-
-.mp-progress-thumb {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  display: block;
-  width: 13px;
-  height: 13px;
-  margin-left: -6.5px;
-  background: #fff;
-  border: 3px solid #30a9de;
-  border-radius: 50%;
-  transform: translateY(-50%) scale(0);
-  transition: transform 0.15s ease;
-  box-shadow: 0 1px 4px rgba(16, 24, 40, 0.25);
-  pointer-events: none;
-  box-sizing: border-box;
-}
-.mp-progress:hover .mp-progress-thumb {
-  transform: translateY(-50%) scale(1);
-}
-
-.mp-progress {
-  flex: 1 1 auto;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  touch-action: none;
-  outline: none;
-}
-
-.mp-progress-track {
-  position: relative;
-  width: 100%;
-  height: 4px;
-  background: rgba(16, 24, 40, 0.12);
-  border-radius: 999px;
-  transition: height 0.15s ease;
-}
-.mp-progress:hover .mp-progress-track { height: 7px; }
-
-.mp-progress-buffer,
-.mp-progress-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  border-radius: inherit;
-  pointer-events: none;
-}
-.mp-progress-buffer { background: rgba(16, 24, 40, 0.10); width: 0%; }
-.mp-progress-fill {
-  background: linear-gradient(90deg, #3fb6e6, #30a9de);
-  width: 0%;
-  transition: width 0.08s linear;
-}
-
-.mp-progress-thumb {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  width: 13px;
-  height: 13px;
-  margin-left: -6.5px;
-  background: #fff;
-  border: 3px solid #30a9de;
-  border-radius: 50%;
-  transform: translateY(-50%) scale(0);
-  transition: transform 0.15s ease;
-  box-shadow: 0 1px 4px rgba(16, 24, 40, 0.25);
-  pointer-events: none;
-  box-sizing: border-box;
-}
-.mp-progress:hover .mp-progress-thumb,
-.mp-progress:focus-visible .mp-progress-thumb {
-  transform: translateY(-50%) scale(1);
-}
-
 /* ---------------- 暗色模式 ---------------- */
 html[data-user-color-scheme="dark"] .music-card:hover,
 html[data-user-color-scheme="dark"] .music-card:focus-visible {
   background: rgba(48, 169, 222, 0.14);
 }
 html[data-user-color-scheme="dark"] .music-cover-wrap { background: #26292f; }
-html[data-user-color-scheme="dark"] .mp-progress-track  { background: rgba(255, 255, 255, 0.14); }
-html[data-user-color-scheme="dark"] .mp-progress-buffer { background: rgba(255, 255, 255, 0.20); }
-html[data-user-color-scheme="dark"] .mp-progress-thumb  { background: #2b2f36; }
 
 /* ---------------- 响应式 ---------------- */
 @media (max-width: 600px) {
-  .mp-progress { width: 90px; }
-  .mp-time { display: none; }  /* 小屏隐藏时间，留进度条即可 */
+  .music-card { gap: 0.8rem; }
 }
 @media (max-width: 480px) {
   .music-card { gap: 0.8rem; padding: 0.6rem 0.7rem; }
