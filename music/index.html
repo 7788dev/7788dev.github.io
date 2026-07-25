@@ -1,255 +1,372 @@
 
+
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
 
-  <title>音乐 · Looks Blog</title>
-  <meta name="description" content="最近在循环的几首歌。点击封面试听，再点一次暂停。 0:00 0:00">
-  <meta name="keywords" content="Looks,Looks Blog,个人博客,技术博客,编程,前端,后端,学习笔记,思考">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.svg">
+  <link rel="icon" href="/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Looks">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta name="generator" content="Hexo">
+  <meta name="keywords" content="Looks,Looks Blog,个人博客,技术博客,编程,前端,后端,学习笔记,思考">
+  
+    <meta name="description" content="最近在循环的几首歌。点击即可播放，再点一次暂停。                 window.MUSIC_LIST &#x3D; [     {       title: &quot;你瞒我瞒&quot;,       artist: &quot;陈柏宇&quot;,       cover: &quot;&#x2F;music&#x2F;covers&#x2F;01-nimanwoman.jpg&quot;,       audio: &quot;&#x2F;music&#x2F;audio&#x2F;你瞒我瞒.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="音乐">
+<meta property="og:url" content="https://7788dev.github.io/music/index.html">
+<meta property="og:site_name" content="Looks Blog">
+<meta property="og:description" content="最近在循环的几首歌。点击即可播放，再点一次暂停。                 window.MUSIC_LIST &#x3D; [     {       title: &quot;你瞒我瞒&quot;,       artist: &quot;陈柏宇&quot;,       cover: &quot;&#x2F;music&#x2F;covers&#x2F;01-nimanwoman.jpg&quot;,       audio: &quot;&#x2F;music&#x2F;audio&#x2F;你瞒我瞒.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-25T20:09:17.325Z">
+<meta property="article:author" content="Looks">
+<meta property="article:tag" content="Looks,Looks Blog,个人博客,技术博客,编程,前端,后端,学习笔记,思考">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>音乐 - Looks Blog</title>
 
-  <link rel="canonical" href="https://7788dev.github.io/music/">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.svg">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Looks Blog">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="og:title" content="音乐 · Looks Blog">
-  <meta property="og:description" content="最近在循环的几首歌。点击封面试听，再点一次暂停。 0:00 0:00">
-  <meta property="og:url" content="https://7788dev.github.io/music/">
-  <meta property="og:image" content="https://7788dev.github.io/img/og-cover.svg">
-  <meta property="og:image:alt" content="音乐 · Looks Blog">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  
-  
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="音乐 · Looks Blog">
-  <meta name="twitter:description" content="最近在循环的几首歌。点击封面试听，再点一次暂停。 0:00 0:00">
-  <meta name="twitter:image" content="https://7788dev.github.io/img/og-cover.svg">
-  <meta name="twitter:image:alt" content="音乐 · Looks Blog">
 
-  <!-- Feed -->
-  
-    <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
-  
 
-  <!-- 主题 CSS（关键路径，preload 加速） -->
-  <link rel="preload" href="/css/paper.css" as="style">
-  <link rel="stylesheet" href="/css/paper.css">
 
-  <!-- 组件 CSS：仅在音乐/健身页加载 -->
-  
-  
-    <link rel="stylesheet" href="/css/paper-widgets.css">
-  
 
-  <!-- 额外 CSS（主题 config） -->
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
-  <!-- 防 FOUC：在任何内容渲染前解析主题偏好 -->
-  <script>
-    (function () {
-      try {
-        var stored = localStorage.getItem('paper-theme');
-        var theme = stored || 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-      } catch (e) {}
-    })();
+
+
+  
+<link rel="stylesheet" href="/css/music-wall.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"7788dev.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"音乐 · Looks Blog","url":"https://7788dev.github.io/music/","description":"最近在循环的几首歌。点击封面试听，再点一次暂停。 0:00 0:00","inLanguage":"zh-CN","author":{"@type":"Person","name":"Looks","url":"https://7788dev.github.io/about/"}}</script>
 
-  <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
-<link rel="preconnect" href="https://giscus.app" crossorigin>
-
+  
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Looks Blog" type="application/atom+xml">
 </head>
+
 
 <body>
   
-<a class="skip-link" href="#main">跳到主要内容</a>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="site-title" href="/">
-      Looks Blog
+  <header>
+    
+
+<div class="header-inner" style="height: 60vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Looks Blog</strong>
     </a>
 
-    <nav class="site-nav" aria-label="主导航">
-      <ul>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <li>
-            
-            <a href="/archives/">
-              文章
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/music/" target="_self">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" rel="external nofollow noreferrer" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
+          
         
-          <li>
-            
-            <a href="/categories/">
-              分类
-            </a>
-          </li>
         
-          <li>
-            
-            <a href="/tags/">
-              标签
-            </a>
-          </li>
-        
-          <li>
-            
-            <a href="/music/" aria-current="page">
-              音乐
-            </a>
-          </li>
-        
-          <li>
-            
-            <a href="/fitness/">
-              健身
-            </a>
-          </li>
-        
-          <li>
-            
-            <a href="/about/">
-              关于
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" rel="external nofollow noreferrer" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
             </a>
           </li>
         
       </ul>
-    </nav>
-
-    <div class="header-actions">
-      <button type="button" class="icon-btn search-toggle" aria-label="搜索" title="搜索">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-          <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-
-      <button type="button" class="icon-btn theme-toggle" aria-label="切换主题" title="切换主题">
-        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" fill="currentColor"/>
-          <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
-            <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
-            <line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/>
-            <line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/>
-          </g>
-        </svg>
-        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"/>
-        </svg>
-      </button>
-
-      <button type="button" class="icon-btn nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobile-nav">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-        </svg>
-      </button>
     </div>
   </div>
+</nav>
 
-  <nav id="mobile-nav" class="mobile-nav" aria-label="移动端导航" hidden>
-    <ul>
-      
-        <li><a href="/archives/">文章</a></li>
-      
-        <li><a href="/categories/">分类</a></li>
-      
-        <li><a href="/tags/">标签</a></li>
-      
-        <li><a href="/music/">音乐</a></li>
-      
-        <li><a href="/fitness/">健身</a></li>
-      
-        <li><a href="/about/">关于</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-<!-- 搜索弹窗 -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="站内搜索">
-  <div class="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-input-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <input id="search-input" class="search-input" type="search" placeholder="搜索文章…" autocomplete="off" autofocus>
-      <kbd class="search-kbd">Esc</kbd>
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/music/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-music"></i>
+                  <span>音乐</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" rel="external nofollow noreferrer" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" rel="external nofollow noreferrer" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
     </div>
-    <div id="search-results" class="search-results" aria-live="polite"></div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="音乐"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+    </div>
   </div>
 </div>
 
 
-  <main id="main" class="site-main">
-    <article class="post container page">
-  <header class="post-header">
-    <h1 class="post-title">音乐</h1>
-    
+
+</div>
+
   </header>
-  <div class="post-body markdown-body">
+
+  <main>
     
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<article class="page-content">
+  
 <div class="music-wall">
   <p class="music-intro">
-    最近在循环的几首歌。点击封面试听，再点一次暂停。
+    最近在循环的几首歌。点击即可播放，再点一次暂停。
   </p>
 
   <div id="music-grid" class="music-grid" aria-label="歌单"></div>
 
-  <!-- 极简播放器：封面 · 歌曲信息 · 进度条 · 控制按钮 -->
-  <div id="music-player" class="music-player" hidden>
-    <div class="mp-top">
-      <img loading="lazy" decoding="async" class="mp-cover" alt="">
-      <div class="mp-info">
-        <div class="mp-title"></div>
-        <div class="mp-artist"></div>
-      </div>
-      <div class="mp-controls">
-        <button type="button" class="mp-btn mp-prev" aria-label="上一首">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="currentColor"/></svg>
-        </button>
-        <button type="button" class="mp-btn mp-play" aria-label="播放/暂停">
-          <svg class="mp-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-          <svg class="mp-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z" fill="currentColor"/></svg>
-        </button>
-        <button type="button" class="mp-btn mp-next" aria-label="下一首">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="mp-bottom">
-      <span class="mp-time mp-time-current">0:00</span>
-      <div class="mp-progress" role="slider" tabindex="0"
-           aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="mp-progress-track">
-          <div class="mp-progress-buffer"></div>
-          <div class="mp-progress-fill"></div>
-          <div class="mp-progress-thumb"></div>
-        </div>
-      </div>
-      <span class="mp-time mp-time-total">0:00</span>
-    </div>
-    <audio id="mp-audio" preload="none"></audio>
-  </div>
+  <audio id="mp-audio" preload="none"></audio>
 </div>
 
 <script>
@@ -295,98 +412,130 @@
 <script defer src="/js/music-wall.js"></script>
 
 
-  </div>
+
+  
+
 </article>
 
 
 
-  </main>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
 
-  
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-left">
-      <span>
-        © 2026 Looks.
-      </span>
-      
-        <span class="uptime"
-              id="site-uptime"
-              data-since="2026-05-08T00:00:00+08:00"
-              aria-label="本站已运行">—</span>
-      
-      
-        <span class="site-stats">
-          <span id="busuanzi_container_site_pv" hidden>
-            PV <span id="busuanzi_value_site_pv"></span>
-          </span>
-          <span id="busuanzi_container_site_uv" hidden>
-            · UV <span id="busuanzi_value_site_uv"></span>
-          </span>
-        </span>
-      
-    </div>
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-    <div class="footer-right">
-      
-        <a class="social-link"
-           href="https://github.com/7788dev"
-           title="GitHub"
-           aria-label="GitHub"
-           target="_blank" rel="noopener noreferrer">
-          
-
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-    <path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.8 18 5 18 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 0 1 1.2 3.2c0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.3v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/>
-  </svg>
-
-
-        </a>
-      
-        <a class="social-link"
-           href="/atom.xml"
-           title="RSS"
-           aria-label="RSS"
-           target="_blank" rel="noopener noreferrer">
-          
-
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-    <path fill="currentColor" d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36M4 4.44a15.56 15.56 0 0 1 15.56 15.56h-2.83A12.72 12.72 0 0 0 4 7.28V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/>
-  </svg>
-
-
-        </a>
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
   </div>
-</footer>
+</div>
 
+    
 
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
   
-<script src="/js/paper.js" defer></script>
+    <div class="footer-content">
+       <div id="site-uptime" data-since="2026-05-08T00:00:00+08:00" aria-label="本站已运行"></div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
 
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
-    (function () {
-      var scripts = ["https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","/js/site-uptime.js"];
-      function loadIdleScripts() {
-        scripts.forEach(function (src) {
-          var s = document.createElement('script');
-          s.src = src;
-          s.defer = true;
-          document.body.appendChild(s);
-        });
-      }
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(loadIdleScripts, { timeout: 2500 });
-      } else {
-        window.addEventListener('load', function () {
-          window.setTimeout(loadIdleScripts, 1);
-        }, { once: true });
-      }
-    })();
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
   </script>
 
 
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/site-uptime.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
