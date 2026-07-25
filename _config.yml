@@ -94,13 +94,12 @@ exclude:
   - "js/bing-banner.js"
   - "js/iciba-slogan.js"
   - "js/premium-effects.js"
-  - "css/custom.css"
 ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: paper
+theme: fluid
 
 # ------------------------------------------------------------------
 # SEO 相关

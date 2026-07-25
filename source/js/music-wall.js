@@ -45,17 +45,31 @@
       return (
         '<div class="music-card" data-index="' + i + '" role="button" tabindex="0" ' +
         'aria-label="播放 ' + escapeHtml(song.title) + ' - ' + escapeHtml(song.artist) + '">' +
-          '<div class="music-cover-wrap">' +
+          '<span class="music-num">' + (i + 1) + '</span>' +
+          '<span class="music-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
+          '<span class="music-cover-wrap">' +
             '<img class="music-cover" src="' + escapeHtml(song.cover) + '" alt="' + escapeHtml(song.title) + '" loading="lazy">' +
-            '<div class="music-overlay">' +
+            '<span class="music-overlay">' +
               '<svg class="music-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>' +
               '<svg class="music-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z" fill="currentColor"/></svg>' +
-            '</div>' +
-          '</div>' +
-          '<div class="music-meta">' +
-            '<div class="music-title">' + escapeHtml(song.title) + '</div>' +
-            '<div class="music-artist">' + escapeHtml(song.artist) + '</div>' +
-          '</div>' +
+            '</span>' +
+          '</span>' +
+          '<span class="music-meta">' +
+            '<span class="music-title">' + escapeHtml(song.title) + '</span>' +
+            '<span class="music-artist">' + escapeHtml(song.artist) + '</span>' +
+          '</span>' +
+          '<span class="music-inline" hidden>' +
+            '<span class="mp-time mp-time-current">0:00</span>' +
+            '<span class="mp-progress" role="slider" tabindex="-1" aria-label="播放进度" ' +
+              'aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">' +
+              '<span class="mp-progress-track">' +
+                '<span class="mp-progress-buffer"></span>' +
+                '<span class="mp-progress-fill"></span>' +
+                '<span class="mp-progress-thumb"></span>' +
+              '</span>' +
+            '</span>' +
+            '<span class="mp-time mp-time-total">0:00</span>' +
+          '</span>' +
         '</div>'
       );
     }).join('');
@@ -67,27 +81,10 @@
 
     buildCards(list);
 
-    var audio        = $('mp-audio');
-    var playerEl     = $('music-player');
-    var coverEl      = q('.mp-cover', playerEl);
-    var titleEl      = q('.mp-title', playerEl);
-    var artistEl     = q('.mp-artist', playerEl);
-    var btnPlay      = q('.mp-play', playerEl);
-    var btnPrev      = q('.mp-prev', playerEl);
-    var btnNext      = q('.mp-next', playerEl);
-    var progressEl   = q('.mp-progress', playerEl);
-    var fillEl       = q('.mp-progress-fill', playerEl);
-    var bufferEl     = q('.mp-progress-buffer', playerEl);
-    var thumbEl      = q('.mp-progress-thumb', playerEl);
-    var timeCurEl    = q('.mp-time-current', playerEl);
-    var timeTotEl    = q('.mp-time-total', playerEl);
-    var cards        = qa('.music-card');
-    if (!audio || !playerEl || !coverEl || !titleEl || !artistEl ||
-        !btnPlay || !btnPrev || !btnNext || !progressEl ||
-        !fillEl || !bufferEl || !thumbEl || !timeCurEl || !timeTotEl ||
-        !cards.length) {
-      return;
-    }
+    var grid = $('music-grid');
+    var audio = $('mp-audio');
+    var cards = qa('.music-card');
+    if (!audio || !grid || !cards.length) return;
 
     var state = {
       index: -1,
@@ -95,39 +92,52 @@
       targetPct: null
     };
 
-    function renderActive() {
-      var playing = !audio.paused && !audio.ended && state.index >= 0;
-      cards.forEach(function (card, i) {
-        card.classList.toggle('is-active', i === state.index);
-        card.classList.toggle('is-playing', i === state.index && playing);
-      });
-      playerEl.classList.toggle('is-playing', playing);
+    // 当前激活卡片内的进度条元素
+    var inlineEl = null, progressEl = null, fillEl = null, bufferEl = null,
+        thumbEl = null, timeCurEl = null, timeTotEl = null;
+
+    function bindInline(card) {
+      inlineEl   = q('.music-inline', card);
+      progressEl = q('.mp-progress', card);
+      fillEl     = q('.mp-progress-fill', card);
+      bufferEl   = q('.mp-progress-buffer', card);
+      thumbEl    = q('.mp-progress-thumb', card);
+      timeCurEl  = q('.mp-time-current', card);
+      timeTotEl  = q('.mp-time-total', card);
     }
 
-    function loadSong(i, autoplay) {
-      if (i < 0 || i >= list.length) return;
-      var song = list[i];
-      state.index = i;
-
-      if (playerEl.hasAttribute('hidden')) playerEl.removeAttribute('hidden');
-      coverEl.src = song.cover;
-      coverEl.alt = song.title;
-      titleEl.textContent = song.title;
-      artistEl.textContent = song.artist;
-      // 显式对 URL 做编码，避免中文路径在个别浏览器/代理下的问题
-      audio.src = encodeURI(song.audio);
-
-      // 重置进度显示
+    function resetInline() {
+      if (!fillEl) return;
       fillEl.style.width = '0%';
       thumbEl.style.left = '0%';
       bufferEl.style.width = '0%';
       timeCurEl.textContent = '0:00';
       timeTotEl.textContent = '0:00';
+    }
+
+    function renderActive() {
+      var playing = !audio.paused && !audio.ended && state.index >= 0;
+      cards.forEach(function (card, i) {
+        var active = i === state.index;
+        card.classList.toggle('is-active', active);
+        card.classList.toggle('is-playing', active && playing);
+        var inl = q('.music-inline', card);
+        if (inl) inl.hidden = !active;
+      });
+    }
+
+    function loadSong(i, autoplay) {
+      if (i < 0 || i >= list.length) return;
+      state.index = i;
+
+      bindInline(cards[i]);
+      resetInline();
+
+      // 显式对 URL 做编码，避免中文路径在个别浏览器/代理下的问题
+      audio.src = encodeURI(list[i].audio);
 
       renderActive();
-      if (autoplay) {
-        safePlay(audio);
-      }
+      if (autoplay) safePlay(audio);
     }
 
     function togglePlayByIndex(i) {
@@ -139,18 +149,12 @@
       }
     }
 
-    function prev() {
-      if (state.index < 0) return;
-      var i = (state.index - 1 + list.length) % list.length;
-      loadSong(i, true);
-    }
     function next() {
       if (state.index < 0) return;
-      var i = (state.index + 1) % list.length;
-      loadSong(i, true);
+      loadSong((state.index + 1) % list.length, true);
     }
 
-    // ---- 唱片卡片交互 ----
+    // ---- 列表行交互（点击封面行即播放/暂停） ----
     cards.forEach(function (card) {
       var idx = parseInt(card.dataset.index, 10);
       card.addEventListener('click', function () { togglePlayByIndex(idx); });
@@ -162,26 +166,15 @@
       });
     });
 
-    // ---- 播放器按钮 ----
-    btnPlay.addEventListener('click', function () {
-      if (state.index < 0) { loadSong(0, true); return; }
-      if (audio.paused) safePlay(audio);
-      else audio.pause();
-    });
-    btnPrev.addEventListener('click', prev);
-    btnNext.addEventListener('click', next);
-
     // ---- audio 事件 ----
     audio.addEventListener('play', renderActive);
     audio.addEventListener('pause', renderActive);
-    audio.addEventListener('ended', function () {
-      next();
-    });
+    audio.addEventListener('ended', function () { next(); });
     audio.addEventListener('loadedmetadata', function () {
-      timeTotEl.textContent = fmtTime(audio.duration);
+      if (timeTotEl) timeTotEl.textContent = fmtTime(audio.duration);
     });
     audio.addEventListener('timeupdate', function () {
-      if (state.seeking) return;
+      if (state.seeking || !fillEl) return;
       var d = audio.duration || 0;
       var pct = d ? (audio.currentTime / d) * 100 : 0;
       fillEl.style.width = pct + '%';
@@ -190,7 +183,7 @@
       progressEl.setAttribute('aria-valuenow', String(Math.round(pct)));
     });
     audio.addEventListener('progress', function () {
-      if (!audio.duration || !audio.buffered.length) return;
+      if (!audio.duration || !audio.buffered.length || !bufferEl) return;
       var end = audio.buffered.end(audio.buffered.length - 1);
       bufferEl.style.width = (end / audio.duration) * 100 + '%';
     });
@@ -198,9 +191,15 @@
       console.warn('audio load error:', audio.currentSrc);
     });
 
-    // ---- 进度条拖动：拖动时只动 UI，松手一次性 seek ----
-    function pctFromEvent(e) {
-      var rect = progressEl.getBoundingClientRect();
+    // ---- 进度条拖动（事件委托到 grid，当前激活卡片生效） ----
+    function activeProgress(e) {
+      var bar = e.target.closest ? e.target.closest('.mp-progress') : null;
+      if (!bar || state.index < 0) return null;
+      if (!cards[state.index] || !cards[state.index].contains(bar)) return null;
+      return bar;
+    }
+    function pctFromEvent(e, bar) {
+      var rect = bar.getBoundingClientRect();
       var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
       return Math.max(0, Math.min(1, x / rect.width));
     }
@@ -215,47 +214,30 @@
       try { audio.currentTime = p * audio.duration; } catch (_) {}
     }
 
-    progressEl.addEventListener('pointerdown', function (e) {
-      if (state.index < 0 || !audio.duration) return;
+    grid.addEventListener('pointerdown', function (e) {
+      var bar = activeProgress(e);
+      if (!bar || !audio.duration) return;
+      e.preventDefault();
+      e.stopPropagation();
       state.seeking = true;
-      try { progressEl.setPointerCapture(e.pointerId); } catch (_) {}
-      state.targetPct = pctFromEvent(e);
+      state.targetPct = pctFromEvent(e, bar);
       paintProgress(state.targetPct);
     });
-    progressEl.addEventListener('pointermove', function (e) {
-      if (!state.seeking) return;
-      state.targetPct = pctFromEvent(e);
+    grid.addEventListener('pointermove', function (e) {
+      if (!state.seeking || !progressEl) return;
+      state.targetPct = pctFromEvent(e, progressEl);
       paintProgress(state.targetPct);
     });
     function endSeek(e) {
       if (!state.seeking) return;
       state.seeking = false;
-      try { progressEl.releasePointerCapture(e.pointerId); } catch (_) {}
       if (state.targetPct != null) {
         commitSeek(state.targetPct);
         state.targetPct = null;
       }
     }
-    progressEl.addEventListener('pointerup', endSeek);
-    progressEl.addEventListener('pointercancel', endSeek);
-
-    progressEl.addEventListener('keydown', function (e) {
-      if (state.index < 0 || !audio.duration) return;
-      var step = 5; // 秒
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        audio.currentTime = Math.max(0, audio.currentTime - step);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + step);
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        audio.currentTime = 0;
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        audio.currentTime = audio.duration;
-      }
-    });
+    grid.addEventListener('pointerup', endSeek);
+    grid.addEventListener('pointercancel', endSeek);
   }
 
   if (document.readyState === 'loading') {

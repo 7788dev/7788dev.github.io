@@ -1,149 +1,32 @@
 # ---------------------------------------------------------------
-# Fluid 主题自定义配置
-# 该文件仅覆盖主题默认 _config.yml 中需要改动的字段
-# 完整选项参见：https://hexo.fluid-dev.com/docs/guide/
+# Fluid 主题 · 站点级覆盖（保持原版，仅做必要补充）
+# 完整选项见主题默认 _config.yml 与文档: https://hexo.fluid-dev.com/docs/guide/
 # ---------------------------------------------------------------
 
-# ------------------------------------------------------------------
-# 站点图标 & SEO
-# ------------------------------------------------------------------
-# 浏览器标签图标（支持 SVG，现代浏览器首选）
+# 站点图标
 favicon: /favicon.svg
 apple_touch_icon: /img/apple-touch-icon.svg
 
-# 规范化 URL（避免同一文章多 URL 分散权重）
-canonical:
-  enable: true
+# 导航栏（含音乐页入口）
+navbar:
+  blog_title: "Looks Blog"
+  menu:
+    - { key: "home",     link: "/",            icon: "iconfont icon-home-fill" }
+    - { key: "archive",  link: "/archives/",   icon: "iconfont icon-archive-fill" }
+    - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
+    - { key: "tag",      link: "/tags/",       icon: "iconfont icon-tags-fill" }
+    - { name: "音乐",     link: "/music/",      icon: "iconfont icon-music" }
+    - { key: "about",    link: "/about/",      icon: "iconfont icon-user-fill" }
 
-# Open Graph（Facebook / LinkedIn / 微信预览卡片）
-open_graph:
-  enable: true
-  twitter_card: summary_large_image
-  twitter_id: ''
-  twitter_site: ''
-  google_plus: ''
-  fb_admins: ''
-  fb_app_id: ''
-  image: /img/og-cover.svg
+# 首页副标题（沿用站点 subtitle）
+index:
+  slogan:
+    enable: true
+    text: "属于我的思考"
 
-# 往 <head> 里追加的自定义 HTML（Fluid 的 open_graph 已经会输出大部分 OG/Twitter 标签，
-# 这里只补它没生成的：SVG favicon 显式声明、RSS alternate、JSON-LD 站点实体、
-# Bing 每日一图的 preconnect 预解析）
-custom_head: '
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="alternate" type="application/atom+xml" title="Looks Blog" href="/atom.xml">
-  <link rel="preconnect" href="https://bing.biturl.top" crossorigin>
-  <link rel="dns-prefetch" href="https://cn.bing.com">
-  <link rel="preconnect" href="https://open.iciba.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
-  <link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
-  <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
-  <link rel="preload" as="image" href="/img/default.png" fetchpriority="low">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600;700&display=swap" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" crossorigin media="print" onload="this.media=&apos;all&apos;">
-  <style>html.home-slogan-pending #subtitle,html.home-slogan-pending .typed-cursor{visibility:hidden}#subtitle,.typed-cursor{transition:opacity .3s ease}</style>
-  <script>(function(){var p=location.pathname.replace(/index\.html$/,"");if(p.slice(-1)!=="/")p+="/";if(!(p==="/"||/^\/page\/\d+\/?$/.test(p)))return;document.documentElement.classList.add("home-slogan-pending");var F=window.Fluid=window.Fluid||{};var _p;try{Object.defineProperty(F,"plugins",{configurable:true,get:function(){return _p;},set:function(v){if(v&&typeof v.typing==="function"&&!v.__icibaHooked){var orig=v.typing;v.typing=function(t){if(document.documentElement.classList.contains("home-slogan-pending")&&!v.__icibaAllow){v.__icibaPending=t;return;}return orig.apply(this,arguments);};v.__icibaHooked=true;}_p=v;}});}catch(e){}})();</script>
-  <meta property="og:locale" content="zh_CN">
-  <meta property="og:site_name" content="Looks Blog">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Looks Blog",
-    "alternateName": "Looks",
-    "url": "https://7788dev.github.io",
-    "description": "Looks 的个人博客，记录技术探索、编程实践与日常思考。",
-    "author": {
-      "@type": "Person",
-      "name": "Looks",
-      "url": "https://7788dev.github.io/about/"
-    }
-  }
-  </script>
-'
-
-# 挂载自定义 JS：Bing 每日一图 Banner 动态替换
-custom_js:
-  - /js/bing-banner.js
-  - /js/iciba-slogan.js
-  - /js/site-uptime.js
-  - /js/spring-festival-lanterns.js
-  - /js/premium-effects.js
-
-# 挂载自定义 CSS：Apple / Google 风的排版、阴影、圆角、交互覆盖
-custom_css:
-  - /css/custom.css
-
-# ------------------------------------------------------------------
-# 全站配色（Nord 极光方案）
-# 冷色蓝灰主调 + 冰蓝点缀，和每天变化的 Bing 壁纸都能和谐共存
-# ------------------------------------------------------------------
-color:
-  # body 背景：极浅的雪原白灰，阅读区域更聚焦
-  body_bg_color: "#eceff4"
-  body_bg_color_dark: "#1c2230"
-
-  # 顶部导航：Polar Night 深靛蓝，与任何 Bing 壁纸都能拉出对比
-  navbar_bg_color: "#2e3440"
-  navbar_bg_color_dark: "#242933"
-  navbar_text_color: "#eceff4"
-  navbar_text_color_dark: "#d8dee9"
-
-  # 首屏副标题
-  subtitle_color: "#eceff4"
-  subtitle_color_dark: "#d8dee9"
-
-  # 正文与次级文本
-  text_color: "#2e3440"
-  text_color_dark: "#d8dee9"
-  sec_text_color: "#4c566a"
-  sec_text_color_dark: "#9aa4b7"
-
-  # 悬浮白板
-  board_color: "#ffffff"
-  board_color_dark: "#2b3242"
-
-  # 文章正文 & 标题
-  post_text_color: "#2e3440"
-  post_text_color_dark: "#d8dee9"
-  post_heading_color: "#2e3440"
-  post_heading_color_dark: "#eceff4"
-
-  # 文章链接 & 悬浮（Frost 冰蓝，和 Bing 壁纸搭最稳）
-  post_link_color: "#5e81ac"
-  post_link_color_dark: "#88c0d0"
-  link_hover_color: "#88c0d0"
-  link_hover_color_dark: "#8fbcbb"
-  link_hover_bg_color: "#e5e9f0"
-  link_hover_bg_color_dark: "#3b4252"
-
-  # 分割线 & 按钮 & 滚动条
-  line_color: "#e5e9f0"
-  line_color_dark: "#3b4252"
-  button_bg_color: "#eceff4"
-  button_bg_color_dark: "#3b4252"
-  button_hover_bg_color: "#d8dee9"
-  button_hover_bg_color_dark: "#4c566a"
-  scrollbar_color: "#c9ccd1"
-  scrollbar_color_dark: "#4c566a"
-  scrollbar_hover_color: "#8fbcbb"
-  scrollbar_hover_color_dark: "#88c0d0"
-
-# 站点作者信息（首页 / 关于页等展示）
-author:
-  name: Looks
-  avatar: /img/avatar.svg
-
-# ------------------------------------------------------------------
-# 关于页
-# 通过 source/about/index.md 的正文 + 下方配置共同构成
-# ------------------------------------------------------------------
+# 关于页头部
 about:
   enable: true
-  banner_img_height: 50
-  banner_mask_alpha: 0.35
   avatar: /img/avatar.svg
   name: "Looks"
   intro: "属于我的思考"
@@ -151,176 +34,13 @@ about:
     - { class: "iconfont icon-github-fill", link: "https://github.com/7788dev", tip: "GitHub" }
     - { class: "iconfont icon-rss", link: "/atom.xml", tip: "RSS 订阅" }
 
-# 菜单
-navbar:
-  blog_title: Looks Blog
-  menu:
-    - { key: "home", link: "/", icon: "iconfont icon-home-fill" }
-    - { key: "archive", link: "/archives/", icon: "iconfont icon-archive-fill" }
-    - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
-    - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
-    - { name: "音乐", link: "/music/", icon: "iconfont icon-music" }
-    - { name: "健身", link: "/fitness/", icon: "iconfont icon-exp-fill" }
-    - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
-
-# 页脚
-footer:
-  content: '
-    <div id="site-uptime" data-since="2026-05-08T00:00:00+08:00" aria-label="本站已运行"></div>
-    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-    <i class="iconfont icon-love"></i>
-    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-  '
-
-  # 页脚访问统计（不蒜子：零配置、零服务器，全站 PV / UV）
-  statistics:
-    enable: true
-    source: "busuanzi"
-
-# ------------------------------------------------------------------
-# 文章页面优化
-# ------------------------------------------------------------------
+# 文章页：开启 Giscus 评论
 post:
-  # 文章头图较矮更聚焦阅读
-  banner_img_height: 45
-  banner_mask_alpha: 0.35
-
-  # 文章元信息：作者/日期/字数/时长/阅读量
-  meta:
-    author:
-      enable: false
-    date:
-      enable: true
-      format: "LL"
-    wordcount:
-      enable: true
-    min2read:
-      enable: true
-      awl: 2
-      wpm: 275
-    # Safari 开启「阻止跨网站跟踪」后会剥掉 Referer，
-    # 不蒜子后端依赖 Referer 识别 path，结果每篇文章 PV 都一样。
-    # 属于协议层限制，换镜像也修不了，直接关掉。
-    views:
-      enable: false
-      source: "busuanzi"
-
-  # 评论系统：Giscus（基于 GitHub Discussions）
   comments:
     enable: true
     type: giscus
 
-  # 文章目录
-  toc:
-    enable: true
-    placement: right
-    headingSelector: "h1,h2,h3,h4,h5,h6"
-    expandAll: false
-
-  # 代码块
-  code:
-    copy_btn: true
-    highlight:
-      enable: true
-      lib: "highlightjs"
-      style:
-        light: "github"
-        dark: "github-dark"
-
-  # 图片懒加载 & 放大预览
-  image_zoom:
-    enable: true
-  image_caption:
-    enable: true
-
-  # 阅读进度条
-  progressbar:
-    enable: true
-    height_px: 3
-    color: "#5e81ac"
-    autoHide: true
-
-  # 字数 / 阅读时长
-  word_count:
-    enable: true
-    word_count: true
-    min2read: true
-
-# ------------------------------------------------------------------
-# 归档 / 分类 / 标签 / 自定义页
-# 统一 banner 高度与遮罩，视觉节奏更一致
-# ------------------------------------------------------------------
-archive:
-  banner_img_height: 40
-  banner_mask_alpha: 0.35
-
-category:
-  banner_img_height: 40
-  banner_mask_alpha: 0.35
-
-tag:
-  banner_img_height: 40
-  banner_mask_alpha: 0.35
-  tagcloud:
-    min_font: 14
-    max_font: 22
-    unit: px
-    start_color: "#5e81ac"
-    end_color: "#88c0d0"
-
-page:
-  banner_img_height: 45
-  banner_mask_alpha: 0.35
-
-# ------------------------------------------------------------------
-# 首页优化
-# ------------------------------------------------------------------
-index:
-  # 首屏头图高度（视口百分比）与遮罩
-  banner_img_height: 85
-  banner_mask_alpha: 0.3
-
-  # 首页打字机 slogan（默认文案作为 iciba API 的兜底）
-  slogan:
-    enable: true
-    text: "属于我的思考"
-    loop: false
-    startDelay: 600
-    typeSpeed: 120
-    backSpeed: 60
-  # 首页文章卡片的显示控制
-  post_url:
-    enable: true
-    text: true
-  # 首页摘要长度
-  auto_excerpt:
-    enable: true
-    length: 150
-
-# ------------------------------------------------------------------
-# 性能 & 资源加载
-# ------------------------------------------------------------------
-# 站内搜索（基于 hexo-theme-fluid 自带的 local-search）
-search:
-  enable: true
-
-# 预加载
-preload:
-  enable: true
-
-# 加载进度动画
-loading:
-  loading_bar:
-    enable: true
-  loading_progress:
-    enable: true
-
-# ------------------------------------------------------------------
-# 评论：Giscus
-# 基于 GitHub Discussions，零服务器成本
-# 配置面板：https://giscus.app
-# 下方 key 会被 Fluid 自动映射为 data-* 属性注入到 giscus/client.js
-# ------------------------------------------------------------------
+# 评论插件：Giscus（沿用原配置的 GitHub Discussions）
 giscus:
   repo: "7788dev/7788dev.github.io"
   repo-id: "R_kgDOSW0JcQ"
@@ -333,6 +53,21 @@ giscus:
   input-position: "top"
   lang: "zh-CN"
   loading: "lazy"
-  # 跟随全站明/暗主题切换
   theme-light: "light"
   theme-dark: "dark"
+
+# 页脚：Fluid 原版署名 + 网站运行时长（由 site-uptime.js 驱动）
+footer:
+  content: '
+    <div id="site-uptime" data-since="2026-05-08T00:00:00+08:00" aria-label="本站已运行"></div>
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+  '
+
+# 自定义资源（仅保留音乐墙 + 页脚运行时间）
+custom_css:
+  - /css/music-wall.css
+
+custom_js:
+  - /js/site-uptime.js
