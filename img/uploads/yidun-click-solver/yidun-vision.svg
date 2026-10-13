@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 500" width="1180" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#08131d"/>
+      <stop offset="100%" stop-color="#101827"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#7df9ff"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="500" rx="26" fill="url(#bg)"/>
+  <g font-family="'SFMono-Regular','Menlo','Consolas','Microsoft YaHei',monospace">
+    <text x="54" y="58" fill="#edf8ff" font-size="30" font-weight="700">local vision pipeline</text>
+    <text x="55" y="90" fill="#8daac3" font-size="16">template search proposes, structural scoring decides, global assignment prevents duplicate hits</text>
+
+    <g transform="translate(72 142)">
+      <rect width="170" height="88" rx="16" fill="#102033" stroke="#31506d"/>
+      <text x="24" y="38" fill="#7df9ff" font-size="19" font-weight="700">prompt crop</text>
+      <text x="24" y="65" fill="#c5d8ea" font-size="14">3 icons / order</text>
+
+      <line x1="188" y1="44" x2="250" y2="44" stroke="#7df9ff" stroke-width="3" marker-end="url(#arrow)"/>
+      <g transform="translate(270 0)">
+        <rect width="190" height="88" rx="16" fill="#102033" stroke="#31506d"/>
+        <text x="24" y="38" fill="#7df9ff" font-size="19" font-weight="700">candidates</text>
+        <text x="24" y="65" fill="#c5d8ea" font-size="14">dddd + dark + tmpl</text>
+      </g>
+
+      <line x1="478" y1="44" x2="540" y2="44" stroke="#7df9ff" stroke-width="3" marker-end="url(#arrow)"/>
+      <g transform="translate(560 0)">
+        <rect width="190" height="88" rx="16" fill="#102033" stroke="#31506d"/>
+        <text x="24" y="38" fill="#7df9ff" font-size="19" font-weight="700">multi-view</text>
+        <text x="24" y="65" fill="#c5d8ea" font-size="14">dark/light/edge</text>
+      </g>
+
+      <line x1="768" y1="44" x2="830" y2="44" stroke="#7df9ff" stroke-width="3" marker-end="url(#arrow)"/>
+      <g transform="translate(850 0)">
+        <rect width="220" height="88" rx="16" fill="#102033" stroke="#31506d"/>
+        <text x="24" y="38" fill="#7df9ff" font-size="19" font-weight="700">global assign</text>
+        <text x="24" y="65" fill="#c5d8ea" font-size="14">permute unique 3 hits</text>
+      </g>
+    </g>
+
+    <g transform="translate(76 292)">
+      <rect width="1028" height="78" rx="18" fill="#090f1a" stroke="#263a52"/>
+      <text x="28" y="48" fill="#61ff9b" font-size="22">score = 0.50*NCC + 0.20*Chamfer + 0.15*Shape + 0.10*TemplateDirect + 0.05*SIFT</text>
+    </g>
+
+    <g transform="translate(78 400)" fill="#aebed5" font-size="16">
+      <text x="0" y="0">SIFT is only a legacy weak term. The decisive signals are NCC, edge distance, shape/SSIM and prompt-driven template evidence.</text>
+      <text x="0" y="32">Top-1 is submitted once; a failed check refreshes token/image instead of brute-forcing the same token.</text>
+    </g>
+  </g>
+</svg>

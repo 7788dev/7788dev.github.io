@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OG 封面 1200×630 · 易盾点选验证码纯 Python 逆向复现 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07111f"/>
+      <stop offset="55%" stop-color="#0d1728"/>
+      <stop offset="100%" stop-color="#10251f"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#72f7ff"/>
+      <stop offset="100%" stop-color="#61ff9b"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g font-family="'SFMono-Regular','Menlo','Consolas',monospace" font-size="15" fill="#6f86a8" opacity="0.35">
+    <text x="58" y="86">getconf -&gt; IR upload -&gt; /api/v3/get -&gt; CV solve -&gt; /api/v3/check</text>
+    <text x="58" y="123">cb = aes(uuid32 with vfnv46) · data = {p,m,ext} · validate = zoneId + safe(aes(raw::fp))</text>
+    <text x="58" y="568">total = 0.50*NCC + 0.20*Chamfer + 0.15*Shape + 0.10*TemplateDirect + 0.05*SIFT</text>
+  </g>
+
+  <g opacity="0.18" stroke="#7df9ff" stroke-width="1">
+    <path d="M40 175 H1160"/>
+    <path d="M40 455 H1160"/>
+    <path d="M190 40 V590"/>
+    <path d="M1010 40 V590"/>
+  </g>
+
+  <g transform="translate(785 178)" filter="url(#glow)">
+    <rect x="0" y="0" width="260" height="190" rx="22" fill="#0a1220" stroke="#72f7ff" stroke-width="3" opacity="0.92"/>
+    <rect x="28" y="25" width="204" height="108" rx="14" fill="#14223a" stroke="#2a5472"/>
+    <circle cx="72" cy="78" r="18" fill="#61ff9b" opacity="0.9"/>
+    <path d="M132 54 l22 42 h-44 z" fill="#72f7ff" opacity="0.9"/>
+    <rect x="175" y="60" width="38" height="38" rx="9" fill="#ffcc66" opacity="0.9"/>
+    <rect x="35" y="150" width="32" height="18" rx="5" fill="#61ff9b"/>
+    <rect x="86" y="150" width="32" height="18" rx="5" fill="#72f7ff"/>
+    <rect x="137" y="150" width="32" height="18" rx="5" fill="#ffcc66"/>
+    <path d="M72 78 C122 120, 142 44, 194 79" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="8 7" opacity="0.8"/>
+  </g>
+
+  <g font-family="'Inter','PingFang SC','Microsoft YaHei',sans-serif">
+    <text x="76" y="260" font-size="34" fill="#8bd3ff" font-weight="700">YiDun Click Solver</text>
+    <text x="74" y="335" font-size="66" fill="#ffffff" font-weight="800">易盾点选验证码</text>
+    <text x="74" y="405" font-size="56" fill="url(#cyan)" font-weight="800">纯 Python 逆向复现</text>
+    <text x="78" y="470" font-size="25" fill="#c7d6ea">core-optimi · irToken / fp · OpenCV 本地识别 · validate 包装</text>
+  </g>
+
+  <g transform="translate(76 515)" font-family="'SFMono-Regular','Menlo','Consolas',monospace" font-size="21">
+    <rect x="0" y="0" width="548" height="54" rx="14" fill="#08111f" stroke="#24445e"/>
+    <text x="24" y="35" fill="#61ff9b">python tools/yidun_click_solver.py --json-out results/live.json</text>
+  </g>
+</svg>

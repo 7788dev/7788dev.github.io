@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" role="img" aria-label="书堆简笔画">
+  <rect width="300" height="220" fill="#eef7f4"/>
+  <g fill="none" stroke="#3f4756" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,-6)">
+    <path d="M70 150 L230 150 L230 172 L70 172 Z"/>
+    <path d="M82 150 L82 172"/>
+    <path d="M84 126 L216 126 L216 148 L84 148 Z"/>
+    <path d="M196 126 L196 148"/>
+    <g transform="rotate(-6 150 105)">
+      <path d="M96 94 L204 94 L204 116 L96 116 Z"/>
+      <path d="M108 94 L108 116"/>
+    </g>
+    <path d="M176 148 L176 162 L168 156 L160 162 L160 148"/>
+    <path d="M120 82 L180 78"/>
+    <path d="M180 78 L192 76 L182 72"/>
+  </g>
+</svg>

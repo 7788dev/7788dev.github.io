@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OG 封面 1200×630 · 好久没有早睡了 · 深夜紫蓝 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg-w" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1a1745"/>
+      <stop offset="55%"  stop-color="#2a1f5c"/>
+      <stop offset="100%" stop-color="#0e0a2a"/>
+    </linearGradient>
+    <radialGradient id="halo-w" cx="22%" cy="48%" r="42%">
+      <stop offset="0%"   stop-color="#a78bfa" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-w)"/>
+  <rect width="1200" height="630" fill="url(#halo-w)"/>
+
+  <!-- 低饱和星点 -->
+  <g fill="#e0d7ff">
+    <circle cx="380"  cy="95"  r="1.6" opacity="0.5"/>
+    <circle cx="820"  cy="135" r="1.4" opacity="0.45"/>
+    <circle cx="1060" cy="75"  r="1.8" opacity="0.6"/>
+    <circle cx="910"  cy="460" r="1.3" opacity="0.4"/>
+  </g>
+
+  <!-- Lucide · moon -->
+  <g transform="translate(170 195) scale(10)"
+     fill="none" stroke="#e0d7ff" stroke-width="0.2"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </g>
+
+  <!-- 右侧文字 -->
+  <g fill="#eae5ff"
+     font-family="'PingFang SC','Microsoft YaHei UI','Helvetica Neue','Segoe UI',Arial,sans-serif">
+    <text x="520" y="205"
+          font-family="'SFMono-Regular','Menlo','Consolas',monospace"
+          font-size="16" fill="#a78bfa" letter-spacing="4">01:46 AM · 随笔</text>
+
+    <text x="520" y="312" font-size="58" font-weight="600" letter-spacing="-1">好久没有早睡了</text>
+    <text x="520" y="380" font-size="30" font-weight="400" fill="#b8aee8" letter-spacing="0.5">可能是我病了，</text>
+    <text x="520" y="422" font-size="30" font-weight="400" fill="#b8aee8" letter-spacing="0.5">还是我在逃避什么</text>
+  </g>
+
+  <line x1="110" y1="555" x2="1090" y2="555" stroke="#3d3570" stroke-width="1"/>
+  <text x="110" y="590" font-size="18" fill="#e0d7ff" font-weight="500"
+        font-family="'PingFang SC','Segoe UI',sans-serif">Looks Blog</text>
+  <text x="1090" y="590" text-anchor="end" font-size="16" fill="#6d5fb3"
+        font-family="'SFMono-Regular','Menlo','Consolas',monospace">7788dev.github.io</text>
+</svg>

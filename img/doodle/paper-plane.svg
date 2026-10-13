@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" role="img" aria-label="纸飞机简笔画">
+  <rect width="300" height="220" fill="#edf3fb"/>
+  <g fill="none" stroke="#3f4756" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M36 186 C64 168 52 138 84 128 C112 119 106 148 130 152" stroke-dasharray="1 12"/>
+    <path d="M214 54 L66 98 L124 116 Z"/>
+    <path d="M214 54 L124 116 L138 160 L152 122 Z"/>
+    <path d="M124 116 L138 160"/>
+  </g>
+</svg>

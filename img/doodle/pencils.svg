@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" role="img" aria-label="散乱铅笔简笔画">
+  <rect width="300" height="220" fill="#fbf3ec"/>
+  <g fill="none" stroke="#3f4756" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 56 C58 38 74 74 92 54 C106 40 120 66 138 50"/>
+    <g transform="rotate(-16 130 120)">
+      <path d="M62 110 L176 110 L176 132 L62 132 Z"/>
+      <path d="M176 110 L204 121 L176 132"/>
+      <path d="M196 118 L204 121 L196 124"/>
+      <path d="M74 110 L74 132"/>
+      <path d="M62 121 L74 121"/>
+    </g>
+    <g transform="rotate(12 190 168)">
+      <path d="M132 158 L226 158 L226 176 L132 176 Z"/>
+      <path d="M226 158 L250 167 L226 176"/>
+      <path d="M243 164 L250 167 L243 170"/>
+      <path d="M142 158 L142 176"/>
+    </g>
+    <g transform="rotate(38 232 78)">
+      <path d="M204 70 L262 70 L262 86 L204 86 Z"/>
+      <path d="M262 70 L282 78 L262 86"/>
+      <path d="M212 70 L212 86"/>
+    </g>
+    <g transform="rotate(-8 92 182)">
+      <path d="M64 172 L112 172 L112 194 L64 194 Z"/>
+      <path d="M64 181 L112 181"/>
+    </g>
+    <path d="M236 118 c9 -7 18 2 11 11 c-6 8 -16 2 -11 -7"/>
+  </g>
+</svg>

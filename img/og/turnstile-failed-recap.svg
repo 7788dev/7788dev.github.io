@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OG 封面 1200×630 · 逆向 Cloudflare 5s 盾 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg-t" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#141820"/>
+      <stop offset="100%" stop-color="#0a0d13"/>
+    </linearGradient>
+    <linearGradient id="shield-t" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#f6821f"/>
+      <stop offset="100%" stop-color="#c94a00"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-t)"/>
+
+  <!-- 背景淡淡的代码纹（hex 流） -->
+  <g font-family="'SFMono-Regular', 'Menlo', 'Consolas', monospace" font-size="13" fill="#2a313d" opacity="0.5">
+    <text x="30"  y="80">_cf_chl_opt = { cHash: "a8f2...", cRay: "7b3e..." }</text>
+    <text x="40" y="120">orchestrate.chl_page.v1?ray=7b3e...</text>
+    <text x="30" y="560">POST /cdn-cgi/challenge-platform/h/g/flow/ov1/...</text>
+    <text x="40" y="590">403 &#x2192; interstitial.html + VM bytecode</text>
+  </g>
+
+  <!-- 左侧：盾牌 + 破裂缝 -->
+  <g transform="translate(160 175)">
+    <!-- 盾牌本体 -->
+    <path d="M140 0 L10 40 L10 170 Q10 240 140 290 Q270 240 270 170 L270 40 Z"
+          fill="url(#shield-t)" opacity="0.92"/>
+    <!-- 内层阴影 -->
+    <path d="M140 20 L30 55 L30 170 Q30 225 140 268 Q250 225 250 170 L250 55 Z"
+          fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
+    <!-- 破裂缝隙（lightning 形状） -->
+    <path d="M150 55 L115 150 L150 150 L125 240 L180 130 L145 130 L170 55 Z"
+          fill="#ffffff" opacity="0.92"/>
+  </g>
+
+  <!-- 右侧：文字 -->
+  <g font-family="'PingFang SC', 'Microsoft YaHei UI', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" fill="#eceff4">
+    <g transform="translate(500 130)">
+      <rect x="0" y="0" width="98" height="36" rx="18" fill="#f6821f" fill-opacity="0.18" stroke="#f6821f" stroke-opacity="0.5" stroke-width="1"/>
+      <text x="49" y="24" text-anchor="middle" font-size="18" fill="#f6821f" letter-spacing="2">逆向</text>
+    </g>
+
+    <text x="500" y="270" font-size="72" font-weight="700" letter-spacing="-1">逆向</text>
+    <text x="500" y="360" font-size="72" font-weight="700" letter-spacing="-1" fill="#f6821f">Cloudflare</text>
+    <text x="500" y="450" font-size="72" font-weight="700" letter-spacing="-1">5s 盾</text>
+
+    <text x="500" y="505" font-family="'SFMono-Regular','Menlo','Consolas',monospace"
+          font-size="18" fill="#6b7584">Node.js · vm · node-tls-client</text>
+  </g>
+
+  <!-- 底部站名 -->
+  <g font-family="'SFMono-Regular', 'Menlo', 'Consolas', monospace">
+    <text x="110" y="580" font-size="20" fill="#d8dee9" font-weight="600" font-family="'PingFang SC','Segoe UI',sans-serif">Looks Blog</text>
+    <text x="1090" y="580" text-anchor="end" font-size="18" fill="#4c566a">7788dev.github.io</text>
+  </g>
+</svg>
