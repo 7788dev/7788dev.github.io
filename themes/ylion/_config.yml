@@ -17,9 +17,6 @@ menu:
 - page: music
   url: /music/
   icon: fa-music
-- page: fitness
-  url: /fitness/
-  icon: fa-heartbeat
 - page: about
   url: /about/
   icon: fa-user
