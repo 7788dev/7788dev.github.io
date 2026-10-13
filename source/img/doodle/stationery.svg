@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" role="img" aria-label="文具杂物简笔画">
+  <rect width="300" height="220" fill="#f3eefb"/>
+  <g fill="none" stroke="#3f4756" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(-6 90 92)">
+      <path d="M50 52 L130 52 L130 132 L50 132 Z"/>
+      <path d="M130 52 L110 52 L130 72 Z"/>
+      <path d="M62 84 L104 84"/>
+      <path d="M62 100 L98 100"/>
+    </g>
+    <path d="M198 40 C188 40 184 48 184 56 L184 84 C184 94 192 100 200 100 C208 100 214 94 214 86 L214 54 C214 48 210 44 204 44 C198 44 194 48 194 54 L194 82"/>
+    <g transform="rotate(-14 150 186)">
+      <path d="M56 176 L244 176 L244 198 L56 198 Z"/>
+      <path d="M76 176 L76 186"/>
+      <path d="M96 176 L96 186"/>
+      <path d="M116 176 L116 186"/>
+      <path d="M136 176 L136 186"/>
+      <path d="M156 176 L156 186"/>
+      <path d="M176 176 L176 186"/>
+      <path d="M196 176 L196 186"/>
+      <path d="M216 176 L216 186"/>
+    </g>
+    <g transform="rotate(32 214 140)">
+      <path d="M168 132 L252 132 L252 148 L168 148 Z"/>
+      <path d="M252 132 L276 140 L252 148"/>
+      <path d="M182 132 L182 148"/>
+      <path d="M168 140 L160 140"/>
+    </g>
+  </g>
+</svg>

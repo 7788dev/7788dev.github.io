@@ -1,7 +1,9 @@
 ---
 title: 关于
-layout: about
+layout: page
+type: about
 date: 2026-05-08 20:13:33
+comments: false
 ---
 
 很高兴在互联网的某个角落遇见你。

@@ -1,0 +1,226 @@
+# ---------------------------------------------------------------
+# ylion 主题配置 · Looks Blog
+#
+# 注意：主题已内置于本站仓库（themes/ylion），此文件为站点唯一
+# 主题配置来源。不要再通过根目录 _config.[theme].yml 覆盖——
+# Hexo 合并数组配置（menu/widgets/links 等）时是“拼接”而非“替换”，
+# 会产生重复项，难以排查。
+# ---------------------------------------------------------------
+
+# layout -- 布局相关
+
+## menu -- 导航菜单显示{[@page:名字/*多语言支持*/,@url:地址,@icon:显示的图标],[...]}
+menu:
+- page: home
+  url: /
+  icon: fa-home
+- page: music
+  url: /music/
+  icon: fa-music
+- page: fitness
+  url: /fitness/
+  icon: fa-heartbeat
+- page: about
+  url: /about/
+  icon: fa-user
+- page: rss
+  url: /atom.xml
+  icon: fa-rss
+
+## favicon -- 网站图标位置{@favicon}
+favicon: /favicon.svg
+
+## rss --rss文件位置{@rss}
+rss: /atom.xml
+
+## widgets -- 左边小工具{@widgets:[notification,category,archive,popular,tagcloud,friends]}
+## popular 依赖 leancloud、friends 依赖 links，均未启用故不展示
+widgets:
+- notification
+- category
+- archive
+- tagcloud
+
+## widgets settings --各个小工具的设置
+### notification config --网站公告设置。支持 html 和 纯文本
+notification: |-
+            <p>欢迎来到 Looks Blog~ 这里记录技术探索、编程实践与日常思考。</p>
+
+### categories-list config --文章分类设置{@cate_config:{@show_count:是否显示数字，@show_current: 是否高亮当前category}}
+cate_config:
+ show_count: true
+ show_current: true
+
+### archives-list config
+### 文章归档设置{@arch_config:/*参数参考：https://hexo.io/zh-cn/docs/helpers.html#list-archives*/}
+arch_config:
+ type: 'monthly'
+ show_count: true
+ order: -1
+
+### tagcloud config
+### 彩色标签云设置{@tagcloud_config:/*https://hexo.io/zh-cn/docs/helpers.html#tagcloud*/}
+tagcloud_config:
+ min_font: 0.14
+ max_font: 0.2
+ unit: rem
+ amount: 100
+ color: true
+ orderby: 'count'
+ start_color: '#6699cc'
+ end_color: '#0A407C'
+
+### friends' links settings
+### 友链设置:{@links:[,,,]}
+links: []
+
+
+# content -- 内容显示相关
+
+## show top posts or not
+## 是否开启置顶文章功能？若开启，请在文章的Front-matter中加入`top`字段，top值越大越靠前
+stick: true
+
+## social config
+## 社交功能设置 {@social:[url:地址,title:a标签的title,icon:显示图标],[]}
+social:
+- url: https://github.com/7788dev
+  title: GitHub
+  icon: fa-github
+
+## custom content config
+## 自定义内容设置
+### append copyright when copy the text
+### 添加版权保护 {@appendCopyright:{enable:是否开启,triggerCopyLength:触发的复制长度,appendText:追加信息}}
+appendCopyright:
+  enable: true
+  triggerCopyLength: 200
+  appendText: '商业转载请联系作者获得授权，非商业转载请注明出处 © Looks Blog'
+
+### uncategory posts meta text
+### 当无目录时的显示文字
+noCategoryText: '未分类'
+
+### outdated browser warning
+### 过低版本的浏览器提醒文字
+outdated_browser_text: '你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。'
+
+### outdated post warning
+### 文章过期提醒功能 {@warning:{days:临界天数,text:提醒文字/*%d为过期总天数占位符*/}}
+warning:
+  days: 300
+  text: '本文于%d天之前发表，文中内容可能已经过时。如有疑问，请在评论区留言。'
+
+### index article excerpt
+### 首页文章简介的图片
+### 规则:Front-matter中的自定义'img'字段 > 文章内的图片(随机获取) > defaultImgs(随机获取)
+defaultImgs:
+  - /img/doodle/paper-plane.svg
+  - /img/doodle/airplane.svg
+  - /img/doodle/pencils.svg
+  - /img/doodle/stationery.svg
+  - /img/doodle/desk.svg
+  - /img/doodle/lightbulb.svg
+  - /img/doodle/camera.svg
+  - /img/doodle/headphones.svg
+  - /img/doodle/books.svg
+excerptLength: 400
+
+### article meta
+### 文章信息(article meta)指首页和文章内页，与icon一起的信息
+### @whichCategory 指定显示哪个分类，默认为最后一个，可以指定，若指定的超过该文章的分类总长度， 显示最后一个
+whichCategory: 0
+
+### post footer
+### 作者信息部分设置
+high_song: ''  ### 歌曲显示文字，若不需要该功能，则留空或移除
+author_img: /img/avatar.svg
+author_profile_page: /about/
+donate:
+  text: '' ### 打赏功能显示文字，若不需要，则留空或移除
+  img: [] ### 打赏图片列表 {url, alt}
+
+### support html&text like notification's support in this theme,
+### but please don't use <li> tag
+### 版权声明文字，支持html/text，但不要使用<li>标签
+cc: |-
+        <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">
+        知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议（CC BY-NC-ND 3.0）
+        </a>
+
+### highlight
+### 内置两款代码主题：github / solarized-light
+highlightStyle: github
+
+# third party service --第三方服务
+## busuanzi --不蒜子站点总人数统计 {@visits_count:{enable:是否开启,icon:图标,text:显示文字/*%d为占位符*/,method:统计方式}}
+visits_count:
+  enable: false
+  icon: fa-bar-chart
+  text: '欢迎第%d位小伙伴~'
+  count_method: 'uv' ### uv 为多次点击算一次，pv为每篇文章算一次
+
+## leancloud --- leancloud 阅读量统计（未配置凭据，关闭后热门文章 widget 自动隐藏）
+## {@leancloud:{enable:是否开启,className:创建的class,app_id:,app_key:,region:默认为中国地区,limits:热门文章显示总数,serverURLs:绑定的域名}}
+leancloud:
+  enable: false
+  className: "BlogCounter"
+  app_id:
+  app_key:
+  region:
+  limits: 10
+  serverURLs:
+
+## comments -- 评论框
+### disqus
+disqus_shortname:
+### duoshuo
+duoshuo_shortname:
+### gitalk
+gitalk:
+  enable: false
+### giscus（本站使用）
+giscus:
+  enable: true
+  repo: "7788dev/7788dev.github.io"
+  repo-id: "R_kgDOSW0JcQ"
+  category: "Announcements"
+  category-id: "DIC_kwDOSW0Jcc4C8mHQ"
+  mapping: "pathname"
+  strict: "0"
+  reactions-enabled: "1"
+  emit-metadata: "0"
+  input-position: "top"
+  theme-light: "light"
+  lang: "zh-CN"
+  loading: "lazy"
+
+## analytics --统计功能
+baidu_anaylytics:
+google_anaylytics:
+
+## sitemap -- 站点验证
+google_vertification:
+baidu_vertification:
+
+## mathjax（仅在文章 Front-matter 声明 mathjax: true 时加载）
+mathjax:
+  enable: true
+  src: //cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+# cdn or local files --开启对应文件的cdn，默认使用本地文件
+## style cdn --样式 cdn
+## icon -- 官方地址：http://fontawesome.io/icons/
+## 使用主题内置 font-awesome，避免已失效的 bootcss CDN
+fontAwesome: /css/thirdParty/font-awesome.min.css
+
+## script cdn --脚本cdn
+## leancloud -- 官网:https://leancloud.cn/
+leancloud_src: //cdn.jsdelivr.net/npm/leancloud-storage@3.15.0/dist/av-min.js
+## busuanzi -- 官网：http://busuanzi.ibruce.info/
+busuanzi_src: //busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js
+
+# theme and site self settings
+since: '2026' ### 必须为字符串，避免页脚版权年份显示为 “2026 - 2026”
+robot: 'all' ### 控制搜索引擎的抓取和索引编制行为，默认为all，搜索 `meta name="robots"` 或请参考： https://support.google.com/webmasters/answer/79812?hl=zh-Hans
+version: 2.0.0

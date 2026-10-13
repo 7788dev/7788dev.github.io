@@ -1,0 +1,67 @@
+<ul id="main">
+    <% if(page.posts && page.posts.length){ %>
+
+    <%var curPosts = page.posts;%>
+    <%if(theme.stick){%>
+    <% var sortedPosts = sortPosts(site.posts); %>
+    <% curPosts = getCurPosts(sortedPosts,config,page);%>
+    <% } %>
+
+    <%
+        // 默认简笔画轮询：第 1~P 篇依次用第 1~P 张；满一轮后随机换一个
+        // 与上一轮末张不同的起点，开始新一轮循环
+        var doodlePool = (theme.defaultImgs && theme.defaultImgs.length) ? theme.defaultImgs : [];
+        var DP = doodlePool.length;
+        var perPage = (config.index_generator && config.index_generator.per_page) || config.per_page || 10;
+        var roundOffsets = [0];
+        var roundOffset = function (r) {
+            if (DP < 2) return 0;
+            while (roundOffsets.length <= r) {
+                var prevLast = (roundOffsets[roundOffsets.length - 1] + DP - 1) % DP;
+                var cand = Math.floor(Math.random() * DP);
+                while (cand === prevLast) cand = Math.floor(Math.random() * DP);
+                roundOffsets.push(cand);
+            }
+            return roundOffsets[r];
+        };
+        var doodleFor = function (g) {
+            if (!DP) return '';
+            return doodlePool[(roundOffset(Math.floor(g / DP)) + (g % DP)) % DP];
+        };
+    %>
+    <% curPosts.forEach(function (post, i) { %>
+    <%
+        var urls = pickImgs(post);
+        var random = Math.floor(Math.random() * (urls.length));
+        // 全局文章序号（跨分页连续），决定轮到哪张简笔画
+        var g = ((page.current || 1) - 1) * perPage + i;
+
+        //post.img or random img in post or rotating doodle
+        var _photoUrl = post.img || (urls.length > 0 && urls[random]) || doodleFor(g);
+    %>
+    <li  class="article-excerpt-wrap <%if(theme.stick&&post.top&&post.top>0){%><%- "stick"%><%}%>" _href = "<%- url_for(post.path)%>">
+        <div class="article-img img-ajax" data-src= <%- url_for(_photoUrl) %>>
+           <div class="loading-img"><i class="fa fa-pulse fa-spinner"></i></div>
+        </div>
+        <div class="article-excerpt">
+            <% if(post.title){ %>
+            <a class="article-title-link" href="<%- url_for(post.path) %>">
+                <h2 class="article-title"><%- post.title %></h2>
+            </a>
+            <% }else{ %>
+            <h2 style="margin-bottom: 0.35rem;"></h2>
+            <%}%>
+            <p class="article-content">
+                <%- truncate(strip_html(post.content), {length: theme.excerptLength || 200, omission: '...'}) %>
+            </p>
+            <%- partial('_partial/article-meta', {post: post}) %>
+        </div>
+        <%if(theme.stick&&post.top&&post.top>0){%>
+        <i class="fa  fa-bookmark"></i>
+        <%}%>
+    </li>
+    <% }) %>
+    <%}%>
+
+</ul>
+<%- partial('_partial/pagination') %>

@@ -6,6 +6,7 @@ comments: false
 ---
 
 {% raw %}
+<link rel="stylesheet" href="/css/music-wall.css">
 <div class="music-wall">
   <p class="music-intro">
     最近在循环的几首歌。点击即可播放，再点一次暂停。

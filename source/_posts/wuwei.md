@@ -10,6 +10,7 @@ description: 喜欢冬天沿江大桥上的冷风，喜欢简单的食物，也�
 keywords: '无味, 冬天, 江边, 冷风, 独处, 生活, 自我观察'
 abbrlink: ca89f01f
 date: 2026-06-05 00:00:00
+comments: true
 ---
 
 我喜欢冬天。

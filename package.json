@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@adobe/css-tools": "^4.4.4",
+    "ejs": "^3.1.10",
     "hexo": "^8.0.0",
     "hexo-abbrlink": "^2.2.1",
     "hexo-filter-nofollow": "^2.0.2",
@@ -21,12 +22,12 @@
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^4.0.0",
-    "hexo-generator-searchdb": "^1.5.0",
     "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "^2.0.0",
     "hexo-minify": "^1.8.1",
     "hexo-pagination": "^4.0.0",
     "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-less": "^4.0.0",
     "hexo-renderer-marked": "^7.0.0",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
@@ -35,7 +36,8 @@
     "hexo-util": "^4.0.0",
     "hexo-wordcount": "^6.0.1",
     "moment": "^2.30.1",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "utils-merge": "^1.0.1"
   },
   "devDependencies": {
     "hexo-deployer-git": "^4.0.0"

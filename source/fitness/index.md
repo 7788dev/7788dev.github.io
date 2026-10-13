@@ -6,6 +6,7 @@ comments: false
 ---
 
 {% raw %}
+<link rel="stylesheet" href="/css/fitness-wall.css">
 <div class="fit-archive" data-api="/api/fitness.json">
   <p class="h4" data-fit-summary>正在加载…</p>
 

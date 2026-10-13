@@ -1,0 +1,12 @@
+<div id="main">
+    <div id="post-list">
+        <ul class="archives-post-list">
+            <% site.tags.sort('name').each(function (tag) { %>
+            <li class="post-items" _href="<%- url_for(tag.path) %>">
+                <p class="info"><%= tag.length %></p>
+                <h2 class="post-item-title"><%= tag.name %></h2>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>

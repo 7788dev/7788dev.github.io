@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" role="img" aria-label="小飞机简笔画">
+  <rect width="300" height="220" fill="#eef7f0"/>
+  <g fill="none" stroke="#3f4756" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 58 C40 48 52 44 58 50 C62 40 78 42 80 52 C90 50 92 62 82 64 L48 64 C40 64 38 60 40 58 Z"/>
+    <path d="M228 168 C228 160 238 157 243 162 C246 154 259 156 261 164 C269 162 271 172 263 174 L236 174 C229 174 227 170 228 168 Z"/>
+    <path d="M132 102 L116 66 L156 66 L170 102"/>
+    <path d="M132 144 L118 178 L158 178 L170 144"/>
+    <path d="M64 124 C64 110 78 102 96 102 L188 102 C214 102 232 112 238 124 C232 136 214 144 188 144 L96 144 C78 144 64 136 64 124 Z"/>
+    <path d="M76 104 L60 76 L94 98"/>
+    <path d="M76 142 L64 162 L94 150"/>
+    <circle cx="112" cy="123" r="6"/>
+    <circle cx="136" cy="123" r="6"/>
+    <circle cx="160" cy="123" r="6"/>
+    <path d="M242 96 C250 104 250 144 242 152 C234 144 234 104 242 96 Z"/>
+    <path d="M24 110 L44 110"/>
+    <path d="M18 124 L40 124"/>
+    <path d="M24 138 L44 138"/>
+  </g>
+</svg>

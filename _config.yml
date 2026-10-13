@@ -99,7 +99,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid
+theme: ylion
 
 # ------------------------------------------------------------------
 # SEO 相关
@@ -114,12 +114,10 @@ sitemap:
 baidusitemap:
   path: baidusitemap.xml
 
-# 站内搜索（hexo-generator-searchdb，生成 local-search.xml 供 Fluid 主题使用）
+# 站内搜索（ylion 主题内置 search 生成器，产出 search.xml 供主题搜索框使用）
 search:
-  path: local-search.xml
-  field: post
-  content: true
-  format: html
+  path: search.xml
+  field: all
 
 # 固定短永久链接（hexo-abbrlink），避免中文标题生成超长 URL，利于 SEO 与分享
 # 生成后请在文章 Front-matter 中用 `abbrlink: xxxx` 固定，或将 alg 设为 crc16 自动分配
