@@ -176,9 +176,9 @@ duoshuo_shortname:
 ### gitalk
 gitalk:
   enable: false
-### giscus（本站使用）
+### giscus（已停用）
 giscus:
-  enable: true
+  enable: false
   repo: "7788dev/7788dev.github.io"
   repo-id: "R_kgDOSW0JcQ"
   category: "Announcements"
