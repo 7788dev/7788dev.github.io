@@ -93,6 +93,12 @@
         <a href="<%- url_for(page.next.path) %>" class="next-post fa"><%= page.next.title %></a>
         <% } %>
     </div>
+    <% if (typeof popular_posts === 'function') { %>
+    <div id="related-posts">
+        <h2 class="related-posts-title"><%= __('related_posts') %></h2>
+        <%- popular_posts({ maxCount: 5, ulClass: 'related-posts-list', PPMixingRate: 0.0 }, page) %>
+    </div>
+    <% } %>
     <% if(page.comments){ %>
     <div id="comments">
         <%- partial('_partial/comments', {page: page}) %>

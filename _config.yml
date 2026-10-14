@@ -130,6 +130,12 @@ abbrlink:
 # 文章字数统计与阅读时长（hexo-wordcount），在主题模板中通过 min2read/wordcount 调用
 wordcount: true
 
+# 相关文章推荐（hexo-related-popular-posts），文章页按标签与内容相关性匹配
+popularPosts:
+  weight:
+    tagRelevancy: 1.0
+    contentsRelevancy: 1.0
+
 # RSS / Atom 订阅
 feed:
   enable: true
