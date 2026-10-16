@@ -1,11 +1,19 @@
 <!--Simple SEO-->
-<%if(config.description){%>
-<meta name="description" content=<%= config.description%>/>
-<%}%>
 <%
 var robotMeta = theme.robot||'all';
+// permalink 带 index.html（config.pretty_urls.trailing_index 为 true），
+// 但站内链接用的是目录形式，canonical/og:url 必须与之一致，否则等于指向另一个 URL 变体。
+var pageUrl = (page.permalink || full_url_for(page.path)).replace(/index\.html$/, '');
+var pageKeywords = page.keywords
+        || (page.tags && page.tags.length ? page.tags.map(function(tag){ return tag.name; }).join(',') : '')
+        || config.keywords;
 %>
-<meta name="robots" content=<%= robotMeta%> />
-<meta name="google" content=<%= robotMeta%> />
-<meta name="googlebot" content=<%= robotMeta%> />
-<meta name="verify" content=<%= robotMeta%> />
+<%- open_graph({url: pageUrl}) %>
+<link rel="canonical" href="<%- pageUrl %>">
+<% if(pageKeywords){ %>
+<meta name="keywords" content="<%= pageKeywords %>">
+<% } %>
+<meta name="robots" content="<%= robotMeta %>">
+<meta name="google" content="<%= robotMeta %>">
+<meta name="googlebot" content="<%= robotMeta %>">
+<meta name="verify" content="<%= robotMeta %>">

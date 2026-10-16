@@ -99,7 +99,13 @@
         <%- popular_posts({ maxCount: 5, ulClass: 'related-posts-list', PPMixingRate: 0.0 }, page) %>
     </div>
     <% } %>
-    <% if(page.comments){ %>
+    <%
+    var commentEnabled = (theme.duoshuo_shortname && theme.duoshuo_shortname.length > 0)
+            || (theme.disqus_shortname && theme.disqus_shortname.length > 0)
+            || (theme.giscus && theme.giscus.enable)
+            || (theme.gitalk && theme.gitalk.enable);
+    %>
+    <% if(page.comments && commentEnabled){ %>
     <div id="comments">
         <%- partial('_partial/comments', {page: page}) %>
     </div>
