@@ -64,9 +64,9 @@
         
         <tags>
             
-            <tag> 生活 </tag>
-            
             <tag> 思考 </tag>
+            
+            <tag> 生活 </tag>
             
             <tag> 自我观察 </tag>
             
@@ -124,6 +124,20 @@
     </entry>
     
     <entry>
+        <title><![CDATA[关于]]></title>
+        <url>https://7788dev.github.io/about/index.html</url>
+        <content type="html"><![CDATA[<p>很高兴在互联网的某个角落遇见你。</p>
+<p>这里是 <strong>Looks Blog</strong>，一个属于我的思考空间。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+        <title><![CDATA[分类]]></title>
+        <url>https://7788dev.github.io/categories/index.html</url>
+        <content type="html"></content>
+    </entry>
+    
+    <entry>
         <title><![CDATA[健身打卡]]></title>
         <url>https://7788dev.github.io/fitness/index.html</url>
         <content type="html"><![CDATA[
@@ -141,12 +155,6 @@
 <script defer src="/js/fitness-wall.js"></script>
 
 ]]></content>
-    </entry>
-    
-    <entry>
-        <title><![CDATA[分类]]></title>
-        <url>https://7788dev.github.io/categories/index.html</url>
-        <content type="html"></content>
     </entry>
     
     <entry>
@@ -206,14 +214,6 @@
 </script>
 <script defer src="/js/music-wall.js"></script>
 
-]]></content>
-    </entry>
-    
-    <entry>
-        <title><![CDATA[关于]]></title>
-        <url>https://7788dev.github.io/about/index.html</url>
-        <content type="html"><![CDATA[<p>很高兴在互联网的某个角落遇见你。</p>
-<p>这里是 <strong>Looks Blog</strong>，一个属于我的思考空间。</p>
 ]]></content>
     </entry>
     
