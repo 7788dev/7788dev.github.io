@@ -2,9 +2,9 @@
     <div id="post-list">
         <ul class="archives-post-list">
             <% site.categories.sort('name').each(function (cate) { %>
-            <li class="post-items" _href="<%- url_for(cate.path) %>">
+            <li class="post-items" data-href="<%- url_for(cate.path) %>">
                 <p class="info"><%= cate.length %></p>
-                <h2 class="post-item-title"><%= cate.name %></h2>
+                <h2 class="post-item-title"><a class="post-item-title-link" href="<%- url_for(cate.path) %>"><%= cate.name %></a></h2>
             </li>
             <% }) %>
         </ul>

@@ -3,9 +3,9 @@
   <div id="post-list">
     <ul class="archives-post-list">
         <% page.posts.each(function(post){ %>
-      <li class="post-items" _href="<%- url_for(post.path)%>">
+      <li class="post-items" data-href="<%- url_for(post.path)%>">
         <p class="info"><%= post.date.year()%></p>
-        <h2 class="post-item-title"><%= post.title%></h2>
+        <h2 class="post-item-title"><a class="post-item-title-link" href="<%- url_for(post.path)%>"><%= post.title%></a></h2>
           <%- partial('_partial/article-meta', {post:post}) %>
       </li>
         <% }) %>

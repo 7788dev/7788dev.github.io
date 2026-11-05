@@ -4,7 +4,7 @@
 
             <h1 id="<%= page.title %>">
                 <%if(page.link){%>
-                <a href="<%- url_for(page.link) %>" target="_blank"><%= page.title %></a>
+                <a href="<%- url_for(page.link) %>" target="_blank" rel="noopener noreferrer"><%= page.title %></a>
                 <%}else{%>
                 <%= page.title||'NO Title!' %>
                 <%}%>
@@ -55,22 +55,28 @@
                         <a href="<%- page.translation %>"><%= page.translation %></a>
                     </li>
                 <%}%>
-                <li><%= __('date') %>: <span><%- full_date(page.date, 'YYYY-MM-DD  HH:mm:ss') %></span></li>
+                <li><%= __('date') %>: <span><%- full_date(page.date, 'YYYY-MM-DD HH:mm:ss') %></span></li>
                 <% if(page.updated){ %>
-                <li><%= __('update') %>: <span><%- full_date(page.updated, 'YYYY-MM-DD  HH:mm:ss') %></span></li>
+                <li><%= __('update') %>: <span><%- full_date(page.updated, 'YYYY-MM-DD HH:mm:ss') %></span></li>
                 <% } %>
                 <li class="post-category">
                     <%= __('post_categories') %>:
+                    <% if(page.categories && page.categories.length){ %>
                     <% page.categories.forEach(function (cate) { %>
                     <a href="<%- url_for(cate.path) %>"><%= cate.name %></a>
                     <% }) %>
+                    <% } else { %>
+                    <span><%= theme.noCategoryText || '未分类' %></span>
+                    <% } %>
                 </li>
+                <% if(page.tags && page.tags.length){ %>
                 <li class="post-tags">
                     <%= __('post_tags') %>:
                     <% page.tags.forEach(function (tag) { %>
                     <a href="<%- url_for(tag.path) %>"><%= tag.name %></a>
                     <% }) %>
                 </li>
+                <% } %>
                 <% if(theme.cc){ %>
                 <li> <%= __('post_licence') %>: <%- theme.cc %></li>
                 <% } %>

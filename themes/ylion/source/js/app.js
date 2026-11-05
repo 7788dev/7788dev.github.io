@@ -19,6 +19,8 @@ window.onload = function () {
     $postExpWrap = document.querySelector("ul#main"),
     $searchBtn = document.getElementById("search"),
     $searchOverlay = document.getElementById("search-overlay"),
+    $searchClose = document.querySelector(".search-close"),
+    $toolButtons = document.querySelectorAll("#tools li[role='button']"),
     $tocBtn = document.querySelector("#tools .toc-btn"),
     $tocWrap = document.querySelector(".toc"),
     $searchInput = document.getElementById("search-input"),
@@ -42,6 +44,8 @@ window.onload = function () {
     $hostPlaceHolders = document.querySelectorAll(".error-host"),
     $gitcomment = document.getElementById("gitcomment"),
     _originalTableWidth = [];
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   //responsive design
   var isPC = true;
   (function (designPercent) {
@@ -103,7 +107,7 @@ window.onload = function () {
   function generateFormattedDate (now) {
     var year = now.getFullYear(),
       month = now.getMonth() + 1,
-      date = now.getDate() + 1,
+      date = now.getDate(),
       hour = now.getHours(),
       minute = now.getMinutes(),
       second = now.getSeconds(),
@@ -222,55 +226,71 @@ window.onload = function () {
     });
   }
   /*animation to targetEle*/
-  $totop.onclick = function () {
-    scrollTo(0, 1000);
-  };
-  //imgs ajax,also want to support post imgs
+  if ($totop) {
+    $totop.onclick = function () {
+      if (reduceMotion) window.scrollTo(0, 0);
+      else scrollTo(0, 600);
+    };
+  }
+
+  function loadLazyImage ($this) {
+    var src = $this.getAttribute("data-src");
+    if (!src) return;
+    if ($this.nodeName.toLowerCase() === "img") {
+      $this.src = src;
+      $this.style.display = "block";
+    } else {
+      var imgObj = new Image();
+      imgObj.onload = function () {
+        $this.style.backgroundImage = "url(\"" + src + "\")";
+        $this.classList.add("img-loaded");
+        var $loading = $this.querySelector(".loading-img");
+        if ($loading && $loading.parentNode) {
+          $loading.parentNode.removeChild($loading);
+        }
+      };
+      imgObj.src = src;
+    }
+    $this.removeAttribute("data-src");
+  }
+
+  //imgs ajax fallback for browsers without IntersectionObserver
   function imgsAjax ($targetEles) {
     if (!$targetEles) return;
-    var _length = $targetEles.length;
-    if (_length > 0) {
-      var scrollBottom = getScrollTop() + window.innerHeight;
-      for (var i = 0; i < _length; i++) {
-        (function (index) {
-          var $this = $targetEles[index];
-          //fix offset bug...
-          var $this_offsetZero = $this.getBoundingClientRect().top +
-            window.pageYOffset - document.documentElement.clientTop;
-          if (scrollBottom >= $this_offsetZero &&
-            $this.getAttribute("data-src") &&
-            $this.getAttribute("data-src").length > 0) {
-            if ($this.nodeName.toLowerCase() === "img") {
-              $this.src = $this.getAttribute("data-src");
-              $this.style.display = "block";
-            } else {
-              var imgObj = new Image();
-              imgObj.onload = function () {
-                $this.innerHTML = "";
-              };
-              imgObj.src = $this.getAttribute("data-src");
-              $this.style.backgroundImage = "url(" +
-                $this.getAttribute("data-src") + ")";
-            }
-            $this.removeAttribute("data-src");//为了优化，移除
-          }
-        })(i);
-      }
+    var scrollBottom = getScrollTop() + window.innerHeight;
+    Array.prototype.forEach.call($targetEles, function ($this) {
+      if (!$this.getAttribute("data-src")) return;
+      //fix offset bug...
+      var $thisOffset = $this.getBoundingClientRect().top +
+        window.pageYOffset - document.documentElement.clientTop;
+      if (scrollBottom >= $thisOffset) loadLazyImage($this);
+    });
+  }
 
-    }
+  var lazyObserver = null;
+  if ("IntersectionObserver" in window && $ajaxImgs.length) {
+    lazyObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        loadLazyImage(entry.target);
+      });
+    }, {rootMargin: "200px 0px"});
+    Array.prototype.forEach.call($ajaxImgs, function ($img) {
+      lazyObserver.observe($img);
+    });
   }
 
   var scrollCallback = function () {
+    var scrollTop = getScrollTop();
     //totop
-    if (getScrollTop() > 260) {
-      $totop.style.display = "block";
-    } else {
-      $totop.style.display = "none";
+    if ($totop) {
+      $totop.style.display = scrollTop > 260 ? "block" : "none";
     }
     //header
     //getComputedStyle() fix 'fixed' style bug
     if (window.getComputedStyle($header).position === "fixed") {
-      if (getScrollTop() > 0) {
+      if (scrollTop > 0) {
         $header.classList.add("fixed");
       } else {
         $header.classList.remove("fixed");
@@ -278,10 +298,12 @@ window.onload = function () {
     }
 
     //rate of progress
-    $processDiv.style.width = (getScrollTop() /
-      ($body.scrollHeight - window.innerHeight)) * 100 + "%";
-    //imgs ajax
-    if (isPC) {
+    var scrollable = $body.scrollHeight - window.innerHeight;
+    if ($processDiv) {
+      $processDiv.style.width = (scrollable > 0 ? scrollTop / scrollable * 100 : 0) + "%";
+    }
+    //imgs ajax (only needed without IntersectionObserver)
+    if (!lazyObserver) {
       imgsAjax($ajaxImgs);
     }
   };
@@ -343,6 +365,10 @@ window.onload = function () {
   });
   // click fake links
   function clickLink (e, bounce) {
+    //let real links keep native behaviour (middle-click, new tab, modifiers)
+    if (e.target.closest && e.target.closest("a")) return;
+    var selection = window.getSelection && window.getSelection();
+    if (selection && String(selection).trim().length) return;
     e.preventDefault();
     var $listenEle = e.target;
     while ($listenEle !== this && $listenEle.tagName.toLowerCase() !== "li") {
@@ -351,8 +377,9 @@ window.onload = function () {
     if ($listenEle !== this) {
       if (bounce) $listenEle.classList.add("bounce");
       $body.style.opacity = "0.5";
-      if ($listenEle.attributes["_href"]) {
-        window.location.href = $listenEle.attributes["_href"].value;
+      var href = $listenEle.getAttribute("data-href");
+      if (href) {
+        window.location.href = href;
       }
     }
 
@@ -366,16 +393,35 @@ window.onload = function () {
   }, false);
   /*search function*/
   var extra = {flag: false, data: []};
-  $searchBtn.addEventListener("click", function (e) {
-    search.func(search.path, extra);
+  function openSearch () {
+    if (!$searchOverlay) return;
     $searchOverlay.classList.add("show");
-    $searchInput.focus();
-  }, false);
-  $searchOverlay.addEventListener("click", function (e) {
-    if (e.target.classList.contains("search-area-wrap")) {
-      this.classList.remove("show");
+    $searchOverlay.setAttribute("aria-hidden", "false");
+    $body.classList.add("search-open");
+    if (typeof search !== "undefined" && search.func) {
+      search.func(search.path, extra);
     }
+    if ($searchInput) $searchInput.focus();
+  }
+  function closeSearch () {
+    if (!$searchOverlay) return;
+    $searchOverlay.classList.remove("show");
+    $searchOverlay.setAttribute("aria-hidden", "true");
+    $body.classList.remove("search-open");
+    var $trigger = $searchBtn && $searchBtn.querySelector("button");
+    if ($trigger) $trigger.focus();
+  }
+  $searchBtn && $searchBtn.addEventListener("click", openSearch, false);
+  $searchClose && $searchClose.addEventListener("click", closeSearch, false);
+  $searchOverlay && $searchOverlay.addEventListener("click", function (e) {
+    if (e.target.classList.contains("search-area-wrap")) closeSearch();
   }, false);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && $searchOverlay &&
+      $searchOverlay.classList.contains("show")) {
+      closeSearch();
+    }
+  });
   /*fix bug*/
   if (!$tocWrap && $tocBtn) {
     $tocBtn.style.display = "none";
@@ -389,12 +435,22 @@ window.onload = function () {
       }
     }
   }, false);
-  $searchInput.onfocus = function (e) {
-    this.parentNode.classList.add("focus");
-  };
-  $searchInput.onblur = function (e) {
-    this.parentNode.classList.remove("focus");
-  };
+  Array.prototype.forEach.call($toolButtons, function ($btn) {
+    $btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        $btn.click();
+      }
+    });
+  });
+  if ($searchInput) {
+    $searchInput.onfocus = function () {
+      this.parentNode.classList.add("focus");
+    };
+    $searchInput.onblur = function () {
+      this.parentNode.classList.remove("focus");
+    };
+  }
   /*change comments original text*/
   function changeText () {
     $commentsCounter.removeEventListener("DOMNodeInserted", changeText);

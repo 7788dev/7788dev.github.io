@@ -39,8 +39,8 @@
         //post.img or random img in post or rotating doodle
         var _photoUrl = post.img || (urls.length > 0 && urls[random]) || doodleFor(g);
     %>
-    <li  class="article-excerpt-wrap <%if(theme.stick&&post.top&&post.top>0){%><%- "stick"%><%}%>" _href = "<%- url_for(post.path)%>">
-        <div class="article-img img-ajax" data-src= <%- url_for(_photoUrl) %>>
+    <li  class="article-excerpt-wrap <%if(theme.stick&&post.top&&post.top>0){%><%- "stick"%><%}%>" data-href="<%- url_for(post.path)%>">
+        <div class="article-img img-ajax" data-src="<%- url_for(_photoUrl) %>" aria-hidden="true">
            <div class="loading-img"><i class="fa fa-pulse fa-spinner"></i></div>
         </div>
         <div class="article-excerpt">
