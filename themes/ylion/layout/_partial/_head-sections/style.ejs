@@ -10,7 +10,7 @@
         if(theme.gitalk.enable){
           comment = theme.gitalk.css
         }
-    } else if (is_archive() || is_tag() || is_category()) {
+    } else if (is_archive() || is_tag() || is_category() || page.layout === 'tags' || page.layout === 'categories') {
         needed = '/css/pages/archive';
     } else {
         needed = '/css/pages/othersPages'
@@ -28,6 +28,9 @@
 <style>
     figure .code .line:before{
         display: none!important;
+    }
+    figure .code .line{
+        padding-left: 0!important;
     }
 </style>
 <%}%>

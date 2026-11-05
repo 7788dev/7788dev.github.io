@@ -1,78 +1,172 @@
 @import "../_variable";
 @import "../_func";
+
 header {
   box-sizing: border-box;
   position: fixed;
-  background-color: @pageBg;
-  z-index: 888;
-  overflow: hidden;
   top: 0;
   left: 0;
   width: 100%;
+  height: @headerHeight;
+  z-index: 888;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .2rem;
   padding: 0 @pagePadding;
-  .textVerCenter(@headerHeight);
-  color: @mainBlack;
-  .clear-fix();
-  &.fixed{
-    #site-meta{
-      padding-top: 0;
+  overflow: hidden;
+  color: var(--text-strong);
+  background-color: var(--header-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  backdrop-filter: blur(16px) saturate(1.35);
+  border-bottom: 1px solid transparent;
+  transition: height .25s ease, border-color .25s ease, box-shadow .25s ease;
+
+  &.fixed {
+    height: .56rem;
+    border-bottom-color: var(--border);
+    box-shadow: var(--shadow-sm);
+
+    #site-meta .title {
+      font-size: .24rem;
+    }
+
+    #site-meta .subtitle {
+      opacity: 0;
     }
   }
+
   #site-meta {
-    float: left;
-    height: 100%;
-    background-color: @pageBg;
-    padding-top: 3px;
+    display: flex;
+    align-items: baseline;
+    gap: .12rem;
+    min-width: 0;
+    height: auto;
+    padding-top: 0;
+    background-color: transparent;
 
     #logo {
       .inline-block();
-      vertical-align: sub; /*fix*/
+      min-width: 0;
+      color: var(--text-strong);
     }
+
     .title {
-      font-size: .4rem;
-      color: @mainBlack;
+      font-size: .3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      .transition(font-size .25s ease);
     }
+
     .subtitle {
       .inline-block();
+      min-width: 0;
+      max-width: 4.6rem;
       opacity: 1;
-      color: @secondBlack;
-      font-weight: 200;
-      font-size: .16rem;
-      margin-left: .1rem;
+      overflow: hidden;
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: .135rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-left: 0;
+      .transition(opacity .25s ease);
     }
   }
+
   #nav {
-    float: right;
-    background-color: @pageBg;
-    .clear-fix();
+    display: flex;
+    align-items: center;
+    gap: .04rem;
+    background-color: transparent;
+
     li {
-      .inline-block();
-      .textVerCenter((@headerHeight / 2));
-      margin-left: .1rem;
-      padding: .29rem 0 (@headerHeight/2-0.29);
-    }
-    a {
-      color: @secondBlack;
-      padding: 0 .06rem;
       display: block;
-      &:hover, &.actived {
-        color: @mainBlack;
+      height: auto;
+      line-height: normal;
+      margin-left: 0;
+      padding: 0;
+    }
+
+    a, button {
+      display: inline-flex;
+      align-items: center;
+      gap: .06rem;
+      height: .34rem;
+      padding: 0 .13rem;
+      border: 1px solid transparent;
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: @navFontSize;
+      line-height: 1;
+      white-space: nowrap;
+      transition: color .2s ease, background-color .2s ease;
+
+      &:hover {
+        color: var(--text-strong);
+        background-color: var(--bg-subtle);
       }
+
+      &.actived {
+        color: var(--primary);
+        background-color: var(--primary-soft);
+        font-weight: 600;
+      }
+
       i {
-        margin-right: .07rem;
+        margin-right: 0;
+        font-size: .14rem;
       }
     }
   }
 }
+
+#theme-toggle {
+  .fa-sun-o {
+    display: none;
+  }
+
+  .label-enter-light {
+    display: none;
+  }
+}
+
+html[data-theme="dark"] #theme-toggle {
+  .fa-moon-o {
+    display: none;
+  }
+
+  .fa-sun-o {
+    display: inline-block;
+  }
+
+  .label-enter-dark {
+    display: none;
+  }
+
+  .label-enter-light {
+    display: inline;
+  }
+}
+
 #process {
   content: "";
   position: fixed;
-  width: 0;
-  height: 4px;
-  background-color: @secondBlue;
-  top: -1px;
+  top: 0;
   left: 0;
-  .border-radius(1px);
+  width: 0;
+  height: 3px;
+  border-radius: 0 2px 2px 0;
+  background-image: linear-gradient(90deg, var(--primary), var(--accent));
   z-index: 9999;
 }
 
+@media screen and (min-width: 1241px) {
+  header {
+    padding-left: calc((100vw - 1240px) / 2 + @pagePadding);
+    padding-right: calc((100vw - 1240px) / 2 + @pagePadding);
+  }
+}

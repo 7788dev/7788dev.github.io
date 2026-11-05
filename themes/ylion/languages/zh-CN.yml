@@ -36,3 +36,12 @@ post_tags: 文章标签
 post_licence: 版权声明
 popular_post: 热门文章
 related_posts: 相关文章
+close: 关闭
+search_empty: 没有找到相关文章
+search_error: 搜索索引加载失败，请稍后重试
+back_to_top: 返回顶部
+toc: 目录
+toggle_sidebar: 切换侧栏
+toggle_theme: 切换主题
+theme_dark: 夜间
+theme_light: 日间

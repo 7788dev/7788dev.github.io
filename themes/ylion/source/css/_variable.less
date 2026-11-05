@@ -1,23 +1,26 @@
-/*variable*/
-@mainBlack: #181818;
-@pageBg: #EEEEEE;
-@mainBlue: #396CA5;
-@secondBlue: #6699cc;
-@thirdBlue: #ABCDEF;
-@secondBlack: #666666;
-@lineColor: #cecece;
-@btnBg: #e0e0e0;
-@baseFontSize: .16rem;
-@headerHeight: .8rem;
-@titleFontSize: .18rem;
-@navFontSize: .12rem;
+/*variable
+ * 颜色统一映射到 _theme.less 中的 CSS 变量，这样所有旧样式无需逐个改写
+ * 也能自动获得暗色模式。新增样式请直接使用 var(--*)。
+ */
+@mainBlack: var(--text-strong);
+@pageBg: var(--bg);
+@mainBlue: var(--primary-strong);
+@secondBlue: var(--primary);
+@thirdBlue: var(--primary-soft);
+@secondBlack: var(--text-secondary);
+@lineColor: var(--border);
+@btnBg: var(--bg-subtle);
+@baseFontSize: .168rem;
+@headerHeight: .72rem;
+@titleFontSize: .21rem;
+@navFontSize: .14rem;
 @pagePadding: 0.3rem;
-@totopSize: 35px;
-@cardHeight: 2.27rem;
+@totopSize: 38px;
+@cardHeight: 2.3rem;
 @postItemWidth: 300px;
 @postItemHeight: 130px;
-@font-family: "Helvetica Neue", Helvetica, tahoma, Aria, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", simSun, Heiti, sans-serif;
-@code-font:  "Source Code Pro", Consolas, "Liberation Mono",Monaco, Menlo, monospace;
+@font-family: var(--font-sans);
+@code-font: var(--font-mono);
 .itemTriangle(@borderColor:#E0E0E0,@zIndex:-1) {
   content: "";
   width: 0;

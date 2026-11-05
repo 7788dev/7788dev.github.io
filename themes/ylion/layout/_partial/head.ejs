@@ -1,13 +1,28 @@
 <!doctype html>
-<html>
+<html lang="<%= config.language || 'zh-CN' %>">
 <head>
     <!--Setting-->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="theme-color" content="#F5F7FB">
+    <script>
+    (function () {
+        try {
+            var stored = window.localStorage.getItem('ylion-theme');
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var dark = stored === 'dark' || (!stored && prefersDark);
+            if (dark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', '#0B0F14');
+            }
+        } catch (e) {}
+    })();
+    </script>
     <meta name="apple-mobile-web-app-capable"  content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no,email=no">
     <%- partial('_thirdParty/google_sitemap') %>
     <%- partial('_thirdParty/baidu_sitemap') %>

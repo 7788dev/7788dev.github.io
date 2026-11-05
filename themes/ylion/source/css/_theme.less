@@ -1,0 +1,165 @@
+/* ------------------------------------------------------------------
+ * Design tokens
+ * 全站颜色、阴影、圆角集中在这里。新增组件请优先使用 var(--*)，
+ * 不要再写死十六进制色值，否则暗色模式下会漏配。
+ * ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Source Code Pro", Consolas,
+    "Liberation Mono", Menlo, monospace;
+
+  --bg: #f5f7fb;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #eef2f8;
+  --bg-inset: #e9eef6;
+  --header-bg: rgba(245, 247, 251, 0.82);
+
+  --text-strong: #12161d;
+  --text: #1d232c;
+  --text-secondary: #596575;
+  --text-muted: #8b95a5;
+
+  --border: #e5eaf1;
+  --border-strong: #d4dce7;
+
+  --primary: #3b6fe0;
+  --primary-strong: #2b58be;
+  --primary-soft: rgba(59, 111, 224, 0.1);
+  --primary-softer: rgba(59, 111, 224, 0.055);
+  --accent: #7b61ff;
+
+  --danger: #c94f4f;
+  --danger-bg: #fdf0f0;
+  --danger-border: #f3d3d3;
+  --warning: #a8701a;
+  --warning-bg: #fdf6e7;
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.03), 0 4px 12px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 2px 4px rgba(16, 24, 40, 0.03), 0 12px 28px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 24px 56px rgba(16, 24, 40, 0.14);
+
+  --radius-xs: 0.04rem;
+  --radius-sm: 0.08rem;
+  --radius-md: 0.12rem;
+  --radius-lg: 0.16rem;
+  --radius-pill: 999px;
+
+  --code-bg: #f7f9fc;
+  --code-border: #e5eaf1;
+
+  --overlay: rgba(12, 18, 26, 0.42);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0b0f14;
+  --bg-elevated: #121820;
+  --bg-subtle: #18202a;
+  --bg-inset: #0e1319;
+  --header-bg: rgba(11, 15, 20, 0.82);
+
+  --text-strong: #f4f7fb;
+  --text: #e2e8f0;
+  --text-secondary: #a1acba;
+  --text-muted: #77828f;
+
+  --border: #222b36;
+  --border-strong: #303b49;
+
+  --primary: #7da6ff;
+  --primary-strong: #b2caff;
+  --primary-soft: rgba(125, 166, 255, 0.14);
+  --primary-softer: rgba(125, 166, 255, 0.08);
+  --accent: #a98bff;
+
+  --danger: #ff8a85;
+  --danger-bg: rgba(255, 138, 133, 0.1);
+  --danger-border: rgba(255, 138, 133, 0.22);
+  --warning: #f0b65c;
+  --warning-bg: rgba(240, 182, 92, 0.1);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 14px 32px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+
+  --code-bg: #0f151c;
+  --code-border: #253039;
+
+  --overlay: rgba(0, 0, 0, 0.62);
+}
+
+/* 代码高亮：github 浅色主题在暗色下的映射 */
+html[data-theme="dark"] .comment,
+html[data-theme="dark"] .quote {
+  color: #8b949e;
+}
+
+html[data-theme="dark"] .keyword,
+html[data-theme="dark"] .selector-tag,
+html[data-theme="dark"] .subst {
+  color: #ff7b72;
+}
+
+html[data-theme="dark"] .number,
+html[data-theme="dark"] .literal,
+html[data-theme="dark"] .variable,
+html[data-theme="dark"] .template-variable,
+html[data-theme="dark"] .tag .attr {
+  color: #79c0ff;
+}
+
+html[data-theme="dark"] .string,
+html[data-theme="dark"] .doctag {
+  color: #a5d6ff;
+}
+
+html[data-theme="dark"] .title,
+html[data-theme="dark"] .section,
+html[data-theme="dark"] .selector-id {
+  color: #d2a8ff;
+}
+
+html[data-theme="dark"] .type,
+html[data-theme="dark"] .class .title {
+  color: #ffa657;
+}
+
+html[data-theme="dark"] .tag,
+html[data-theme="dark"] .name,
+html[data-theme="dark"] .attribute {
+  color: #7ee787;
+}
+
+html[data-theme="dark"] .regexp,
+html[data-theme="dark"] .link {
+  color: #7ee787;
+}
+
+html[data-theme="dark"] .symbol,
+html[data-theme="dark"] .bullet {
+  color: #ffa198;
+}
+
+html[data-theme="dark"] .built_in,
+html[data-theme="dark"] .builtin-name {
+  color: #79c0ff;
+}
+
+html[data-theme="dark"] .meta {
+  color: #8b949e;
+}
+
+html[data-theme="dark"] .deletion {
+  background: rgba(248, 81, 73, 0.15);
+}
+
+html[data-theme="dark"] .addition {
+  background: rgba(46, 160, 67, 0.15);
+}

@@ -34,3 +34,12 @@ post_tags: Tags
 post_licence: License
 popular_post: Popular Posts
 related_posts: Related Posts
+close: Close
+search_empty: No posts found.
+search_error: Failed to load the search index. Please try again later.
+back_to_top: Back to top
+toc: Contents
+toggle_sidebar: Toggle sidebar
+toggle_theme: Toggle theme
+theme_dark: Night
+theme_light: Day

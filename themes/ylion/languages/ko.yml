@@ -34,3 +34,12 @@ post_tags: 태그
 post_licence: License
 popular_post: 인기있는 블로그 글
 related_posts: 관련 기사
+close: 닫기
+search_empty: 검색 결과가 없습니다
+search_error: 검색 색인을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.
+back_to_top: 맨 위로
+toc: 목차
+toggle_sidebar: 사이드바 전환
+toggle_theme: 테마 전환
+theme_dark: 야간
+theme_light: 주간

@@ -1,4 +1,4 @@
-<header <%if(!is_home()){%> style="position: absolute;" <%}%>>
+<header>
     <div id="site-meta">
         <a href="<%- url_for()%>" id="logo">
             <h1 class="title"><%= config.title%></h1>
@@ -8,9 +8,17 @@
         <% } %>
     </div>
     <ul id="nav">
-        <% theme.menu.forEach(function (item) {%>
-            <li><a href="<%- item.url%>"><i class="fa <%= item.icon%>"></i><%= __(item.page+'') %></a></li>
+        <% theme.menu.forEach(function (item) { var isActive = is_current(item.url); %>
+            <li><a href="<%- item.url%>"<% if(isActive){ %> class="actived" aria-current="page"<% } %>><i class="fa <%= item.icon%>" aria-hidden="true"></i><%= __(item.page+'') %></a></li>
         <%})%>
-        <li id="search"><a href="javascript:void(0)"><i class="fa fa-search"></i><%= __('search') %></a></li>
+        <li id="search"><button type="button" aria-label="<%= __('search') %>"><i class="fa fa-search" aria-hidden="true"></i><%= __('search') %></button></li>
+        <li id="theme-toggle" class="theme-toggle">
+            <button type="button" aria-label="<%= __('toggle_theme') %>" title="<%= __('toggle_theme') %>">
+                <i class="fa fa-moon-o" aria-hidden="true"></i>
+                <i class="fa fa-sun-o" aria-hidden="true"></i>
+                <span class="theme-label label-enter-dark"><%= __('theme_dark') %></span>
+                <span class="theme-label label-enter-light"><%= __('theme_light') %></span>
+            </button>
+        </li>
     </ul>
 </header>

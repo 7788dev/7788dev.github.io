@@ -1,17 +1,23 @@
 @import "../_variable";
 @import "../_func";
-/*base on Netease reset style*/
+
+/* base on Netease reset style */
 html, body, h1, h2, h3, h4, h5, h6, div, dl, dt, dd, ul, ol, li, p, blockquote, pre, hr, figure, table, caption, th, td, form, fieldset, legend, input, button, textarea, menu {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background-color: @pageBg;
+  background-color: var(--bg);
   padding: 0;
   margin: 0;
   font-size: @baseFontSize;
   font-family: @font-family;
+  line-height: 1.7;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 html, body, fieldset, img, iframe, abbr {
@@ -45,43 +51,102 @@ a, a:hover {
 }
 
 body, textarea, input, button {
-  color: @mainBlack;
+  color: var(--text);
 }
 
 html, body {
   width: 100%;
-  min-height: 9.3rem;
+  min-height: 100%;
+  height: auto;
+}
+
+img {
+  max-width: 100%;
   height: auto;
 }
 
 .hide {
   display: none;
 }
-/*edit*/
+
 *::selection {
-  background-color: @thirdBlue;
+  background-color: rgba(59, 111, 224, 0.16);
 }
+
+html[data-theme="dark"] *::selection {
+  background-color: rgba(125, 166, 255, 0.3);
+}
+
 body {
   overflow-x: hidden;
 }
 
 #wrap {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
   padding: 0 @pagePadding;
 }
-#main,#page-pagination{
+
+#main, #page-pagination {
   float: right;
   box-sizing: border-box;
-  width: 75%;
+  width: 74%;
 }
+
 #container {
+  flex: 1 0 auto;
   .clear-fix();
-  padding: (@headerHeight + .3rem) 0 (@pagePadding / 2) 0;
+  padding: (@headerHeight + .34rem) 0 (@pagePadding / 2) 0;
 }
-#comments-count{
+
+#comments-count {
   //display: none;
 }
-#ds-thread.ds-narrow #ds-reset .ds-comment-body, #ds-thread.ds-narrow #ds-reset .ds-replybox{
-  padding-left: 0!important;
+
+#ds-thread.ds-narrow #ds-reset .ds-comment-body, #ds-thread.ds-narrow #ds-reset .ds-replybox {
+  padding-left: 0 !important;
 }
 
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
 
+body.search-open {
+  overflow: hidden;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

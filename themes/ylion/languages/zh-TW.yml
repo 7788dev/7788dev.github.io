@@ -34,3 +34,12 @@ post_tags: 文章標簽
 post_licence: 版權聲明
 popular_post: 熱門文章
 related_posts: 相關文章
+close: 關閉
+search_empty: 找不到相關文章
+search_error: 搜尋索引載入失敗，請稍後重試
+back_to_top: 回到頂部
+toc: 目錄
+toggle_sidebar: 切換側欄
+toggle_theme: 切換主題
+theme_dark: 夜間
+theme_light: 日間

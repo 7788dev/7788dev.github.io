@@ -1,157 +1,224 @@
 @import "../_func";
 @import "../_variable";
 @import (reference) "post";
-#demo{
-  text-align: center;
+
+#demo {
   position: relative;
-  .demo-title{
-    color: @secondBlack;
+  text-align: center;
+
+  .demo-title {
+    margin-bottom: .2rem;
+    padding-bottom: .08rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: .2rem;
     text-align: left;
-    border-bottom: 1px solid rgba(206, 206, 206, 0.18);
-    margin-bottom: 20px;
-    .fa{
-      margin-right: 5px;
-    }
-    .warning{
-      font-weight: 200;
-      font-size: 14px;
-      color: #BA5C5A;
+
+    .fa {
+      margin-right: .06rem;
+      color: var(--primary);
     }
 
+    .warning {
+      color: var(--danger);
+      font-size: .13rem;
+      font-weight: 400;
+    }
   }
-  .demo-list-item{
+
+  .demo-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .2rem;
+  }
+
+  .demo-list-item {
     position: relative;
-    .inline-block();
-    .box-sizing(border-box);
-    .box-shadow(0 2px 1px @secondBlack);
-    width: 45%;
-    margin: 20px 10px;
-    padding-bottom: 10px;
-    &:hover{
-      .box-shadow(0 5px 10px @secondBlack);
+    box-sizing: border-box;
+    width: auto;
+    margin: 0;
+    padding-bottom: .12rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-elevated);
+    box-shadow: var(--shadow-xs);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+
+    &:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+      .transform(translateY(-3px));
     }
-    .fa{
+
+    .fa {
       position: absolute;
-      left: 50%;
-      font-size: 1.3rem;
-      color: #cecece;
       top: 50%;
-      margin-top: -100px;
-      margin-left:-50px;
+      left: 50%;
+      margin-top: -0.75rem;
+      margin-left: -0.4rem;
+      color: var(--text-muted);
+      font-size: 1rem;
     }
-    a{
-      color: @secondBlack;
-      text-align: left;
+
+    a {
       display: block;
-      &:hover{
-        color: @secondBlue;
+      color: var(--text-secondary);
+      text-align: left;
+
+      &:hover {
+        color: var(--primary);
       }
     }
 
-    .demo-item-bg{
+    .demo-item-bg {
+      height: 2.4rem;
+      margin-bottom: .1rem;
       overflow: hidden;
-      height: 260px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid @lineColor;
-      -webkit-background-size: cover;
-      background-size:cover;
+      border-bottom: 1px solid var(--border);
+      background-position: center;
+      background-size: cover;
     }
-    .demo-item-title{
-      line-height: 1.8;
-      font-weight: bold;
+
+    .demo-item-title {
+      color: var(--text-strong);
+      font-size: .16rem;
+      font-weight: 600;
+      line-height: 1.6;
     }
-    .demo-item-desc{
-      font-size:14px;
+
+    .demo-item-desc {
+      color: var(--text-muted);
+      font-size: .13rem;
     }
-    .demo-item-title,.demo-item-desc{
-      padding: 0 10px;
+
+    .demo-item-title, .demo-item-desc {
+      padding: 0 .14rem;
       .text-ellipsis();
     }
   }
 }
 
-#about:extend(#post #post-body all){
-  .line{
-    line-height: 2.8!important;
+#about, #page-content {
+  box-sizing: border-box;
+  min-height: 4rem;
+  padding: .38rem .42rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+#about:extend(#post #post-body all) {
+  .line {
+    line-height: 1.9 !important;
   }
 }
 
-#page-content:extend(#post #post-body all){
-  .line{
-    line-height: 2.8!important;
+#page-content:extend(#post #post-body all) {
+  .line {
+    line-height: 1.9 !important;
   }
 }
 
-#error-page{
+#error-page {
   min-height: 100%;
-  #wrap{
+
+  #wrap {
+    position: relative;
     overflow: hidden;
     /* 成为绝对定位 header 的包含块，overflow 才能裁掉 120% 宽的“残破头部” */
-    position: relative;
   }
-  header{
-    .animation(ruinHeader 1s ease-out 0s 1 normal forwards);
+
+  header {
+    position: absolute;
     width: 120%;
-    #site-meta{
+    padding-left: .3rem;
+    .animation(ruinHeader 1s ease-out 0s 1 normal forwards);
+
+    #site-meta {
       margin-left: 1.1rem;
     }
-    #nav{
+
+    #nav {
       float: left;
       margin-left: 1rem;
     }
   }
-  #sidebar{
+
+  #sidebar {
     display: none;
   }
-  #main{
+
+  #main {
     width: 100%;
     animation: none;
   }
-  #error:extend(#post #post-body all){
-    padding-top: .2rem;
+
+  #error:extend(#post #post-body all) {
     width: 80%;
     margin: 0 auto;
+    padding-top: .2rem;
     padding-bottom: 0;
-    & > pre{
-      position: relative;
 
+    & > pre {
+      position: relative;
     }
   }
-  #tools{
+
+  #tools {
     display: none;
   }
-  .terminal-run{
-    overflow: hidden;
+
+  .terminal-run {
     min-height: 5rem;
+    overflow: hidden;
     opacity: 0;
-    &.show{
+
+    &.show {
       opacity: 1;
     }
+
     p + p {
       margin-top: -20px;
     }
-    p{
+
+    p {
       white-space: pre-wrap;
       word-break: break-all;
-      line-height: 1.3!important;
+      line-height: 1.3 !important;
     }
-    & > .train{
+
+    & > .train {
       display: inline-block;
       margin-left: 44%;
-      transform: translate(-50%,0);
-      //.animation(trainRun 5s linear 0s 5 normal);
+      transform: translate(-50%, 0);
     }
-    input{
-      outline: none;
-      border: none;
-      background-color: @pageBg;
+
+    input {
       width: 90%;
+      border: none;
+      outline: none;
+      background-color: var(--bg-subtle);
+      color: var(--text);
+
       &::-ms-clear {
         display: none;
       }
     }
-    .error-date{
+
+    .error-date {
       margin-right: 15px;
     }
+  }
+}
+
+@media screen and (max-width: 819px) {
+  #demo .demo-list {
+    grid-template-columns: 1fr;
+  }
+
+  #about, #page-content {
+    padding: .24rem .2rem;
   }
 }

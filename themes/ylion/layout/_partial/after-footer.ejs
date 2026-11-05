@@ -1,8 +1,8 @@
 <ul id="tools">
-    <li class="totop-btn fa fa-angle-up"></li>
-    <li class="exchange-btn fa fa-exchange"></li>
+    <li class="totop-btn fa fa-angle-up" role="button" tabindex="0" aria-label="<%= __('back_to_top') %>"></li>
+    <li class="exchange-btn fa fa-exchange" role="button" tabindex="0" aria-label="<%= __('toggle_sidebar') %>"></li>
   <% if(is_post()){ %>
-    <li class="toc-btn fa fa-list-ul"></li>
+    <li class="toc-btn fa fa-list-ul" role="button" tabindex="0" aria-label="<%= __('toc') %>"></li>
     <% } %>
     <%
     var enableDuoshuo = theme.duoshuo_shortname && theme.duoshuo_shortname.length > 0;
@@ -17,16 +17,21 @@
     <% } %>
 </ul>
 <p id="process"></p>
-<div id="search-overlay">
+<div id="search-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="<%= __('search') %>"
+     data-empty="<%= __('search_empty') %>" data-error="<%= __('search_error') %>">
     <div class="search-area-wrap">
-        <div id="search-area">
+        <div id="search-area" role="search">
+            <div class="search-head">
+                <span><%= __('search') %></span>
+                <button type="button" class="search-close" aria-label="<%= __('close') %>">&times;</button>
+            </div>
             <div class="input-wrap focus">
                 <i class="fa fa-search" aria-hidden="true"></i>
-                <input id="search-input" autofocus autocomplete="off" type="text"
-                       placeholder="search this website..."/>
+                <input id="search-input" autocomplete="off" spellcheck="false" type="search"
+                       placeholder="<%= __('search_placeholder') %>" aria-label="<%= __('search') %>"/>
             </div>
-            <ul id="search-result">
-                <li class="load-first"><i class="fa fa-spinner fa-pulse"></i></li>
+            <ul id="search-result" aria-live="polite">
+                <li class="load-first"><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i></li>
             </ul>
         </div>
     </div>
@@ -59,4 +64,5 @@
     search.path = "<%- config.root %>" + search_path;
     search.func =  _ajax.init();
 </script>
+<%- js('js/theme-toggle') %>
 <%- js('js/app') %>
