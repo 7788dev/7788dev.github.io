@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://7788dev.github.io/tags/index.html</loc>
+    
+    <lastmod>2026-11-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://7788dev.github.io/categories/index.html</loc>
+    
+    <lastmod>2026-11-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://7788dev.github.io/7f6038dc/</loc>
     
     <lastmod>2026-11-08</lastmod>
@@ -82,24 +100,6 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>https://7788dev.github.io/tags/index.html</loc>
-    
-    <lastmod>2026-10-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://7788dev.github.io/categories/index.html</loc>
-    
-    <lastmod>2026-10-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   <url>
     <loc>https://7788dev.github.io/</loc>
@@ -110,14 +110,14 @@
 
   
   <url>
-    <loc>https://7788dev.github.io/tags/%E6%80%9D%E8%80%83/</loc>
+    <loc>https://7788dev.github.io/tags/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://7788dev.github.io/tags/%E7%94%9F%E6%B4%BB/</loc>
+    <loc>https://7788dev.github.io/tags/%E6%80%9D%E8%80%83/</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -138,14 +138,14 @@
   </url>
   
   <url>
-    <loc>https://7788dev.github.io/tags/%E5%BF%83%E5%8A%A8/</loc>
+    <loc>https://7788dev.github.io/tags/%E6%A0%A1%E5%9B%AD/</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://7788dev.github.io/tags/%E6%A0%A1%E5%9B%AD/</loc>
+    <loc>https://7788dev.github.io/tags/%E5%BF%83%E5%8A%A8/</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
