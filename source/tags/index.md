@@ -1,6 +1,7 @@
 ---
 title: 标签
-layout: tags
+layout: page
+type: tags
 date: 2026-05-08 00:00:00
 comments: false
 ---
